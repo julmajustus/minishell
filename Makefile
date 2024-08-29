@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/08/28 16:09:06 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/08/29 14:00:12 by hello            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -16,7 +16,12 @@ INC_DIR         = inc
 
 SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/utils/arr_len.c \
+				  $(SRC_DIR)/utils/parse_input.c \
+				  $(SRC_DIR)/utils/create_path.c \
+				  $(SRC_DIR)/utils/free_arr.c \
+				  $(SRC_DIR)/utils/path_errors.c \
 				  $(SRC_DIR)/env/env_handler.c \
+				  $(SRC_DIR)/prompt/prompt.c \
 
 OBJ_DIR         = obj
 OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -26,6 +31,7 @@ RM              = rm -f
 CC              = clang
 CFLAGS          = -Wall -Wextra -Werror \
 				  -I$(INC_DIR) -Og -ggdb3 #-fsanitize=thread
+LDFLAGS			= -lreadline
 
 
 all:	$(LIBFT) $(NAME)
@@ -38,7 +44,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 
 clean:
 	$(MAKE) clean -C $(LIBFT_DIR)

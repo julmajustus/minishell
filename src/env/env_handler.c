@@ -6,11 +6,10 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:27:02 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/08/28 17:31:55 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:17:56 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-#include "utils.h"
 #include <string.h>
 
 char **copy_env(char **envp)
@@ -18,7 +17,7 @@ char **copy_env(char **envp)
     char    **copy;
     int     i;
 
-    copy = (char **)malloc((sizeof(char *) * arr_len(envp)) + 1);
+    copy = (char **)malloc(sizeof(char *) * (arr_len(envp) + 1));
     if (!copy)
         return (NULL);
     i = 0;
