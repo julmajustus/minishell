@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/08/29 14:00:12 by hello            ###   ########.fr        #
+#    Updated: 2024/08/29 17:27:38 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -29,8 +29,8 @@ LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
 CC              = clang
-CFLAGS          = -Wall -Wextra -Werror \
-				  -I$(INC_DIR) -Og -ggdb3 #-fsanitize=thread
+CFLAGS          = \
+				  -I$(INC_DIR) -Og -ggdb3
 LDFLAGS			= -lreadline
 
 

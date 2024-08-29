@@ -1,4 +1,4 @@
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 static void	quotes_and_esc(char ****cmd_ptr, int *in_quote, char *quote_char)
 {
