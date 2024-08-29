@@ -29,5 +29,5 @@ void prompt(char **copy_envp)
         free_arr(arr_input);
         free(path);
     }
-    free_arr(copy_envp)
+    free_arr(copy_envp);
 }

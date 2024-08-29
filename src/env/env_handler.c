@@ -6,11 +6,10 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:27:02 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/08/29 15:17:56 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:52:12 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-#include <string.h>
 
 char **copy_env(char **envp)
 {
@@ -43,7 +42,7 @@ char **delete_env_line(char **copy, char *str)
     int j;
     char **new_copy;
 
-    new_copy = (char **)malloc(sizeof(char *) * arr_len(copy));
+    new_copy = (char **)malloc(sizeof(char *) * (arr_len(copy)));
     if (!new_copy)
         return (NULL);
     i = 0;
@@ -65,40 +64,56 @@ char **delete_env_line(char **copy, char *str)
     return (new_copy);
 }
 
+char    **new_env_line(char **copy, char *str)
+{
+    int i;
+    char **new_copy;
+
+    i = 0;
+    while (copy[i])
+    i++;
+    new_copy = (char **)malloc(sizeof(char *) * (i + 2));
+    i = -1;
+    while (copy[++i])
+        new_copy[i] = ft_strdup(copy[i]);
+    if (!strchr(str, '='))
+        new_copy[i] = ft_strjoin(ft_strdup(str), "=");
+    else
+        new_copy[i] = ft_strdup(str);
+    new_copy[i + 1] = NULL;
+    i = -1;
+    while (copy[++i])
+        free(copy[i]);
+    free(copy);
+    return (new_copy);
+}
+
 char **replace_or_create_env_line(char **copy, char *str)
 {
     int i;
     size_t len;
-    char **new_copy;
+    int lines;
 
     i = 0;
     len = 0;
+    lines = 0;
+    while (copy[lines])
+        lines++;
     while (str[len] && str[len] != '=')
         len++;
-    if (len == ft_strlen(str))
-    {
-        while (copy[i])
-            i++;
-        new_copy = (char **)malloc(sizeof(char *) * (i + 2));
-        i = -1;
-        while (copy[++i])
-            new_copy[i] = ft_strdup(copy[i]);
-        new_copy[i] = (char *)malloc(sizeof(char) * (ft_strlen(str + 2))); //we can use strjoin here
-        strcpy(new_copy[i], str);
-        strcat(new_copy[i], "=");
-        new_copy[i + 1] = NULL;
-        i = -1;
-        while (copy[++i])
-            free(copy[i]);
-        free(copy);
-        return (new_copy);
-    }
-    else
+    if (len != ft_strlen(str))
     {
         while (copy[i] && ft_strncmp(copy[i], str, len) != 0)
             i++;
-        free(copy[i]);
-        copy[i] = ft_strdup(str);
-        return(copy);
+        if (i == lines)
+            return(new_env_line(copy, str));
+        else
+        {
+            free(copy[i]);
+            copy[i] = ft_strdup(str);
+            return(copy);
+        }
     }
+    else
+        return(new_env_line(copy, str));
 }
