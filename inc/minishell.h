@@ -4,6 +4,8 @@
 #include "../libft/libft.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include "env.h"
-#include "utils.h"
+int	arr_len(char **arr);
+char **copy_env(char **envp);
+char **delete_env_line(char **copy, char *str);
+char **replace_or_create_env_line(char **copy, char *str);
 #endif
