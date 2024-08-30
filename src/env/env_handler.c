@@ -126,8 +126,9 @@ char **replace_or_create_env_line(char **envp, char *str)
     i = -1;
     while (envp[++i])
 	{
-if (!ft_strncmp(envp[i], str, arg_len) && 
-           (envp[i][arg_len] == '=' || (str[arg_len] == '+' && str[arg_len + 1] == '=')))
+        if (!ft_strncmp(envp[i], str, arg_len) && 
+           ((envp[i][arg_len] == '=' && str[arg_len] != '+') ||
+            (str[arg_len] == '+' && str[arg_len + 1] == '=')))
         {
 			printf("Found a match: %s & %s\n",envp[i], str);
 			return (modify_existing(envp, str, arg_len));
