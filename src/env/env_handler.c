@@ -6,6 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:27:02 by jmakkone          #+#    #+#             */
+
 /*   Updated: 2024/08/30 05:15:42 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -46,6 +47,7 @@ char **delete_env_line(char **envp, char *str)
 
     new_envp = (char **)malloc(sizeof(char *) * arr_len(envp));
     if (!new_envp)
+
         return (NULL);
     i = 0;
     j = 0;
