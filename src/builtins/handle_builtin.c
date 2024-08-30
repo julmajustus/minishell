@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/08/30 00:03:05 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:35:56 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ int	check_if_builtin(char **cmd)
 		else if (!ft_strncmp(cmd[i], "unset", 5))
 			return (1);
 		else if (!ft_strncmp(cmd[i], "echo", 4))
+			return (1);
+		else if (!ft_strncmp(cmd[i], "pwd", 3))
+			return (1);
+		else if (!ft_strncmp(cmd[i], "cd", 2))
 			return (1);
 	}
 	return (0);
@@ -53,6 +57,13 @@ char	**exec_builtin(char **cmd, char **envp)
 			ft_echo(cmd);
 			break ;
 		}
+		else if (!ft_strncmp(cmd[i], "pwd", 3))
+		{
+			ft_pwd(envp);
+			break;
+		}
+		else if (!ft_strncmp(cmd[i], "cd", 2))
+			return(ft_cd(envp, cmd[i + 1]));
 	}
 	return (envp);
 }

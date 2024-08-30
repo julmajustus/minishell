@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/08/30 01:34:17 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/08/30 11:39:00 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -31,6 +31,8 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/builtins/unset.c \
 				  $(SRC_DIR)/builtins/export.c \
 				  $(SRC_DIR)/builtins/echo.c \
+				  $(SRC_DIR)/builtins/pwd.c \
+				  $(SRC_DIR)/builtins/cd.c \
 
 OBJ_DIR         = obj
 OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
