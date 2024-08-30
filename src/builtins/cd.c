@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 10:41:24 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/08/30 15:48:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/08/30 15:59:19 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**ft_cd(char **envp, char *path)
 	size_t	pwd_len;
 
 	i = 0;
-	while (envp[i] && strncmp(envp[i], "PWD", 3) != 0)
+	while (envp[i] && ft_strncmp(envp[i], "PWD", 3) != 0)
 		i++;
 	pwd_len = ft_strlen(envp[i]);
 	old_pwd = (char *)malloc(sizeof(char) * (pwd_len + 1));
@@ -30,7 +30,7 @@ char	**ft_cd(char **envp, char *path)
 	free(old_pwd);
 	chdir(path);
 	i = 0;
-	while (envp[i] && strncmp(envp[i], "PWD", 3) != 0)
+	while (envp[i] && ft_strncmp(envp[i], "PWD", 3) != 0)
 		i++;
 	pwd_len = ft_strlen(envp[i]);
 	new_pwd = (char *)malloc(sizeof(char) * (pwd_len + 1));
