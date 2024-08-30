@@ -3,20 +3,53 @@
 #define MINISHELL_H
 #include "../libft/libft.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <sys/wait.h>
 
-char **copy_env(char **envp);
-char **delete_env_line(char **copy, char *str);
-char **replace_or_create_env_line(char **copy, char *str);
+# define ARG_ARR_SIZE 8
 
-void prompt(char **copy_envp);
+typedef enum e_state
+{
+	OUTSIDE,
+	INSIDE_SINGLE_QUOTE,
+	INSIDE_DOUBLE_QUOTE,
+	ESCAPE_SEQUENCE
+}	t_state;
 
-int	arr_len(char **arr);
+typedef struct s_parse_state
+{
+	char	**args;
+	char	*arg;
+	size_t	argc;
+	size_t	arg_size;
+	t_state	state;
+}	t_parse_state;
+
+char	**copy_env(char **envp);
+char	**delete_env_line(char **copy, char *str);
+char	**replace_or_create_env_line(char **copy, char *str);
+
+void	prompt(char **envp);
+
+
+int		check_if_builtin(char **cmd);
+char	**exec_builtin(char **cmd, char **envp);
+void	ft_exit(char **envp, char **cmd);
+char	**ft_env(char **envp);
+char	**ft_unset(char **envp, char *str);
+char	**ft_export(char **envp, char *str);
+void	ft_echo(char **cmd);
+
 char	*create_path(char **cmd, char **envp);
-char	**parse_input(char *cmd);
+char	**parse_arguments(char *cmd);
+char	**add_arg(char **args, char *arg, size_t *argc, size_t *arg_size);
+char	*append_char(char *str, char c);
+
+int		arr_len(char **arr);
+int		is_empty_str(char *str);
 void	free_arr(char **arr);
 void	error_no_file(char *file);
 void	error_no_permission(char *str);
