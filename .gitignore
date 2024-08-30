@@ -2,9 +2,11 @@
 compile_commands.json
 obj
 *.un~
+my_tests
 
 # Prerequisites
 *.d
+*.un~
 
 # Object files
 *.o
