@@ -1,4 +1,4 @@
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 static void	check_permission_path(char *path, char **cmd, char **env_paths)
 {
@@ -8,7 +8,7 @@ static void	check_permission_path(char *path, char **cmd, char **env_paths)
 		free(path);
 		free_arr(env_paths);
 		free_arr(cmd);
-		exit(126);
+		//exit(126);
 	}
 }
 
@@ -21,12 +21,12 @@ static void	path_not_found(char **env_paths, char **cmd)
 	{
 		error_no_permission(*cmd);
 		free_arr(cmd);
-		exit(126);
+		//exit(126);
 	}
 	else
 		error_command_not_found(*cmd);
 	free_arr(cmd);
-	exit(127);
+	//exit(127);
 }
 
 static char	*add_cmd_to_path(char *env_path, char *cmd)
@@ -51,7 +51,7 @@ static char	**find_path(char **envp, char **cmd)
 	{
 		error_no_file(*cmd);
 		free_arr(cmd);
-		exit(127);
+		//exit(127);
 	}
 	return (ft_split(envp[i] + 5, ':'));
 }
@@ -61,7 +61,7 @@ char	*create_path(char **cmd, char **envp)
 	int		i;
 	char	**env_paths;
 	char	*path;
-
+	
 	if (access(*cmd, F_OK) == 0 && access(*cmd, X_OK) == 0
 		&& open(*cmd, O_DIRECTORY) == -1)
 		return (ft_strdup(*cmd));
