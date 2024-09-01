@@ -6,102 +6,112 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:27:02 by jmakkone          #+#    #+#             */
-
-/*   Updated: 2024/08/30 05:15:42 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:55:41 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
-#include <string.h>
-#include <unistd.h>
 
-char **copy_env(char **envp)
+char	**copy_env(char **envp)
 {
-    char    **new_envp;
-    int     i;
+	char	**new_envp;
+	int		i;
 
-    new_envp = (char **)malloc(sizeof(char *) * (arr_len(envp) + 1));
-    if (!new_envp)
-        return (NULL);
-    i = 0;
-    while (envp[i])
-    {
-        new_envp[i] = ft_strdup(envp[i]);
-        if (!new_envp[i])
-        {
-            while (i > 0)
-                free(new_envp[--i]);
-            free(new_envp);
-            return (NULL);
-        }
-        i++;
-    }
-    new_envp[i] = NULL;
-    return (new_envp);
-}
-
-char **delete_env_line(char **envp, char *str)
-{
-    int i;
-    int j;
-    char **new_envp;
-
-    new_envp = (char **)malloc(sizeof(char *) * arr_len(envp));
-    if (!new_envp)
-
-        return (NULL);
-    i = 0;
-    j = 0;
-    while(envp[i])
-    {
-        if (ft_strncmp(envp[i], str, ft_strlen(str) - 1) != 0)
-        {
-           new_envp[j] = ft_strdup(envp[i]);
-           j++;
-        }
-        i++;
-    }
-    new_envp[j] = NULL;
-    i = -1;
-    while (envp[++i])
-        free(envp[i]);
-    free(envp);
-    return (new_envp);
-}
-
-static char **modify_existing(char **envp, char *str, size_t arg_len)
-{
-    int		i;
-	char 	*old_arg;
-
+	new_envp = (char **)malloc(sizeof(char *) * (arr_len(envp) + 1));
+	if (!new_envp)
+		return (NULL);
 	i = 0;
-	printf("modify\n");
-	while (envp[i] && ft_strncmp(envp[i], str, arg_len) != 0)
+	while (envp[i])
+	{
+		new_envp[i] = ft_strdup(envp[i]);
+		if (!new_envp[i])
+		{
+			while (i > 0)
+				free(new_envp[--i]);
+			free(new_envp);
+			return (NULL);
+		}
 		i++;
+	}
+	new_envp[i] = NULL;
+	return (new_envp);
+}
+
+char	**delete_env_line(char **envp, char *str)
+{
+	int		i;
+	int		j;
+	char	**new_envp;
+
+	new_envp = (char **)malloc(sizeof(char *) * arr_len(envp));
+	if (!new_envp)
+		return (envp);
+	i = -1;
+	j = -1;
+	while (envp[++i])
+	{
+		if (!(ft_strncmp(envp[i], str, ft_strlen(str)) == 0 && \
+			envp[i][ft_strlen(str)] == '='))
+		{
+			new_envp[++j] = ft_strdup(envp[i]);
+			if (!new_envp[j])
+			{
+				free_arr(new_envp); //maybe some error handling if unset fails.
+				return (envp);
+			}
+		}
+	}
+	new_envp[j] = NULL;
+	free_arr(envp);
+	return (new_envp);
+}
+
+static char	**modify_existing(char **envp, char *str, size_t arg_len)
+{
+	int		i;
+	char	*new_arg;
+
+	i = -1;
+	while (envp[++i])
+	{
+		if (!ft_strncmp(envp[i], str, arg_len) && \
+			(envp[i][arg_len] == '=' || envp[i][arg_len + 1] == '='))
+			break ;
+	}
 	if (str[arg_len] == '+' && str[arg_len + 1] == '=')
 	{
-		old_arg = envp[i];
+		new_arg = ft_strjoin(envp[i], str + arg_len + 2);
 		free(envp[i]);
-		envp[i] = ft_strjoin(old_arg, str + arg_len + 2);
-		free(old_arg);
+		envp[i] = new_arg;
 	}
 	else
 	{
+		printf("Check str: %s\n", str);
 		free(envp[i]);
 		envp[i] = ft_strdup(str);
+		printf("Check updated env: %s\n", envp[i]);
 	}
-	return(envp);
+	return (envp);
 }
 
-static	char **add_new_line(char **envp, char *str)
+static char	**add_new_line(char **envp, char *str, size_t arg_len)
 {
-    int		i;
+	int		i;
+	char	**new_envp;
+	char	*new_str;
 
-    char	**new_envp;
-	printf("addnl\n");
 	new_envp = (char **)malloc((sizeof(char *) * arr_len(envp)) + 2);
 	i = -1;
 	while (envp[++i])
 		new_envp[i] = ft_strdup(envp[i]);
+	if (str[arg_len] == '+')
+	{
+		new_str = (char *)malloc(ft_strlen(str));
+		ft_strlcpy(new_str, str, arg_len + 1);
+		ft_strlcpy(new_str + arg_len, str + arg_len + 1, \
+					ft_strlen(str) - arg_len);
+		str = new_str;
+	}
 	new_envp[i] = ft_strdup(str);
 	new_envp[i + 1] = NULL;
 	i = -1;
@@ -109,29 +119,24 @@ static	char **add_new_line(char **envp, char *str)
 		free(envp[i]);
 	free(envp);
 	return (new_envp);
-
 }
 
-char **replace_or_create_env_line(char **envp, char *str)
+char	**replace_or_create_env_line(char **envp, char *str)
 {
-    int		i;
-    size_t	arg_len;
+	int		i;
+	size_t	arg_len;
 
 	if (!ft_strchr(str, '='))
 		return (envp);
-    arg_len = 0;
-    while (str[arg_len] && str[arg_len] != '+' && str[arg_len] != '=')
+	arg_len = 0;
+	while (str[arg_len] && str[arg_len] != '+' && str[arg_len] != '=')
 		arg_len++;
-	printf("arglen: %zu\n", arg_len);
-    i = -1;
-    while (envp[++i])
+	i = -1;
+	while (envp[++i])
 	{
-if (!ft_strncmp(envp[i], str, arg_len) && 
-           (envp[i][arg_len] == '=' || (str[arg_len] == '+' && str[arg_len + 1] == '=')))
-        {
-			printf("Found a match: %s & %s\n",envp[i], str);
+		if (!ft_strncmp(envp[i], str, arg_len) && \
+			(envp[i][arg_len] == '=' || envp[i][arg_len + 1] == '='))
 			return (modify_existing(envp, str, arg_len));
-		}
 	}
-	return (add_new_line(envp, str));
+	return (add_new_line(envp, str, arg_len));
 }

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:57:58 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/07/12 09:59:50 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:38:55 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char		*ft_strrchr(const char *s, int c);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strcmp(const char *s1, const char *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
 char		*ft_strdup(const char *s);
 char		*ft_strchr(const char *s, int c);
