@@ -13,6 +13,7 @@ void prompt(char **envp)
 		input = readline("> ");
 		if(input != NULL && !is_empty_str(input))
 		{
+			add_history(input);
 			arr_input = parse_arguments(input);
 			if (check_if_builtin(arr_input))
 			{

@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include <sys/wait.h>
 
 # define ARG_ARR_SIZE 8
