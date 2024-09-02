@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 00:01:09 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/08/30 01:41:00 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/02 21:39:53 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_echo(char **cmd)
 	
 	if (arr_len(cmd) == 1)
 	{
-		ft_putchar_fd('\n', 1);
+		printf("\n");
 		return ;
 	}
 	else if (!ft_strncmp(cmd[1], "-n", 2))
@@ -26,9 +26,9 @@ void	ft_echo(char **cmd)
 		i = 1;
 		while (cmd[++i])
 		{
-			ft_putstr_fd(cmd[i], 1);
+			printf("%s", cmd[i]);
 			if (cmd[i + 1])
-				ft_putchar_fd(' ', 1);
+				printf(" ");
 		}
 	}
 	else
@@ -36,10 +36,10 @@ void	ft_echo(char **cmd)
 		i = 0;
 		while (cmd[++i])
 		{
-			ft_putstr_fd(cmd[i], 1);
+			printf("%s", cmd[i]);
 			if (cmd[i + 1])
-				ft_putchar_fd(' ', 1);
+				printf(" ");
 		}
-		ft_putchar_fd('\n', 1);
+		printf("\n");
 	}
 }

@@ -6,9 +6,10 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:55:42 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/08/28 14:06:57 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/02 21:53:35 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 int	arr_len(char **arr)
