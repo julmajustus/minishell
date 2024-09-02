@@ -2,10 +2,11 @@
 
 int main(int argc, char **argv, char **envp)
 {
-    char **cp_env;
+	t_shell	shell;
 
     (void)argc;
     (void)argv;
-    cp_env = copy_env(envp);
-	prompt(cp_env);
+    shell.envp = copy_env(envp);
+	shell_loop(&shell);
+	return (0);
 }

@@ -29,11 +29,24 @@ typedef struct s_parse_state
 	t_state	state;
 }	t_parse_state;
 
+typedef struct s_shell
+{
+	char	**envp;
+	char	*input;
+    char	**arr_input;
+    char	*path;
+    pid_t	pid;
+    int		status;
+
+}	t_shell;
+
 char	**copy_env(char **envp);
 char	**delete_env_line(char **copy, char *str);
 char	**replace_or_create_env_line(char **copy, char *str);
 
-void	prompt(char **envp);
+void	shell_loop(t_shell *shell);
+void	prompt(t_shell *shell);
+void	handle_input(t_shell *shell);
 
 
 int		check_if_builtin(char **cmd);
