@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/02 18:08:57 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/02 23:16:35 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -15,6 +15,9 @@ SRC_DIR         = src
 INC_DIR         = inc
 
 SRC             = $(SRC_DIR)/main.c \
+				  $(SRC_DIR)/shell_loop/shell_loop.c \
+				  $(SRC_DIR)/shell_loop/prompt.c \
+				  $(SRC_DIR)/shell_loop/handle_input.c \
 				  $(SRC_DIR)/utils/arr_len.c \
 				  $(SRC_DIR)/utils/parse_cmd.c \
 				  $(SRC_DIR)/utils/add_argument.c \
@@ -24,7 +27,6 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/utils/path_errors.c \
 				  $(SRC_DIR)/utils/is_empty_str.c \
 				  $(SRC_DIR)/env/env_handler.c \
-				  $(SRC_DIR)/prompt/prompt.c \
 				  $(SRC_DIR)/builtins/handle_builtin.c \
 				  $(SRC_DIR)/builtins/exit.c \
 				  $(SRC_DIR)/builtins/env.c \
