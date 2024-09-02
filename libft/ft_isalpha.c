@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 09:57:11 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/05/29 09:05:04 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:15:15 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(int c)
+int	ft_isalpha(int c)
 {
-	if (c == 32 || (c >= 9 && c <= 13))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 		return (1);
 	else
 		return (0);

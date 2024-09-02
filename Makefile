@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/08/30 11:39:00 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/09/02 18:08:57 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell

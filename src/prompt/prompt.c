@@ -17,6 +17,8 @@ void prompt(char **envp)
 			if (check_if_builtin(arr_input))
 			{
 				envp = exec_builtin(arr_input, envp);
+				free(input);
+				free_arr(arr_input);
 				path = NULL;
 			}
 			else

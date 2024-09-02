@@ -3,6 +3,7 @@ compile_commands.json
 obj
 *.un~
 my_tests
+vg.supp
 
 # Prerequisites
 *.d

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:27:02 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/08/30 23:55:41 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:50:17 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**delete_env_line(char **envp, char *str)
 			}
 		}
 	}
-	new_envp[j] = NULL;
+	new_envp[j + 1] = NULL;
 	free_arr(envp);
 	return (new_envp);
 }
@@ -86,10 +86,8 @@ static char	**modify_existing(char **envp, char *str, size_t arg_len)
 	}
 	else
 	{
-		printf("Check str: %s\n", str);
 		free(envp[i]);
 		envp[i] = ft_strdup(str);
-		printf("Check updated env: %s\n", envp[i]);
 	}
 	return (envp);
 }
@@ -100,7 +98,7 @@ static char	**add_new_line(char **envp, char *str, size_t arg_len)
 	char	**new_envp;
 	char	*new_str;
 
-	new_envp = (char **)malloc((sizeof(char *) * arr_len(envp)) + 2);
+	new_envp = (char **)malloc(sizeof(char *) * (arr_len(envp) + 2));
 	i = -1;
 	while (envp[++i])
 		new_envp[i] = ft_strdup(envp[i]);
