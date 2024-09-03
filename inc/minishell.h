@@ -60,7 +60,7 @@ void	ft_pwd(char **envp);
 char	**ft_cd(char **envp, char *path);
 
 char	*create_path(char **cmd, char **envp);
-char	**parse_arguments(char *cmd);
+char	**parse_arguments(t_shell shell);
 char	**add_arg(char **args, char *arg, size_t *argc, size_t *arg_size);
 char	*append_char(char *str, char c);
 
