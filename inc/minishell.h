@@ -63,6 +63,7 @@ char	*create_path(char **cmd, char **envp);
 char	**parse_arguments(t_shell shell);
 char	**add_arg(char **args, char *arg, size_t *argc, size_t *arg_size);
 char	*append_char(char *str, char c);
+void	check_if_env_var(char **envp, char ***args);
 
 int		arr_len(char **arr);
 int		is_empty_str(char *str);
