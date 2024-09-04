@@ -98,24 +98,24 @@ char	**parse_arguments(t_shell shell)
 		int		j;
 		int		k;
 
-		input_arr = ft_split(shell.input, "$");
+		input_arr = ft_split(shell.input, '$');
 		i = 0;
-		j = 0;
 		k = 0;
 		while (input_arr[i])
 		{
+			j = 0;
 			while (shell.envp[j])
 			{
-				if (ft_strncmp(shell.envp[j]), input_arr[i], ft_strlen(input_arr[i]))
+				if (!ft_strncmp(shell.envp[j], input_arr[i], ft_strlen(input_arr[i])))
 				{
 					int len = ft_strlen(input_arr[i]);
 					free(input_arr[i]);
-					intput_arr[i] = (char *)malloc(sizeof(char) * (ft_strlen(shell.envp[j]) - len));
+					input_arr[i] = (char *)malloc(sizeof(char) * (ft_strlen(shell.envp[j]) - len));
 					while (shell.envp[j][len + 1])
 					{
 						input_arr[i][k] = shell.envp[j][len + 1];
 						k++;
-						len++
+						len++;
 					}
 				}
 				j++;
@@ -124,6 +124,9 @@ char	**parse_arguments(t_shell shell)
 		}
 		i = 0;
 		free(shell.input);
+		shell.input = ft_strdup(input_arr[i]);
+		while (input_arr[++i])
+			shell.input = ft_strjoin(shell.input, input_arr[i]);
 		/*
 		char	*var;
 		int		start;
