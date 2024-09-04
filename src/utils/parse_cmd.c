@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/04 14:17:50 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:31:45 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,11 @@ static void	parse_argument_loop(t_parse_state *state, char **cmd)
 char	**parse_arguments(t_shell shell)
 {
 	t_parse_state	state;
+	int				dollar_in_single_quote;
 
+	dollar_in_single_quote = 0;
+	if (ft_strchr(shell.input, '$') && ft_strchr(shell.input, '\''))
+		dollar_in_single_quote = 1;
 	state.args = malloc(ARG_ARR_SIZE * sizeof(char *));
 	if (!state.args)
 		return (NULL);
@@ -89,6 +93,7 @@ char	**parse_arguments(t_shell shell)
 		state.args = add_arg(state.args, state.arg, \
 				&state.argc, &state.arg_size);
 	state.args[state.argc] = NULL;
-	check_if_env_var(shell.envp, &state.args);
+	if (dollar_in_single_quote == 0)
+		check_if_env_var(shell.envp, &state.args);
 	return (state.args);
 }
