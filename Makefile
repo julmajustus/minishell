@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/02 23:16:35 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/04 12:37:27 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -26,6 +26,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/utils/free_arr.c \
 				  $(SRC_DIR)/utils/path_errors.c \
 				  $(SRC_DIR)/utils/is_empty_str.c \
+				  $(SRC_DIR)/utils/check_if_env_var.c \
 				  $(SRC_DIR)/env/env_handler.c \
 				  $(SRC_DIR)/builtins/handle_builtin.c \
 				  $(SRC_DIR)/builtins/exit.c \
