@@ -1,34 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   append_char.c                                      :+:      :+:    :+:   */
+/*   exit_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 12:09:12 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/03 16:27:11 by jmakkone         ###   ########.fr       */
+/*   Created: 2024/06/06 19:10:55 by jmakkone          #+#    #+#             */
+/*   Updated: 2024/09/05 03:19:27 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*append_char(char *str, char c)
+void	exit_cmd_notfound(char **cmd)
 {
-	size_t	len;
-	char	*new_str;
+	err_cmd_notfound(*cmd);
+	free_arr(cmd);
+	//exit (127);
+}
 
-	len = 0;
-	if (str)
-		len = ft_strlen(str);
-	new_str = malloc(len + 2);
-	if (!new_str)
-		return (NULL);
-	if (str)
-	{
-		ft_strlcpy(new_str, str, len + 2);
-		free(str);
-	}
-	new_str[len] = c;
-	new_str[len + 1] = '\0';
-	return (new_str);
+void	exit_is_directory(char **cmd)
+{
+	err_is_directory(*cmd);
+	free_arr(cmd);
+	//exit(126);
+}
+
+void	exit_no_permission(char **cmd)
+{
+	err_no_permission(*cmd);
+	free_arr(cmd);
+	//exit(126);
+}
+
+void	exit_no_file(char **cmd)
+{
+	err_nofile(*cmd);
+	free_arr(cmd);
+	//exit (127);
 }
