@@ -6,45 +6,34 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/02 23:29:19 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/05 04:41:45 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void handle_builtin(t_shell *shell)
+static	void handle_single_cmd(t_shell *shell)
 {
-	shell->envp = exec_builtin(shell->arr_input, shell->envp);
-	free(shell->input);
-	free_arr(shell->arr_input);
-	shell->path = NULL;
-}
-
-static	void handle_external_cmd(t_shell *shell)
-{
-			shell->path = create_path(shell->arr_input, shell->envp);
-			if (shell->path)
-			{
-				shell->pid = fork();
-				if (shell->pid == -1)
-					exit(EXIT_FAILURE);
-				if (shell->pid == 0)
-				{
-					execve(shell->path, shell->arr_input, shell->envp);
-					exit(EXIT_FAILURE);
-				}
-				else
-					waitpid(shell->pid, &shell->status, 0);
-				free(shell->input);
-				free_arr(shell->arr_input);
-				free(shell->path);
-			}
+	shell->parsed_cmd = parse_arguments(shell->input);
+	execute_command(shell, STDIN_FILENO, STDOUT_FILENO);
+	free_arr(shell->parsed_cmd);
 }
 
 void	handle_input(t_shell *shell)
 {
-			if (check_if_builtin(shell->arr_input))
-				handle_builtin(shell);
-			else
-				handle_external_cmd(shell);
+	if (shell->input == NULL)
+		return;
+	if (check_if_pipes(shell))
+	{
+		shell->in_pipe = 1;
+		parse_pipes(shell);
+		handle_pipes(shell);
+	}
+	else
+	{
+		shell->in_pipe = 0;
+		handle_single_cmd(shell);
+	}
+	free(shell->input);
+	shell->input = NULL;
 }

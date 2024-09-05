@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:34:38 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/02 23:22:01 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:43:34 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	shell_loop(t_shell *shell)
 {
-while (1)
+	init_shell_variables(shell);
+	while (1)
 	{
 		//signals
 		prompt(shell);
