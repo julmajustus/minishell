@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_loop.c                                       :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 22:34:38 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 15:17:50 by mpellegr         ###   ########.fr       */
+/*   Created: 2024/09/05 15:12:02 by mpellegr          #+#    #+#             */
+/*   Updated: 2024/09/05 15:12:05 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	shell_loop(t_shell *shell)
+static void    handle_ctrl_c(int sig)
 {
-	init_shell_variables(shell);
-	init_signals();
-	while (1)
-	{
-		prompt(shell);
-		handle_input(shell);
-	}
+    (void)sig;
+	write (1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+
+void	init_signals()
+{
+	signal(SIGINT, handle_ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
 }

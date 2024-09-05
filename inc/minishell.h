@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 05:33:57 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:11:00 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/stat.h>
 # include <string.h>
 # include <errno.h>
+# include <signal.h>
 
 # define ARG_ARR_SIZE 8
 
@@ -125,5 +126,9 @@ void	error_no_file(char *file);
 void	error_no_permission(char *str);
 void	error_command_not_found(char *cmd);
 void	error_is_a_directory(char *str);
+
+void	init_signals();
+
+//int		g_ctrl_c_flag;
 
 #endif
