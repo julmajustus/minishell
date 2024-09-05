@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/04 12:37:27 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/09/05 05:07:01 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -15,16 +15,24 @@ SRC_DIR         = src
 INC_DIR         = inc
 
 SRC             = $(SRC_DIR)/main.c \
+				  $(SRC_DIR)/shell_loop/init_shell_variables.c \
 				  $(SRC_DIR)/shell_loop/shell_loop.c \
 				  $(SRC_DIR)/shell_loop/prompt.c \
 				  $(SRC_DIR)/shell_loop/handle_input.c \
+				  $(SRC_DIR)/handle_input/handle_pipes.c \
+				  $(SRC_DIR)/handle_input/parse_argument.c \
+				  $(SRC_DIR)/handle_input/add_argument.c \
+				  $(SRC_DIR)/handle_input/append_char.c \
+				  $(SRC_DIR)/handle_input/handle_execute.c \
+				  $(SRC_DIR)/handle_input/handle_redirections.c \
+				  $(SRC_DIR)/handle_input/check_cmd.c \
+				  $(SRC_DIR)/handle_input/check_path.c \
+				  $(SRC_DIR)/handle_input/check_status.c \
+				  $(SRC_DIR)/handle_input/error_handler.c \
+				  $(SRC_DIR)/handle_input/exit_handler.c \
 				  $(SRC_DIR)/utils/arr_len.c \
-				  $(SRC_DIR)/utils/parse_cmd.c \
-				  $(SRC_DIR)/utils/add_argument.c \
-				  $(SRC_DIR)/utils/append_char.c \
-				  $(SRC_DIR)/utils/create_path.c \
 				  $(SRC_DIR)/utils/free_arr.c \
-				  $(SRC_DIR)/utils/path_errors.c \
+				  $(SRC_DIR)/utils/free_shell_allocations.c \
 				  $(SRC_DIR)/utils/is_empty_str.c \
 				  $(SRC_DIR)/utils/check_if_env_var.c \
 				  $(SRC_DIR)/env/env_handler.c \
