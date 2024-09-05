@@ -9,4 +9,9 @@ void prompt(t_shell *shell)
 			add_history(shell->input);
 			shell->arr_input = parse_arguments(*shell);
 		}
+		else if (!shell->input)
+		{
+			ft_putendl_fd("exit", 1);
+			exit(EXIT_SUCCESS);
+		}
 }
