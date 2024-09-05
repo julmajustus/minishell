@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cmd.c                                        :+:      :+:    :+:   */
+/*   parse_argument.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/04 14:31:45 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/05 05:49:49 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ static void	parse_argument_loop(t_parse_state *state, char **cmd)
 	}
 }
 
-char	**parse_arguments(t_shell shell)
+char	**parse_arguments(t_shell *shell, char *input)
 {
 	t_parse_state	state;
 	int				dollar_in_single_quote;
 
 	dollar_in_single_quote = 0;
-	if (ft_strchr(shell.input, '$') && ft_strchr(shell.input, '\''))
+	if (ft_strchr(input, '$') && ft_strchr(input, '\''))
 		dollar_in_single_quote = 1;
 	state.args = malloc(ARG_ARR_SIZE * sizeof(char *));
 	if (!state.args)
@@ -88,12 +88,12 @@ char	**parse_arguments(t_shell shell)
 	state.argc = 0;
 	state.arg_size = ARG_ARR_SIZE;
 	state.state = OUTSIDE;
-	parse_argument_loop(&state, &(shell.input));
+	parse_argument_loop(&state, &input);
 	if (state.arg)
 		state.args = add_arg(state.args, state.arg, \
 				&state.argc, &state.arg_size);
 	state.args[state.argc] = NULL;
 	if (dollar_in_single_quote == 0)
-		check_if_env_var(shell.envp, &state.args);
+		check_if_env_var(shell->envp, &state.args);
 	return (state.args);
 }

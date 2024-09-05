@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 02:52:25 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/05 05:32:24 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	handle_pipes(t_shell *shell)
 	i = -1;
 	while (++i < arr_len(shell->arr_input))
 	{
-		shell->parsed_cmd = parse_arguments(shell->arr_input[i]);
+		shell->parsed_cmd = parse_arguments(shell, shell->arr_input[i]);
 		if (i < arr_len(shell->arr_input) - 1)
 		{
 			if (pipe(shell->fd) == -1)

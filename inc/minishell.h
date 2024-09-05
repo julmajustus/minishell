@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 05:06:08 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/05 05:33:57 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	handle_input(t_shell *shell);
 int	check_if_pipes(t_shell *shell);
 void	parse_pipes(t_shell *shell);
 void	handle_pipes(t_shell *shell);
-char	**parse_arguments(char *cmd);
+char	**parse_arguments(t_shell *shell, char *input);
 void	execute_command(t_shell *shell, int in_fd, int out_fd);
 int	check_if_builtin(char **parsed_cmd);
 void	handle_builtin(t_shell *shell);

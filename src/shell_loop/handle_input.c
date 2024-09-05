@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 04:41:45 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/05 05:41:46 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static	void handle_single_cmd(t_shell *shell)
 {
-	shell->parsed_cmd = parse_arguments(shell->input);
+	shell->parsed_cmd = parse_arguments(shell, shell->input);
 	execute_command(shell, STDIN_FILENO, STDOUT_FILENO);
 	free_arr(shell->parsed_cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 03:51:07 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/05 05:54:11 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ void		init_shell_variables(t_shell *shell)
 
 t_redir	*init_redir(void)
 {
-    t_redir *redir = malloc(sizeof(t_redir));
+    t_redir *redir;
+
+	redir = malloc(sizeof(t_redir));
     redir->input_file = NULL;
     redir->output_file = NULL;
     redir->append_mode = 0;
