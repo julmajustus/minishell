@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 05:55:23 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 01:37:43 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	prerun_builtin(t_shell *shell)
 	int	saved_stderr;
 	int	dev_null_fd;
 
-	if (check_if_builtin(shell->parsed_cmd))
+	if (check_if_builtin(shell))
 	{
 		saved_stdout = dup(STDOUT_FILENO);
 		saved_stderr = dup(STDERR_FILENO);
@@ -57,17 +57,16 @@ static	int	exec_child(t_shell *shell)
 {
 	int		retval;
 
-	if (check_if_builtin(shell->parsed_cmd))
+	if (check_if_builtin(shell))
 	{
 		handle_builtin(shell);
 		free_shell_allocations(shell);
 		return (0);
 	}
-	shell->parsed_cmd = cmd_validator(shell->parsed_cmd);
+	cmd_validator(shell);
 	shell->path = get_path(shell);
 	retval = execve(shell->path, shell->parsed_cmd, shell->envp);
 	free_shell_allocations(shell);
-	free(shell->path);
 	if (retval == -1)
 		exit (1);
 	return (retval);
@@ -93,14 +92,14 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 	pid_t pid;
 
 	shell->redir = init_redir();
-	parse_redirections(shell);
-	handle_redirections(shell->redir);
 	prerun_builtin(shell);
 	pid = fork();
 	if (pid == -1)
 		err("fork");
 	if (pid == 0)
 	{
+		parse_redirections(shell);
+		handle_redirections(shell->redir);
 		handle_fds(in_fd, out_fd);
 		exec_child(shell);
 		exit(EXIT_FAILURE);

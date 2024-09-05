@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:40:58 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 03:37:07 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 01:48:45 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	**get_env_path(char **envp)
 	int	i;
 
 	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == NULL)
+	while (envp[i] && !ft_strnstr(envp[i], "PATH=", 5))
 		i++;
 	if (envp[i] == NULL)
 		return (NULL);
@@ -54,10 +54,7 @@ char	*get_path(t_shell *shell)
 	env_path = get_env_path(shell->envp);
 	if (!env_path)
 	{
-		free_arr(env_path);
-		free_shell_allocations(shell);
-		exit_no_file(shell->parsed_cmd);
-		return (NULL);
+		exit_no_file(shell);
 	}
 	path = check_path(*shell->parsed_cmd, env_path);
 	free_arr(env_path);
@@ -69,7 +66,6 @@ char	*get_path(t_shell *shell)
 			err_cmd_notfound(*shell->parsed_cmd);
 		free_shell_allocations(shell);
 		exit (127);
-		return (NULL);
 	}
 	return (path);
 }
