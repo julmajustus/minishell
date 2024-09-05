@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 05:41:46 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/05 23:25:25 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static	void handle_single_cmd(t_shell *shell)
 
 void	handle_input(t_shell *shell)
 {
-	if (shell->input == NULL)
+	if (shell->input == NULL || is_empty_str(shell->input))
 		return;
 	if (check_if_pipes(shell))
 	{
