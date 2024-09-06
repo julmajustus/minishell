@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   init_arr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 23:47:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 12:12:42 by mpellegr         ###   ########.fr       */
+/*   Created: 2024/09/06 00:02:16 by jmakkone          #+#    #+#             */
+/*   Updated: 2024/09/06 00:02:27 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(t_shell *shell)
+void	init_arr(char **arr, int arr_len)
 {
-	ft_putendl_fd("exit", 1);
-	free_shell_allocations(shell);
-	exit(EXIT_SUCCESS);
+	int i;
+
+	i = -1;
+	while (++i < arr_len)
+		arr[i] = NULL;
 }

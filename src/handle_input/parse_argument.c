@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 05:49:49 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 00:02:00 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char	**parse_arguments(t_shell *shell, char *input)
 	state.args = malloc(ARG_ARR_SIZE * sizeof(char *));
 	if (!state.args)
 		return (NULL);
+	init_arr(state.args, ARG_ARR_SIZE);
 	state.arg = NULL;
 	state.argc = 0;
 	state.arg_size = ARG_ARR_SIZE;

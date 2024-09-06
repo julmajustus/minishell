@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:15:36 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 03:52:48 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 01:29:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,24 @@ static int	check_cmd(char *cmd)
 	return (0);
 }
 
-char	**cmd_validator(char **cmd)
+void	cmd_validator(t_shell *shell)
 {
 	int		cmd_check;
 
-	if (*cmd)
+	if (shell->parsed_cmd[0])
 	{
-		cmd_check = check_cmd(*cmd);
+		cmd_check = check_cmd(shell->parsed_cmd[0]);
 		if (cmd_check == 1)
-			exit_cmd_notfound(cmd);
+			exit_cmd_notfound(shell);
 		else if (cmd_check == 2)
-			exit_is_directory(cmd);
+			exit_is_directory(shell);
 		else if (cmd_check == 3)
-			exit_no_permission(cmd);
+			exit_no_permission(shell);
 	}
 	else
 	{
 		ft_putstr_fd(" : command not found\n", 2);
-		free_arr(cmd);
+		free_shell_allocations(shell);
 		exit(127);
 	}
-	return (cmd);
 }

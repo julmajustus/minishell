@@ -6,28 +6,29 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 02:49:54 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 01:45:58 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_if_builtin(char **parsed_cmd)
+int	check_if_builtin(t_shell *shell)
 {
-
-	if (!ft_strcmp(parsed_cmd[0], "exit"))
+	if (!shell->parsed_cmd || !shell->parsed_cmd[0])
+        	return (0);
+	if (!ft_strcmp(shell->parsed_cmd[0], "exit"))
 		return (1);
-	else if (!ft_strcmp(parsed_cmd[0], "env"))
+	else if (!ft_strcmp(shell->parsed_cmd[0], "env"))
 		return (1);
-	else if (!ft_strcmp(parsed_cmd[0], "export"))
+	else if (!ft_strcmp(shell->parsed_cmd[0], "export"))
 		return (1);
-	else if (!ft_strcmp(parsed_cmd[0], "unset"))
+	else if (!ft_strcmp(shell->parsed_cmd[0], "unset"))
 		return (1);
-	else if (!ft_strcmp(parsed_cmd[0], "echo"))
+	else if (!ft_strcmp(shell->parsed_cmd[0], "echo"))
 		return (1);
-	else if (!ft_strcmp(parsed_cmd[0], "pwd"))
+	else if (!ft_strcmp(shell->parsed_cmd[0], "pwd"))
 		return (1);
-	else if (!ft_strcmp(parsed_cmd[0], "cd"))
+	else if (!ft_strcmp(shell->parsed_cmd[0], "cd"))
 		return (1);
 	return (0);
 }
@@ -40,7 +41,7 @@ char	**exec_builtin(t_shell *shell)
 	while (shell->parsed_cmd[++i])
 	{
 		if (!ft_strcmp(shell->parsed_cmd[i], "exit"))
-			ft_exit(shell->envp, shell->parsed_cmd);
+			ft_exit(shell);
 		else if (!ft_strcmp(shell->parsed_cmd[i], "env"))
 			return (ft_env(shell->envp));
 		else if (!ft_strcmp(shell->parsed_cmd[i], "export"))

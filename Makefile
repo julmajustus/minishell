@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/05 15:10:05 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/09/06 12:10:33 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -31,6 +31,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/error_handler.c \
 				  $(SRC_DIR)/handle_input/exit_handler.c \
 				  $(SRC_DIR)/utils/arr_len.c \
+				  $(SRC_DIR)/utils/init_arr.c \
 				  $(SRC_DIR)/utils/free_arr.c \
 				  $(SRC_DIR)/utils/free_shell_allocations.c \
 				  $(SRC_DIR)/utils/is_empty_str.c \
