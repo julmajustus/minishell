@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 09:37:22 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:59:47 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,15 +112,16 @@ void	err_cmd_notfound(char *cmd);
 void	err_nofile(char *file);
 void	err_is_directory(char *cmd);
 void	err_no_permission(char *cmd);
+void	err_syntax(char *cmd);
 void	exit_cmd_notfound(t_shell *shell);
 void	exit_is_directory(t_shell *shell);
 void	exit_no_permission(t_shell *shell);
 void	exit_no_file(t_shell *shell);
 void	exit_syntax_error(t_shell *shell);
 
-int	arr_len(char **arr);
+int		arr_len(char **arr);
 void	init_arr(char **arr, int arr_len);
-int	is_empty_str(char *str);
+int		is_empty_str(char *str);
 void	free_arr(char **arr);
 void	free_shell_allocations(t_shell *shell);
 void	error_no_file(char *file);

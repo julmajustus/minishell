@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:10:55 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 09:36:14 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:12:26 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	exit_no_file(t_shell *shell)
 
 void	exit_syntax_error(t_shell *shell)
 {
-	err_nofile(shell->parsed_cmd[0]);
+	if (shell->in_pipe)
+		err_syntax("|");
+	else
+		err_syntax(shell->parsed_cmd[0]);
 	free_shell_allocations(shell);
 	exit (2);
 }

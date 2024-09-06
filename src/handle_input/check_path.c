@@ -6,11 +6,12 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:40:58 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 01:48:45 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:21:24 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <time.h>
 
 static char	*check_path(char *cmd, char **env_path)
 {
@@ -37,7 +38,7 @@ static char	**get_env_path(char **envp)
 	int	i;
 
 	i = 0;
-	while (envp[i] && !ft_strnstr(envp[i], "PATH=", 5))
+	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == NULL)
 		i++;
 	if (envp[i] == NULL)
 		return (NULL);

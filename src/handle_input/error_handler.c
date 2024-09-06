@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:33:41 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 11:52:29 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:07:37 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,12 @@ void	err_no_permission(char *cmd)
 	write(2, "minishell: ", 7);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": Permission denied\n", 20);
+}
+
+void	err_syntax(char *cmd)
+{
+	write(2, "minishell: ", 7);
+	write(2,"syntax error near unexpected token `", 20);
+	write(2, cmd, ft_strlen(cmd));
+	write(2,"'\n", 20);
 }
