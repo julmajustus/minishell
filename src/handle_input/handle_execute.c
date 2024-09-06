@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 01:37:43 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:15:17 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static	int	exec_child(t_shell *shell)
 {
 	int		retval;
 
+	init_child_signals();
 	if (check_if_builtin(shell))
 	{
 		handle_builtin(shell);
@@ -79,8 +80,11 @@ static	int check_status(pid_t pid)
     waitpid(pid, &status, 0);
     if (WIFSIGNALED(status))
     {
-        write(2, "Segmentation fault\n", 19);
-        return 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGQUIT)
+			write (2, "Quit (core dumped)\n", 19);
+		if (WTERMSIG(status) == SIGINT)
+			write (2, "\n", 1);
+		return 128 + WTERMSIG(status);
     }
     if (WIFEXITED(status))
         return WEXITSTATUS(status);
@@ -93,6 +97,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 
 	shell->redir = init_redir();
 	prerun_builtin(shell);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
 		err("fork");
@@ -111,6 +116,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 		if (in_fd != STDIN_FILENO)
 			close(in_fd);
 		shell->retval = check_status(pid);
+		signal(SIGINT, handle_ctrl_c);
 	}
 	free(shell->redir);
 }
