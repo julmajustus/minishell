@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:15:36 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 01:29:23 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 09:41:50 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	check_cmd(char *cmd)
 {
 	int	fd;
 
+	if (!ft_strchr(cmd, '|'))
+		return (4);
 	if (is_empty_str(cmd))
 		return (1);
 	fd = open(cmd, O_DIRECTORY);
@@ -42,6 +44,8 @@ void	cmd_validator(t_shell *shell)
 			exit_is_directory(shell);
 		else if (cmd_check == 3)
 			exit_no_permission(shell);
+		else if (cmd_check == 4)
+			exit_syntax_error(shell);
 	}
 	else
 	{

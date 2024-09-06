@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 01:46:13 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 09:37:22 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	exit_cmd_notfound(t_shell *shell);
 void	exit_is_directory(t_shell *shell);
 void	exit_no_permission(t_shell *shell);
 void	exit_no_file(t_shell *shell);
+void	exit_syntax_error(t_shell *shell);
 
 int	arr_len(char **arr);
 void	init_arr(char **arr, int arr_len);
