@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 19:22:23 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:43:27 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	check_if_builtin(t_shell *shell);
 void	handle_builtin(t_shell *shell);
 char	**exec_builtin(t_shell *shell);
 
-t_redir	*init_redir(void);
 void	parse_redirections(t_shell *shell);
 void	handle_redirections(t_redir *redir);
 

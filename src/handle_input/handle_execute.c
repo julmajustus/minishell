@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 19:23:19 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:39:42 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,12 @@ static	int check_status(pid_t pid)
 
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
-	pid_t pid;
-
-	shell->redir = init_redir();
 	prerun_builtin(shell);
 	signal(SIGINT, SIG_IGN);
-	pid = fork();
-	if (pid == -1)
+	shell->pid = fork();
+	if (shell->pid == -1)
 		err("fork");
-	if (pid == 0)
+	if (shell->pid == 0)
 	{
 		parse_redirections(shell);
 		handle_redirections(shell->redir);
@@ -115,8 +112,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 			close(out_fd);
 		if (in_fd != STDIN_FILENO)
 			close(in_fd);
-		shell->retval = check_status(pid);
+		shell->retval = check_status(shell->pid);
 		signal(SIGINT, handle_ctrl_c);
 	}
-	free(shell->redir);
 }
