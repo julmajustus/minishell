@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 18:55:12 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:22:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/stat.h>
 # include <string.h>
 # include <errno.h>
+# include <signal.h>
 
 # define ARG_ARR_SIZE 8
 
@@ -123,5 +124,9 @@ void	init_arr(char **arr, int arr_len);
 int	is_empty_str(char *str);
 void	free_arr(char **arr);
 void	free_shell_allocations(t_shell *shell);
+
+void	init_signals();
+void    init_child_signals();
+void    handle_ctrl_c(int sig);
 
 #endif

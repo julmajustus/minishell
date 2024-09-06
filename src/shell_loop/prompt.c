@@ -8,4 +8,9 @@ void prompt(t_shell *shell)
 		{
 			add_history(shell->input);
 		}
+		else if (!shell->input)
+		{
+			ft_putendl_fd("exit", 1);
+			exit(EXIT_SUCCESS);
+		}
 }
