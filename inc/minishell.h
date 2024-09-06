@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/05 15:11:00 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:04:19 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	error_command_not_found(char *cmd);
 void	error_is_a_directory(char *str);
 
 void	init_signals();
-
-//int		g_ctrl_c_flag;
+void    init_child_signals();
+void    handle_ctrl_c(int sig);
 
 #endif
