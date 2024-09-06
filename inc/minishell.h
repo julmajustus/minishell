@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 13:59:47 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:55:12 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	handle_input(t_shell *shell);
 int	check_if_pipes(t_shell *shell);
 void	parse_pipes(t_shell *shell);
 void	handle_pipes(t_shell *shell);
-char	**parse_arguments(t_shell *shell, char *input);
 void	execute_command(t_shell *shell, int in_fd, int out_fd);
 int	check_if_builtin(t_shell *shell);
 void	handle_builtin(t_shell *shell);
@@ -91,11 +90,11 @@ t_redir	*init_redir(void);
 void	parse_redirections(t_shell *shell);
 void	handle_redirections(t_redir *redir);
 
-void	cmd_validator(t_shell *shell);
+void	validate_cmd(t_shell *shell);
+char	*validate_path(t_shell *shell);
+char	**parse_arguments(t_shell *shell, char *input);
 char	**add_arg(char **args, char *arg, size_t *argc, size_t *arg_size);
 char	*append_char(char *str, char c);
-char	*get_path(t_shell *shell);
-int	ft_str_is_whitespace(char *str);
 
 void	ft_exit(t_shell *shell);
 char	**ft_env(char **envp);
@@ -119,14 +118,10 @@ void	exit_no_permission(t_shell *shell);
 void	exit_no_file(t_shell *shell);
 void	exit_syntax_error(t_shell *shell);
 
-int		arr_len(char **arr);
+int	arr_len(char **arr);
 void	init_arr(char **arr, int arr_len);
-int		is_empty_str(char *str);
+int	is_empty_str(char *str);
 void	free_arr(char **arr);
 void	free_shell_allocations(t_shell *shell);
-void	error_no_file(char *file);
-void	error_no_permission(char *str);
-void	error_command_not_found(char *cmd);
-void	error_is_a_directory(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 01:37:43 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:06:34 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ static	int	exec_child(t_shell *shell)
 		free_shell_allocations(shell);
 		return (0);
 	}
-	cmd_validator(shell);
-	shell->path = get_path(shell);
+	validate_cmd(shell);
+	shell->path = validate_path(shell);
 	retval = execve(shell->path, shell->parsed_cmd, shell->envp);
 	free_shell_allocations(shell);
 	if (retval == -1)
-		exit (1);
+		exit (EXIT_FAILURE);
 	return (retval);
 }
 

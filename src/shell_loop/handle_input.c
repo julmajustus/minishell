@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 13:14:54 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:29:46 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 static	void handle_single_cmd(t_shell *shell)
 {
 	shell->parsed_cmd = parse_arguments(shell, shell->input);
-	int i = -1;
-	while (shell->parsed_cmd[++i])
-		printf("Check cmd table: %s\n", shell->parsed_cmd[i]);
 	execute_command(shell, STDIN_FILENO, STDOUT_FILENO);
 	free_arr(shell->parsed_cmd);
 }
