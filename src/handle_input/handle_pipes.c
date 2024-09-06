@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 00:10:34 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:48:35 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	parse_pipes(t_shell *shell)
 	new_cmd = (char **)malloc(sizeof(char *) * (2 + shell->pipe_count));
 	if (!new_cmd)
 		err("malloc faild");
+	init_arr(new_cmd, 2 + shell->pipe_count);
 	i = -1;
 	j = 0;
 	while (shell->input[++i])
@@ -46,7 +47,7 @@ void	parse_pipes(t_shell *shell)
 		}
 		new_cmd[j] = append_char(new_cmd[j], shell->input[i]);
 	}
-	new_cmd[j + 1] = NULL;
+	new_cmd[j + 1] = NULL;//mostlikely not needed
 	shell->arr_input = new_cmd;
 }
 
