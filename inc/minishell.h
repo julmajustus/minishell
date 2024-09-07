@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 19:43:27 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/07 22:39:30 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ typedef struct s_redir
 {
 	char	*input_file;
 	char	*output_file;
-	int	append_mode;
-	int	here_doc;
+	char	*here_doc_eof;
+	int		append_mode;
+	int		here_doc;
 }	t_redir;
 
 typedef struct s_shell
@@ -79,14 +80,15 @@ void	shell_loop(t_shell *shell);
 void	prompt(t_shell *shell);
 void	handle_input(t_shell *shell);
 
-int	check_if_pipes(t_shell *shell);
+int		check_if_pipes(t_shell *shell);
 void	parse_pipes(t_shell *shell);
 void	handle_pipes(t_shell *shell);
 void	execute_command(t_shell *shell, int in_fd, int out_fd);
-int	check_if_builtin(t_shell *shell);
+int		check_if_builtin(t_shell *shell);
 void	handle_builtin(t_shell *shell);
 char	**exec_builtin(t_shell *shell);
 
+void	validate_redirections(t_shell *shell);
 void	parse_redirections(t_shell *shell);
 void	handle_redirections(t_redir *redir);
 
@@ -116,7 +118,7 @@ void	exit_cmd_notfound(t_shell *shell);
 void	exit_is_directory(t_shell *shell);
 void	exit_no_permission(t_shell *shell);
 void	exit_no_file(t_shell *shell);
-void	exit_syntax_error(t_shell *shell);
+void	exit_syntax_error(t_shell *shell, char *syntax);
 
 int	arr_len(char **arr);
 void	init_arr(char **arr, int arr_len);
