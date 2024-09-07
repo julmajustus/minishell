@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 19:40:37 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/07 22:40:04 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,6 @@ void	free_shell_allocations(t_shell *shell)
 		free(shell->redir->input_file);
 	if (shell->redir->output_file)
 		free(shell->redir->output_file);
+	if (shell->redir->here_doc_eof)
+		free(shell->redir->here_doc_eof);
 }

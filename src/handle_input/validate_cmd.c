@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:15:36 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 19:01:48 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/07 22:28:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	validate_cmd(t_shell *shell)
 	if (!shell->parsed_cmd || !shell->parsed_cmd[0])
 	{
 		if (shell->in_pipe)
-			exit_syntax_error(shell);
+			exit_syntax_error(shell, "|");
 		exit_cmd_notfound(shell);	
 	}
 	cmd_check = check_cmd(shell->parsed_cmd[0]);

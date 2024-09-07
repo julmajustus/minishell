@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 19:39:42 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/07 02:48:08 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 		err("fork");
 	if (shell->pid == 0)
 	{
-		parse_redirections(shell);
+		validate_redirections(shell);
 		handle_redirections(shell->redir);
 		handle_fds(in_fd, out_fd);
 		exec_child(shell);
