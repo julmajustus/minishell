@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/07 22:39:30 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:52:03 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_shell
 	int	status;
 	int	retval;
 	t_redir *redir;
+	int		builtin_exit;
 
 }	t_shell;
 
@@ -104,9 +105,9 @@ char	**ft_unset(char **envp, char *str);
 char	**ft_export(char **envp, char *str);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);
-char	**ft_cd(char **envp, char *path);
+char	**ft_cd(char **envp, char *path, int *exit_code);
 
-void	check_if_env_var(char **envp, char ***args);
+void	handle_dollar_sign(t_shell shell, char ***args);
 
 void	err(const char *msg);
 void	err_cmd_notfound(char *cmd);

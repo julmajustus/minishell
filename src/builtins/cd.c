@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:57:45 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/02 16:00:31 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:04:11 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**cd_no_path(char **envp, char *new_old_pwd)
+char	**cd_no_path(char **envp, char *new_old_pwd, int **exit_code)
 {
 	char	*new_pwd;
 	int		i;
@@ -23,6 +23,12 @@ char	**cd_no_path(char **envp, char *new_old_pwd)
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "HOME", 4) != 0)
 		i++;
+	if (!envp[i])
+	{
+		write (2, "minishell: cd: HOME not set\n", 28);
+		**exit_code = 1;
+		return (envp);
+	}
 	pwd_len = ft_strlen(envp[i]);
 	start = 5;
 	new_pwd = (char *)malloc(sizeof(char) * (pwd_len - start + 1));
@@ -140,13 +146,13 @@ char	**cd_tilde(char **envp, char *new_old_pwd, char *path)
 		path_without_tilde[j++] = path[i++];
 	path_without_tilde[j] = '\0';
 	copy_new_old_pwd = ft_strdup(new_old_pwd);
-	envp = cd_no_path(envp, new_old_pwd);
+//	envp = cd_no_path(envp, new_old_pwd);
 	envp = cd_to_next(envp, copy_new_old_pwd, path_without_tilde);
 	free(path_without_tilde);
 	return (envp);
 }
 
-char	**ft_cd(char **envp, char *path)
+char	**ft_cd(char **envp, char *path, int *exit_code)
 {
 	char	*new_old_pwd;
 	int		i;
@@ -160,7 +166,7 @@ char	**ft_cd(char **envp, char *path)
 	getcwd(new_old_pwd, (pwd_len + 1));
 	new_old_pwd = ft_strjoin("OLDPWD=", new_old_pwd);
 	if (!path)
-		return (cd_no_path(envp, new_old_pwd));
+		return (cd_no_path(envp, new_old_pwd, &exit_code));
 	else if (path[0] == '-')
 		return (cd_to_old_pwd(envp, new_old_pwd));
 	else if (path[0] == '.' && path[1] == '.' && (path[2] == '/' || !path[2]))

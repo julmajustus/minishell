@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 01:45:58 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:04:04 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**exec_builtin(t_shell *shell)
 			break;
 		}
 		else if (!ft_strcmp(shell->parsed_cmd[i], "cd"))
-			return(ft_cd(shell->envp, shell->parsed_cmd[i + 1]));
+			return(ft_cd(shell->envp, shell->parsed_cmd[i + 1], &shell->builtin_exit));
 	}
 	return (shell->envp);
 }
