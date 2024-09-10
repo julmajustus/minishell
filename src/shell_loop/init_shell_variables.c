@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/07 22:43:21 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:31:10 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void		init_shell_variables(t_shell *shell)
 	shell->pid = -1;
 	shell->status = -1;
 	shell->retval = -1;
+	shell->tilde = getenv("HOME");
 	init_redir(shell);
 }
