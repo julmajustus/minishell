@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/09 12:23:03 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/09/10 11:55:07 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -38,6 +38,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/utils/free_shell_allocations.c \
 				  $(SRC_DIR)/utils/is_empty_str.c \
 				  $(SRC_DIR)/utils/handle_dollar_sign.c \
+				  $(SRC_DIR)/utils/handle_tilde.c \
 				  $(SRC_DIR)/env/env_handler.c \
 				  $(SRC_DIR)/builtins/handle_builtin.c \
 				  $(SRC_DIR)/builtins/exit.c \

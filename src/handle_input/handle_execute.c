@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/09 17:42:28 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:25:43 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ static	int check_status(pid_t pid)
 
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
-	shell->builtin_exit = 0;
 	prerun_builtin(shell);
 	signal(SIGINT, SIG_IGN);
 	shell->pid = fork();
@@ -101,11 +100,13 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 		err("fork");
 	if (shell->pid == 0)
 	{
+		if (shell->exit_code == 1)
+			exit (EXIT_FAILURE);
 		validate_redirections(shell);
 		handle_redirections(shell->redir);
 		handle_fds(in_fd, out_fd);
 		exec_child(shell);
-		if (shell->builtin_exit == 0)
+		if (shell->builtin_exit_code == 0)
 			exit (EXIT_SUCCESS);
 		exit(EXIT_FAILURE);
 	}

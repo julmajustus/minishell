@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:57:45 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/09 17:04:11 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:56:26 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	**cd_no_path(char **envp, char *new_old_pwd, int **exit_code)
 	{
 		write (2, "minishell: cd: HOME not set\n", 28);
 		**exit_code = 1;
+		free(new_old_pwd);
 		return (envp);
 	}
 	pwd_len = ft_strlen(envp[i]);
@@ -45,7 +46,7 @@ char	**cd_no_path(char **envp, char *new_old_pwd, int **exit_code)
 	return (envp);
 }
 
-char	**cd_to_old_pwd(char **envp, char *new_old_pwd)
+char	**cd_to_old_pwd(char **envp, char *new_old_pwd, int **exit_code)
 {
 	char	*new_pwd;
 	int		i;
@@ -56,6 +57,13 @@ char	**cd_to_old_pwd(char **envp, char *new_old_pwd)
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "OLDPWD", 6) != 0)
 		i++;
+	if (!envp[i])
+	{
+		write (2, "minishell: cd: OLDPWD not set\n", 30);
+		**exit_code = 1;
+		free(new_old_pwd);
+		return (envp);
+	}
 	pwd_len = ft_strlen(envp[i]);
 	start = 7;
 	new_pwd = (char *)malloc(sizeof(char) * (pwd_len - start + 1));
@@ -113,46 +121,38 @@ char	**cd_to_previus(char **envp, char *new_old_pwd, char *path)
 	return (envp);
 }
 
-char	**cd_to_next(char **envp, char *new_old_pwd, char *path)
+char	**cd_to_next(char **envp, char *new_old_pwd, char *path, int **exit_code, int **already_executed)
 {
-	int		i;
+//	int		i;
 	char	*new_pwd;
 
-	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PWD", 3) != 0)
-		i++;
-	new_pwd = ft_strdup(envp[i]);
-	new_pwd = ft_strjoin(new_pwd, "/");
-	new_pwd = ft_strjoin(new_pwd, path);
-	chdir(path);
+//	i = 0;
+//	while (envp[i] && ft_strncmp(envp[i], "PWD", 3) != 0)
+//		i++;
+//	new_pwd = ft_strdup(envp[i]);
+//	new_pwd = ft_strjoin(new_pwd, "/");
+//	new_pwd = ft_strjoin(new_pwd, path);
+	if (chdir(path) == -1)
+	{
+		write (2, "minishell: cd: ", 15);
+		write (2, path, ft_strlen(path));
+		write (2, ": No such file or directory\n", 28);
+		**exit_code = 1;
+		free(new_old_pwd);
+		//free(new_pwd);
+		return (envp);
+	}
+	new_pwd = getcwd(NULL, 0);
+	new_pwd = ft_strjoin("PWD=", new_pwd);
 	envp = replace_or_create_env_line(envp, new_pwd);
 	envp = replace_or_create_env_line(envp, new_old_pwd);
 	free(new_old_pwd);
 	free(new_pwd);
+	**already_executed = 1;
 	return (envp);
 }
 
-char	**cd_tilde(char **envp, char *new_old_pwd, char *path)
-{
-	char	*path_without_tilde;
-	int		i;
-	int		j;
-	char	*copy_new_old_pwd;
-
-	path_without_tilde = (char *)malloc(sizeof(char) * ft_strlen(path));
-	i = 2;
-	j = 0;
-	while (path[i])
-		path_without_tilde[j++] = path[i++];
-	path_without_tilde[j] = '\0';
-	copy_new_old_pwd = ft_strdup(new_old_pwd);
-//	envp = cd_no_path(envp, new_old_pwd);
-	envp = cd_to_next(envp, copy_new_old_pwd, path_without_tilde);
-	free(path_without_tilde);
-	return (envp);
-}
-
-char	**ft_cd(char **envp, char *path, int *exit_code)
+char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed)
 {
 	char	*new_old_pwd;
 	int		i;
@@ -167,12 +167,10 @@ char	**ft_cd(char **envp, char *path, int *exit_code)
 	new_old_pwd = ft_strjoin("OLDPWD=", new_old_pwd);
 	if (!path)
 		return (cd_no_path(envp, new_old_pwd, &exit_code));
-	else if (path[0] == '-')
-		return (cd_to_old_pwd(envp, new_old_pwd));
-	else if (path[0] == '.' && path[1] == '.' && (path[2] == '/' || !path[2]))
+	else if (path[0] == '-' && !path[1])
+		return (cd_to_old_pwd(envp, new_old_pwd, &exit_code));
+	else if (!ft_strcmp(path, "..") || !ft_strcmp(path, "../"))
 		return (cd_to_previus(envp, new_old_pwd, path));
-	else if (path[0] == '~')
-		return (cd_tilde(envp, new_old_pwd, path));
 	else
-		return (cd_to_next(envp, new_old_pwd, path));
+		return (cd_to_next(envp, new_old_pwd, path, &exit_code, &already_executed));
 }
