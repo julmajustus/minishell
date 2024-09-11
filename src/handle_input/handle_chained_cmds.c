@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 23:38:55 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 19:19:19 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/12 00:09:27 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static void	preserve_remaining_cmds(t_shell *shell, int i)
 	int j;
 	int k;
 
-	shell->tmp_chained_cmds = malloc(sizeof(char *) * (shell->chain_count + 2));
-	shell->tmp_chained_tokens = malloc(sizeof(char *) * (shell->chain_count + 2));
-	init_arr(shell->tmp_chained_cmds, (shell->chain_count + 2));
-	init_arr(shell->tmp_chained_tokens, (shell->chain_count + 2));
+	shell->tmp_chained_cmds = malloc(sizeof(char *) * (arr_len(shell->chained_cmds) + 2));
+	shell->tmp_chained_tokens = malloc(sizeof(char *) * (arr_len(shell->chained_cmds) + 2));
+	init_arr(shell->tmp_chained_cmds, (arr_len(shell->chained_cmds) + 2));
+	init_arr(shell->tmp_chained_tokens, (arr_len(shell->chained_cmds) + 2));
 	j = i + 1;
 	k = 0;
 	while (shell->chained_cmds[j])
@@ -66,6 +66,7 @@ static void handle_subcommand(t_shell *shell, int *i)
 	parse_subcmd(shell);
 	if (shell->chained_cmds[*i + 1])
 	{
+		shell->preserving_chained_cmds = 1;
 		preserve_remaining_cmds(shell, *i);
 		handle_input(shell);
 		free_arr(shell->chained_cmds);
@@ -73,26 +74,24 @@ static void handle_subcommand(t_shell *shell, int *i)
 		shell->chained_cmds = shell->tmp_chained_cmds;
 		shell->chained_tokens = shell->tmp_chained_tokens;
 		shell->in_subcmd--;
-		handle_chained_cmds(shell);
+		shell->preserving_chained_cmds = 0;
+		*i = 0;
 	}
 	else
 	{
 		free_arr(shell->chained_cmds);
 		free_arr(shell->chained_tokens);
 		handle_input(shell);
-		free_arr(shell->chained_cmds);
-		free_arr(shell->chained_tokens);
 		shell->in_subcmd--;
 	}
 }
 
 static void	clean_chained_cmds(t_shell *shell)
 {
-	if (shell->in_subcmd)
+	if (shell->in_subcmd || shell->preserving_chained_cmds)
 		return ;
 	free_arr(shell->chained_cmds);
 	free_arr(shell->chained_tokens);
-	shell->chain_count = 0;
 }
 
 void handle_chained_cmds(t_shell *shell)
@@ -103,23 +102,21 @@ void handle_chained_cmds(t_shell *shell)
 	while (shell->chained_cmds[++i])
 	{
 		shell->input = ft_strdup(shell->chained_cmds[i]);
+		if (shell->in_subcmd && !shell->execute_next)
+			return ;
 		if (ft_strchr(shell->input, '('))
 		{
 			handle_subcommand(shell, &i);
-			return ;
+			continue;
 		}
-		else
+		if (shell->execute_next)
 			handle_input(shell);
-		if (shell->chained_tokens[i] && strcmp(shell->chained_tokens[i], "&&") == 0 && shell->retval != 0)
-		{
-			i += 2;
-			continue;
-		}
-		else if (shell->chained_tokens[i] && strcmp(shell->chained_tokens[i], "||") == 0 && shell->retval == 0)
-		{
-			i += 2;
-			continue;
-		}
+		if (shell->chained_tokens[i] && !ft_strcmp(shell->chained_tokens[i], "&&") && shell->retval != 0)
+			shell->execute_next = 0;
+		else if (shell->chained_tokens[i] && !ft_strcmp(shell->chained_tokens[i], "||") && shell->retval == 0)
+			shell->execute_next = 0;
+		else
+			shell->execute_next = 1;
 	}
 	clean_chained_cmds(shell);
 }

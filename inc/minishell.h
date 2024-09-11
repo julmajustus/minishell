@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 17:03:16 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:48:27 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ typedef struct s_shell
 	int		chain_count;
 	int		in_pipe;
 	int		in_subcmd;
+	int		is_chained_cmd;
+	int		preserving_chained_cmds;
+	int		execute_next;
 	int		is_builtin;
 	int		fd[2];
 	pid_t	pid;

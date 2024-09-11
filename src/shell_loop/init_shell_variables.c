@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 17:05:22 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/12 00:03:20 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ void		init_shell_variables(t_shell *shell)
 	shell->chain_count = 0;
 	shell->in_pipe = 0;
 	shell->in_subcmd = 0;
+	shell->is_chained_cmd = 0;
+	shell->execute_next = 1;
+	shell->preserving_chained_cmds = 0;
 	shell->is_builtin = 0;
 	shell->fd[0] = 0;
 	shell->fd[1] = 1;

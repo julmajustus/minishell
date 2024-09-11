@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:15:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 19:16:11 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/11 21:03:52 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	parse_chained_cmds(t_shell *shell)
 	i = 0;
 	j = 0;
 	k = 0;
+	shell->is_chained_cmd = 1;
 	shell->chained_cmds = malloc(sizeof(char *) * (shell->chain_count + 2));
 	shell->chained_tokens = malloc(sizeof(char *) * (shell->chain_count + 2));
 	if (!shell->chained_cmds || !shell->chained_tokens)
