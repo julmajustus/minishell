@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/07 02:49:39 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/11 14:57:11 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -19,6 +19,9 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/shell_loop/shell_loop.c \
 				  $(SRC_DIR)/shell_loop/prompt.c \
 				  $(SRC_DIR)/shell_loop/handle_input.c \
+				  $(SRC_DIR)/handle_input/check_if_chained_cmds.c \
+				  $(SRC_DIR)/handle_input/parse_chained_cmds.c \
+				  $(SRC_DIR)/handle_input/handle_chained_cmds.c \
 				  $(SRC_DIR)/handle_input/handle_pipes.c \
 				  $(SRC_DIR)/handle_input/parse_argument.c \
 				  $(SRC_DIR)/handle_input/add_argument.c \
@@ -29,7 +32,6 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/handle_redirections.c \
 				  $(SRC_DIR)/handle_input/validate_cmd.c \
 				  $(SRC_DIR)/handle_input/validate_path.c \
-				  $(SRC_DIR)/handle_input/check_status.c \
 				  $(SRC_DIR)/handle_input/error_handler.c \
 				  $(SRC_DIR)/handle_input/exit_handler.c \
 				  $(SRC_DIR)/utils/arr_len.c \

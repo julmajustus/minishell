@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 23:47:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 12:12:42 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:13:18 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 void	ft_exit(t_shell *shell)
 {
 	ft_putendl_fd("exit", 1);
-	free_shell_allocations(shell);
+	if (shell->envp)
+		free_arr(shell->envp);
+	if (shell->parsed_cmd)
+		free_arr(shell->parsed_cmd);
+	if (shell->redir->input_file)
+		free(shell->redir->input_file);
+	if (shell->redir->output_file)
+		free(shell->redir->output_file);
+	if (shell->redir->here_doc_eof)
+		free(shell->redir->here_doc_eof);
 	exit(EXIT_SUCCESS);
 }

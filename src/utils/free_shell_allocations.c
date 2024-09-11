@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/07 22:40:04 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:45:51 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_shell_allocations(t_shell *shell)
 		free(shell->path);
 	if (shell->in_pipe)
 		free_arr(shell->arr_input);
-	else
+	if (shell->input)
 		free(shell->input);
 	if (shell->redir->input_file)
 		free(shell->redir->input_file);

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/07 22:39:30 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:04:35 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,18 @@ typedef struct s_shell
 {
 	char	**envp;
 	char	*input;
+	char	**chained_cmds;
+	char	**chained_tokens;
+	char	**tmp_chained_cmds;
+	char	**tmp_chained_tokens;
 	char	**arr_input;
 	char	**parsed_cmd;
 	char	*path;
 	int	pipe_count;
+	int	chain_count;
 	int	in_pipe;
+	int	in_subcmd;
+	int	is_builtin;
 	int	fd[2];
 	pid_t	pid;
 	int	status;
@@ -80,9 +87,16 @@ void	shell_loop(t_shell *shell);
 void	prompt(t_shell *shell);
 void	handle_input(t_shell *shell);
 
+
+int		check_if_chained_cmds(t_shell *shell);
+void	parse_chained_cmds(t_shell *shell);
+void	handle_chained_cmds(t_shell *shell);
+
+void	handle_single_cmd(t_shell *shell);
 int		check_if_pipes(t_shell *shell);
 void	parse_pipes(t_shell *shell);
 void	handle_pipes(t_shell *shell);
+
 void	execute_command(t_shell *shell, int in_fd, int out_fd);
 int		check_if_builtin(t_shell *shell);
 void	handle_builtin(t_shell *shell);
