@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:57:45 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/10 14:56:26 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:52:00 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ char	**cd_to_previus(char **envp, char *new_old_pwd, char *path)
 	}
 	j = 7;
 	len -= j;
+	if (!len)
+		len = 1;
 	new_pwd = (char *)malloc(sizeof(char) * (len + 1));
 	while (i < len)
 		new_pwd[i++] = new_old_pwd[j++];
