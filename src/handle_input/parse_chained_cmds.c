@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:15:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 15:27:25 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:16:11 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,22 @@ static void	parse_subcmd(t_shell *shell, int *i, int *j)
 	}
 }
 
-static void	parse_tokens(t_shell *shell, int *i, int *j)
+static void	parse_tokens(t_shell *shell, int *i, int *j, int *k)
 {
-	int k;
 	
-	k = 0;
 	if (shell->input[*i] == '&' && shell->input[*i + 1] == '&' && shell->input[*i + 2])
 	{
-		shell->chained_tokens[k++] = ft_strdup("&&");
+		shell->chained_tokens[*k] = ft_strdup("&&");
 		*i += 2;
 		*j += 1;
+		*k += 1;
 	}
 	if (shell->input[*i] == '|' && shell->input[*i + 1] == '|' && shell->input[*i + 2])
 	{
-		shell->chained_tokens[k++] = ft_strdup("||");
+		shell->chained_tokens[*k] = ft_strdup("||");
 		*i += 2;
 		*j += 1;
+		*k += 1;
 	}
 }
 
@@ -53,9 +53,11 @@ void	parse_chained_cmds(t_shell *shell)
 {
 	int	i;
 	int	j;
+	int k;
 
 	i = 0;
 	j = 0;
+	k = 0;
 	shell->chained_cmds = malloc(sizeof(char *) * (shell->chain_count + 2));
 	shell->chained_tokens = malloc(sizeof(char *) * (shell->chain_count + 2));
 	if (!shell->chained_cmds || !shell->chained_tokens)
@@ -67,7 +69,7 @@ void	parse_chained_cmds(t_shell *shell)
 		if (shell->input[i] == '(')
 			parse_subcmd(shell, &i, &j);
 		if (shell->input[i] == '&' || shell->input[i] == '|')
-			parse_tokens(shell, &i, &j);
+			parse_tokens(shell, &i, &j, &k);
 		shell->chained_cmds[j] = append_char(shell->chained_cmds[j], shell->input[i]);	
 		i++;
 	}
