@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 23:47:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 15:13:18 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:04:50 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,24 @@
 
 void	ft_exit(t_shell *shell)
 {
-	ft_putendl_fd("exit", 1);
-	if (shell->envp)
-		free_arr(shell->envp);
-	if (shell->parsed_cmd)
-		free_arr(shell->parsed_cmd);
-	if (shell->redir->input_file)
-		free(shell->redir->input_file);
-	if (shell->redir->output_file)
-		free(shell->redir->output_file);
-	if (shell->redir->here_doc_eof)
-		free(shell->redir->here_doc_eof);
-	exit(EXIT_SUCCESS);
+	int i;
+	int	exit_code;
+
+	i = 0;
+	while (shell->parsed_cmd[i])
+		i++;
+	if (i > 2)
+	{
+		ft_putendl_fd("exit", 1);
+		ft_putendl_fd("minishell : exit : too many arguments", 2);
+		shell->builtin_exit_code = 1;		
+	}
+	else
+	{
+		ft_putendl_fd("exit", 0);
+		fflush(stdout);
+		exit_code = (ft_atoi(shell->parsed_cmd[i - 1])) % 256;
+		free_shell_allocations(shell);
+		exit(exit_code);
+	}
 }

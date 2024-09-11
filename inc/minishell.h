@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 15:04:35 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:03:16 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,20 @@ typedef struct s_shell
 	char	**arr_input;
 	char	**parsed_cmd;
 	char	*path;
-	int	pipe_count;
-	int	chain_count;
-	int	in_pipe;
-	int	in_subcmd;
-	int	is_builtin;
-	int	fd[2];
+	int		pipe_count;
+	int		chain_count;
+	int		in_pipe;
+	int		in_subcmd;
+	int		is_builtin;
+	int		fd[2];
 	pid_t	pid;
-	int	status;
-	int	retval;
+	int		status;
+	int		retval;
 	t_redir *redir;
-
+	int		exit_code;
+	int		builtin_exit_code;
+	char	*tilde;
+	int		builtin_already_executed;
 }	t_shell;
 
 char	**copy_env(char **envp);
@@ -118,9 +121,10 @@ char	**ft_unset(char **envp, char *str);
 char	**ft_export(char **envp, char *str);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);
-char	**ft_cd(char **envp, char *path);
+char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed);
 
-void	check_if_env_var(char **envp, char ***args);
+void	handle_dollar_sign(t_shell shell, char ***args);
+void	hande_tilde(char ***args, t_shell shell, int *exit_code);
 
 void	err(const char *msg);
 void	err_cmd_notfound(char *cmd);
