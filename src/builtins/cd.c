@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:57:45 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/11 11:52:00 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:10:08 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char	**cd_to_previus(char **envp, char *new_old_pwd, char *path)
 	return (envp);
 }
 
-char	**cd_to_next(char **envp, char *new_old_pwd, char *path, int **exit_code, int **already_executed)
+char	**cd_to_next(char **envp, char *new_old_pwd, char *path, int **exit_code, int **already_executed, char **cmd_arr)
 {
 //	int		i;
 	char	*new_pwd;
@@ -134,6 +134,11 @@ char	**cd_to_next(char **envp, char *new_old_pwd, char *path, int **exit_code, i
 //	new_pwd = ft_strdup(envp[i]);
 //	new_pwd = ft_strjoin(new_pwd, "/");
 //	new_pwd = ft_strjoin(new_pwd, path);
+	if (arr_len(cmd_arr) > 2)
+	{
+		ft_putendl_fd("bash: cd: too many arguments", 2);
+		**exit_code = 1;
+	}
 	if (chdir(path) == -1)
 	{
 		write (2, "minishell: cd: ", 15);
@@ -154,7 +159,7 @@ char	**cd_to_next(char **envp, char *new_old_pwd, char *path, int **exit_code, i
 	return (envp);
 }
 
-char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed)
+char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed, char **cmd_arr)
 {
 	char	*new_old_pwd;
 	int		i;
@@ -174,5 +179,5 @@ char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed)
 	else if (!ft_strcmp(path, "..") || !ft_strcmp(path, "../"))
 		return (cd_to_previus(envp, new_old_pwd, path));
 	else
-		return (cd_to_next(envp, new_old_pwd, path, &exit_code, &already_executed));
+		return (cd_to_next(envp, new_old_pwd, path, &exit_code, &already_executed, cmd_arr));
 }

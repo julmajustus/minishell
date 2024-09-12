@@ -6,12 +6,12 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/10 14:25:43 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:37:51 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static void	prerun_builtin(t_shell *shell)
 {
 	int	saved_stdout;
@@ -23,11 +23,6 @@ static void	prerun_builtin(t_shell *shell)
 		saved_stdout = dup(STDOUT_FILENO);
 		saved_stderr = dup(STDERR_FILENO);
 		dev_null_fd = open("/dev/null", O_WRONLY);
-		if (dev_null_fd == -1)
-		{
-			perror("open /dev/null");
-			exit(EXIT_FAILURE);
-		}
 		dup2(dev_null_fd, STDOUT_FILENO);
 		dup2(dev_null_fd, STDERR_FILENO);
 		close(dev_null_fd);
@@ -38,7 +33,7 @@ static void	prerun_builtin(t_shell *shell)
 		close(saved_stderr);
 	}
 }
-
+*/
 static void	handle_fds(int in_fd, int out_fd)
 {
     if (in_fd != STDIN_FILENO)
@@ -53,24 +48,31 @@ static void	handle_fds(int in_fd, int out_fd)
     }
 }
 
-static	int	exec_child(t_shell *shell)
+static void	exec_child(t_shell *shell)
 {
-	int		retval;
-
 	init_child_signals();
 	if (check_if_builtin(shell))
 	{
-		handle_builtin(shell);
+		handle_builtin(shell, 0, 1);
 		free_shell_allocations(shell);
-		return (0);
+		if (!shell->builtin_exit_code)
+			exit (EXIT_SUCCESS);
+		else
+			exit (shell->builtin_exit_code);
 	}
-	validate_cmd(shell);
-	shell->path = validate_path(shell);
-	retval = execve(shell->path, shell->parsed_cmd, shell->envp);
-	free_shell_allocations(shell);
-	if (retval == -1)
-		exit (EXIT_FAILURE);
-	return (retval);
+	else
+	{
+		validate_cmd(shell);
+		shell->path = validate_path(shell);
+		if (check_if_builtin(shell) == 0)
+		{
+			if (execve(shell->path, shell->parsed_cmd, shell->envp) == -1)
+			{
+				free_shell_allocations(shell);
+				exit (EXIT_FAILURE);
+			}
+		}
+	}
 }
 
 static	int check_status(pid_t pid)
@@ -93,7 +95,8 @@ static	int check_status(pid_t pid)
 
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
-	prerun_builtin(shell);
+//	prerun_builtin(shell);
+	handle_builtin(shell, 1, 0);
 	signal(SIGINT, SIG_IGN);
 	shell->pid = fork();
 	if (shell->pid == -1)

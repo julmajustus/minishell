@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/10 14:53:59 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:05:36 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,42 +33,46 @@ int	check_if_builtin(t_shell *shell)
 	return (0);
 }
 
-char	**exec_builtin(t_shell *shell)
+char	**exec_builtin(t_shell *shell, int parent, int child)
 {
 	int	i;
 
 	i = -1;
 	while (shell->parsed_cmd[++i])
 	{
-		if (!ft_strcmp(shell->parsed_cmd[i], "exit"))
+		if (!ft_strcmp(shell->parsed_cmd[i], "exit") && parent == 1)
+		{
 			ft_exit(shell);
-		else if (!ft_strcmp(shell->parsed_cmd[i], "env"))
+			break ;
+		}
+		else if (!ft_strcmp(shell->parsed_cmd[i], "env") && child == 1)
 			return (ft_env(shell->envp));
-		else if (!ft_strcmp(shell->parsed_cmd[i], "export"))
+		else if (!ft_strcmp(shell->parsed_cmd[i], "export") && parent == 1)
 			return (ft_export(shell->envp, shell->parsed_cmd[i + 1]));
-		else if (!ft_strcmp(shell->parsed_cmd[i], "unset"))
+		else if (!ft_strcmp(shell->parsed_cmd[i], "unset") && parent == 1)
 			return (ft_unset(shell->envp, shell->parsed_cmd[i + 1]));
-		else if (!ft_strcmp(shell->parsed_cmd[i], "echo"))
+		else if (!ft_strcmp(shell->parsed_cmd[i], "echo") && child == 1)
 		{
 			ft_echo(shell->parsed_cmd);
 			break ;
 		}
-		else if (!ft_strcmp(shell->parsed_cmd[i], "pwd"))
+		else if (!ft_strcmp(shell->parsed_cmd[i], "pwd") && child == 1)
 		{
 			ft_pwd(shell->envp);
 			break;
 		}
-		else if (!ft_strcmp(shell->parsed_cmd[i], "cd"))
-			return(ft_cd(shell->envp, shell->parsed_cmd[i + 1], &shell->builtin_exit_code, &shell->builtin_already_executed));
+		else if (!ft_strcmp(shell->parsed_cmd[i], "cd") && parent == 1)
+			return(ft_cd(shell->envp, shell->parsed_cmd[i + 1], &shell->builtin_exit_code, &shell->builtin_already_executed, shell->parsed_cmd));
 	}
 	return (shell->envp);
 }
 
-void	handle_builtin(t_shell *shell)
+void	handle_builtin(t_shell *shell, int parent, int child)
 {
 	if ((shell->in_pipe || shell->builtin_already_executed) && !ft_strcmp(shell->parsed_cmd[0], "cd"))
 		return ;
 	if (shell->in_pipe && !ft_strcmp(shell->parsed_cmd[0], "exit"))
 		return ;
-	shell->envp = exec_builtin(shell);
+	shell->envp = exec_builtin(shell, parent, child);
 }
+

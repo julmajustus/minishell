@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/10 11:56:10 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:13:50 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**parse_arguments(t_shell *shell, char *input)
 	int				dollar_in_single_quote;
 
 	dollar_in_single_quote = 0;
-	if (ft_strchr(input, '$') && ft_strchr(input, '\''))
+	if (ft_strchr(input, '$') && ft_strchr(input, '\'') && ft_strlen(input) == 1)
 		dollar_in_single_quote = 1;
 	state.args = malloc(ARG_ARR_SIZE * sizeof(char *));
 	if (!state.args)

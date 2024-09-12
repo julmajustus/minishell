@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+/*
 char	*create_prompt(t_shell shell)
 {
 	char	*str;
@@ -41,14 +41,15 @@ char	*create_prompt(t_shell shell)
 	free(pwd);
 	return (str);
 }
-
+*/
 void prompt(t_shell *shell)
 {
-	char *prompt;
+//	char *prompt;
 
-	prompt = create_prompt(*shell);
-	shell->input = readline(prompt);
-	free(prompt);
+//	prompt = create_prompt(*shell);
+	shell->input = readline("> ");
+//	shell->input = readline(prompt);
+//	free(prompt);
 	if(shell->input != NULL && !is_empty_str(shell->input))
 	{
 		add_history(shell->input);

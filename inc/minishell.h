@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/10 14:55:28 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:05:03 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void	parse_pipes(t_shell *shell);
 void	handle_pipes(t_shell *shell);
 void	execute_command(t_shell *shell, int in_fd, int out_fd);
 int		check_if_builtin(t_shell *shell);
-void	handle_builtin(t_shell *shell);
-char	**exec_builtin(t_shell *shell);
+void	handle_builtin(t_shell *shell, int parent, int child);
+char	**exec_builtin(t_shell *shell, int parent, int child);
 
 void	validate_redirections(t_shell *shell);
 void	parse_redirections(t_shell *shell);
@@ -107,7 +107,7 @@ char	**ft_unset(char **envp, char *str);
 char	**ft_export(char **envp, char *str);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);
-char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed);
+char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed, char **cmd_arr);
 
 void	handle_dollar_sign(t_shell shell, char ***args);
 void	hande_tilde(char ***args, t_shell shell, int *exit_code);
