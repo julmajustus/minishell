@@ -104,7 +104,7 @@ char	*append_char(char *str, char c);
 void	ft_exit(t_shell *shell);
 char	**ft_env(char **envp);
 char	**ft_unset(char **envp, char *str);
-char	**ft_export(char **envp, char *str);
+char	**ft_export(char **envp, char *str, int *exit_code);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);
 char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed, char **cmd_arr);

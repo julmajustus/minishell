@@ -12,24 +12,36 @@
 
 #include "minishell.h"
 
-static int	is_valid_variable_name(char *str)
+static int	is_valid_variable_name(char *str, int **exit_code)
 {
 	int	i;
 
 	i = 0;
-	if (!ft_strchr(str, '='))
-		return (0);
-	while (str[i] && str[i] != '=')
+	while (str[i])
 	{
-		if (ft_isalpha(str[i]) || str[i] != '_')
+		if (ft_isdigit(str[0]) || (str[0] == '=' && !str[1]))
+		{
+			ft_putendl_fd(" not a valid identifier", 2);
+			**exit_code = 1;
+			return (0);
+		}
+		else if (ft_isalpha(str[i]) || str[i] == '_')
 			i++;
 		else
+		{
+			ft_putendl_fd(" not a valid identifier", 2);
+			**exit_code = 1;
 			return (0);
+		}
+		if (str[i] == '=' && str[i + 1])
+			break ;
 	}
+	if (!ft_strchr(str, '='))
+		return (0);
 	return (1);
 }
 
-char	**ft_export(char **envp, char *str)
+char	**ft_export(char **envp, char *str, int *exit_code)
 {
 	int	i;
 	int	j;
@@ -46,7 +58,7 @@ char	**ft_export(char **envp, char *str)
 		}
 		return (envp);
 	}
-	if (is_valid_variable_name(str))
+	if (is_valid_variable_name(str, &exit_code))
 		return (replace_or_create_env_line(envp, str));
 	return (envp);
 }

@@ -79,7 +79,7 @@ char	**parse_arguments(t_shell *shell, char *input)
 	int				dollar_in_single_quote;
 
 	dollar_in_single_quote = 0;
-	if (ft_strchr(input, '$') && ft_strchr(input, '\'') && ft_strlen(input) == 1)
+	if (ft_strchr(input, '$') && ft_strchr(input, '\''))
 		dollar_in_single_quote = 1;
 	state.args = malloc(ARG_ARR_SIZE * sizeof(char *));
 	if (!state.args)
@@ -97,5 +97,7 @@ char	**parse_arguments(t_shell *shell, char *input)
 	if (dollar_in_single_quote == 0)
 		handle_dollar_sign(*shell, &state.args);
 	hande_tilde(&state.args, *shell, &shell->exit_code);
+	if ((ft_strchr(input, '>') || ft_strchr(input, '<')) && !ft_strchr(input, '\'') && !ft_strchr(input, '\"'))
+		validate_redirections(shell);
 	return (state.args);
 }

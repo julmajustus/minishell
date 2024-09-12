@@ -48,7 +48,7 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 		else if (!ft_strcmp(shell->parsed_cmd[i], "env") && child == 1)
 			return (ft_env(shell->envp));
 		else if (!ft_strcmp(shell->parsed_cmd[i], "export") && parent == 1)
-			return (ft_export(shell->envp, shell->parsed_cmd[i + 1]));
+			return (ft_export(shell->envp, shell->parsed_cmd[i + 1], &shell->builtin_exit_code));
 		else if (!ft_strcmp(shell->parsed_cmd[i], "unset") && parent == 1)
 			return (ft_unset(shell->envp, shell->parsed_cmd[i + 1]));
 		else if (!ft_strcmp(shell->parsed_cmd[i], "echo") && child == 1)
