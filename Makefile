@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/11 17:02:12 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/12 16:25:34 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -22,6 +22,8 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/check_if_chained_cmds.c \
 				  $(SRC_DIR)/handle_input/parse_chained_cmds.c \
 				  $(SRC_DIR)/handle_input/handle_chained_cmds.c \
+				  $(SRC_DIR)/handle_input/handle_subcommand.c \
+				  $(SRC_DIR)/handle_input/handle_stack.c \
 				  $(SRC_DIR)/handle_input/handle_pipes.c \
 				  $(SRC_DIR)/handle_input/parse_argument.c \
 				  $(SRC_DIR)/handle_input/add_argument.c \
@@ -37,6 +39,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/utils/arr_len.c \
 				  $(SRC_DIR)/utils/init_arr.c \
 				  $(SRC_DIR)/utils/free_arr.c \
+				  $(SRC_DIR)/utils/free_cmd_stack.c \
 				  $(SRC_DIR)/utils/free_shell_allocations.c \
 				  $(SRC_DIR)/utils/is_empty_str.c \
 				  $(SRC_DIR)/utils/handle_dollar_sign.c \

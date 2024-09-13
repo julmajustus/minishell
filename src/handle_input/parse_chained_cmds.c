@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:15:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 21:03:52 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/12 23:32:39 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	parse_chained_cmds(t_shell *shell)
 {
 	int	i;
 	int	j;
-	int k;
+	int	k;
 
 	i = 0;
 	j = 0;
@@ -71,7 +71,8 @@ void	parse_chained_cmds(t_shell *shell)
 			parse_subcmd(shell, &i, &j);
 		if (shell->input[i] == '&' || shell->input[i] == '|')
 			parse_tokens(shell, &i, &j, &k);
-		shell->chained_cmds[j] = append_char(shell->chained_cmds[j], shell->input[i]);	
+		shell->chained_cmds[j] = append_char(shell->chained_cmds[j], \
+									   shell->input[i]);	
 		i++;
 	}
 	free(shell->input);

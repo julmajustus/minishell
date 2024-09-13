@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/12 00:03:20 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/12 22:38:50 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void		init_shell_variables(t_shell *shell)
 	shell->input = NULL;
 	shell->arr_input = NULL;
 	shell->parsed_cmd = NULL;
+	shell->cmd_stack = NULL;
 	shell->chained_cmds = NULL;
 	shell->chained_tokens = NULL;
 	shell->tmp_chained_cmds = NULL;

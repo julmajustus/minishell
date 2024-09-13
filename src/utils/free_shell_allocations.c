@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 20:07:30 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/12 23:27:35 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void clean_redir_allocations(t_shell *shell)
+static void clean_child_redir_allocations(t_shell *shell)
 {
 	if (shell->redir->input_file)
 		free(shell->redir->input_file);
@@ -22,17 +22,16 @@ static void clean_redir_allocations(t_shell *shell)
 		free(shell->redir->here_doc_eof);
 }
 
-static void	clean_chained_cmds(t_shell *shell)
+static void	clean_child_chained_cmds(t_shell *shell)
 {
 	if (shell->is_builtin && shell->is_chained_cmd)
 	{
-		if (shell->preserving_chained_cmds && shell->in_subcmd)
+		if (shell->preserving_chained_cmds)
 		{
-			free_arr(shell->tmp_chained_cmds);
-			free_arr(shell->tmp_chained_tokens);
+			free_cmd_stack(&shell->cmd_stack);
 		}
-		free_arr(shell->chained_cmds);
-		free_arr(shell->chained_tokens);
+		free_arr_and_null(&shell->chained_cmds);
+		free_arr_and_null(&shell->chained_tokens);
 	}
 }
 
@@ -48,6 +47,6 @@ void	free_shell_allocations(t_shell *shell)
 		free_arr(shell->arr_input);
 	if (shell->input)
 		free(shell->input);
-	clean_redir_allocations(shell);
-	clean_chained_cmds(shell);
+	clean_child_redir_allocations(shell);
+	clean_child_chained_cmds(shell);
 }
