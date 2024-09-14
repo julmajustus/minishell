@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 11:48:35 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/12 23:26:53 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_if_pipes(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	shell->pipe_count = 0;
 	i = -1;
@@ -30,7 +30,7 @@ void	parse_pipes(t_shell *shell)
 {
 	int	i;
 	int	j;
-	char **new_cmd;
+	char	**new_cmd;
 
 	new_cmd = (char **)malloc(sizeof(char *) * (2 + shell->pipe_count));
 	if (!new_cmd)
@@ -50,7 +50,6 @@ void	parse_pipes(t_shell *shell)
 	new_cmd[j + 1] = NULL;//mostlikely not needed
 	shell->arr_input = new_cmd;
 }
-
 
 void	handle_pipes(t_shell *shell)
 {

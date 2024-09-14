@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/10 14:25:43 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/12 23:26:05 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	prerun_builtin(t_shell *shell)
 
 	if (check_if_builtin(shell))
 	{
+		shell->is_builtin = 1;
 		saved_stdout = dup(STDOUT_FILENO);
 		saved_stderr = dup(STDERR_FILENO);
 		dev_null_fd = open("/dev/null", O_WRONLY);
@@ -62,7 +63,7 @@ static	int	exec_child(t_shell *shell)
 	{
 		handle_builtin(shell);
 		free_shell_allocations(shell);
-		return (0);
+		exit (EXIT_SUCCESS);
 	}
 	validate_cmd(shell);
 	shell->path = validate_path(shell);

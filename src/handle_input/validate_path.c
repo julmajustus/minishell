@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:40:58 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 19:00:46 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/08 23:19:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*is_valid_path(char *cmd, char **path_list)
 		add_slash = ft_strjoin(path_list[i], "/");
 		path = ft_strjoin(add_slash, cmd);
 		free(add_slash);
-		if (access(path, F_OK | X_OK) == 0)
+		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
 		i++;
@@ -69,5 +69,10 @@ char	*validate_path(t_shell *shell)
 	free_arr(path_list);
 	if (!valid_path)
 		return (check_if_local(shell, 1));
+	if (access(valid_path, X_OK) != 0)
+	{
+		free(valid_path);
+		exit_no_permission(shell);
+	}
 	return (valid_path);
 }

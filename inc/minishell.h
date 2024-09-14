@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/10 14:55:28 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:02:57 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,24 +54,43 @@ typedef struct s_redir
 	int		here_doc;
 }	t_redir;
 
+typedef struct s_cmd_stack
+{
+    char				*cmd;
+    char				*token;
+    struct s_cmd_stack	*next;
+}	t_cmd_stack;
+
 typedef struct s_shell
 {
-	char	**envp;
-	char	*input;
-	char	**arr_input;
-	char	**parsed_cmd;
-	char	*path;
-	int	pipe_count;
-	int	in_pipe;
-	int	fd[2];
-	pid_t	pid;
-	int	status;
-	int	retval;
-	t_redir *redir;
-	int		exit_code;
-	int		builtin_exit_code;
-	char	*tilde;
-	int		builtin_already_executed;
+	char		**envp;
+	char		*input;
+	char		**chained_cmds;
+	char		**chained_tokens;
+	t_cmd_stack *cmd_stack;
+	char		**tmp_chained_cmds;
+	char		**tmp_chained_tokens;
+	char		**arr_input;
+	char		**parsed_cmd;
+	char		*path;
+	int			pipe_count;
+	int			chain_count;
+	int			in_pipe;
+	int			in_subcmd;
+	int			returning_subcmd;
+	int			is_chained_cmd;
+	int			preserving_chained_cmds;
+	int			execute_next;
+	int			is_builtin;
+	int			fd[2];
+	pid_t		pid;
+	int			status;
+	int			retval;
+	t_redir 	*redir;
+	int			exit_code;
+	int			builtin_exit_code;
+	char		*tilde;
+	int			builtin_already_executed;
 }	t_shell;
 
 char	**copy_env(char **envp);
@@ -83,9 +102,23 @@ void	shell_loop(t_shell *shell);
 void	prompt(t_shell *shell);
 void	handle_input(t_shell *shell);
 
+
+int		check_if_chained_cmds(t_shell *shell);
+void	parse_chained_cmds(t_shell *shell);
+void	handle_chained_cmds(t_shell *shell);
+void	handle_subcommand(t_shell *shell, int *i);
+void	push_to_stack(t_cmd_stack **stack, char *cmd, char *token, int push_to_bottom);
+void	push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd, char *token);
+void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd, char **token);
+int		stack_len(t_cmd_stack **stack);
+void	check_execute_next(t_shell *shell, int i);
+void	clean_chained_cmds(t_shell *shell);
+
+void	handle_single_cmd(t_shell *shell);
 int		check_if_pipes(t_shell *shell);
 void	parse_pipes(t_shell *shell);
 void	handle_pipes(t_shell *shell);
+
 void	execute_command(t_shell *shell, int in_fd, int out_fd);
 int		check_if_builtin(t_shell *shell);
 void	handle_builtin(t_shell *shell);
@@ -128,6 +161,8 @@ int	arr_len(char **arr);
 void	init_arr(char **arr, int arr_len);
 int	is_empty_str(char *str);
 void	free_arr(char **arr);
+void	free_arr_and_null(char ***arr);
+void	free_cmd_stack(t_cmd_stack **stack);
 void	free_shell_allocations(t_shell *shell);
 
 void	init_signals();
