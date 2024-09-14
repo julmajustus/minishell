@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/12 23:27:35 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/14 00:28:28 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	clean_child_chained_cmds(t_shell *shell)
 {
 	if (shell->is_builtin && shell->is_chained_cmd)
 	{
-		if (shell->preserving_chained_cmds)
+		if (shell->in_subcmd)
 		{
 			free_cmd_stack(&shell->cmd_stack);
 		}

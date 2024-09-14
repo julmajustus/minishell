@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/12 16:25:34 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/13 23:33:29 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -39,7 +39,6 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/utils/arr_len.c \
 				  $(SRC_DIR)/utils/init_arr.c \
 				  $(SRC_DIR)/utils/free_arr.c \
-				  $(SRC_DIR)/utils/free_cmd_stack.c \
 				  $(SRC_DIR)/utils/free_shell_allocations.c \
 				  $(SRC_DIR)/utils/is_empty_str.c \
 				  $(SRC_DIR)/utils/handle_dollar_sign.c \

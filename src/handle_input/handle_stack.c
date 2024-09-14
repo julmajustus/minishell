@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:19:25 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/13 03:19:58 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:59:57 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd, char *token)
     t_cmd_stack *new_node;
     t_cmd_stack *temp;
 
-//	printf("Check cmd: %s and its token: %s\n", cmd, token);
     new_node = malloc(sizeof(t_cmd_stack));
     if (!new_node)
         return;
@@ -43,7 +42,7 @@ void push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd, char *token)
 void push_to_stack(t_cmd_stack **stack, char *cmd, char *token, int push_to_bottom)
 {
 	t_cmd_stack	*new_node;
-	if (push_to_bottom > 1)
+	if (push_to_bottom == 1)
 		push_to_bottom_of_stack(stack, cmd, token);
 	else
 	{
@@ -60,10 +59,11 @@ void push_to_stack(t_cmd_stack **stack, char *cmd, char *token, int push_to_bott
 	}
 }
 
-void	pop_from_stack(t_cmd_stack **stack, char **cmd, char **token)
+void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd, char **token)
 {
 	t_cmd_stack	*node;
 
+	(void)shell;
 	node = *stack;
 	if (node == NULL)
 		return;
@@ -86,4 +86,26 @@ int	stack_len(t_cmd_stack **stack)
         node = node->next;
     }
 	return (i);
+}
+
+void	free_cmd_stack(t_cmd_stack **stack)
+{	
+    t_cmd_stack	*current_node;
+    t_cmd_stack	*next_node;
+
+	if (stack == NULL || *stack == NULL)
+		return ;
+    current_node = *stack;
+    
+    while (current_node)
+	{
+        next_node = current_node->next;
+        if (current_node->cmd)
+            free(current_node->cmd);
+        if (current_node->token)
+            free(current_node->token);
+        free(current_node);
+        current_node = next_node;
+    }
+    *stack = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/11 14:58:16 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/13 22:34:51 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	handle_input(t_shell *shell)
 	}
 	else
 		handle_single_cmd(shell);
-	free(shell->input);
+	if (shell->input)
+		free(shell->input);
 	shell->input = NULL;
 	shell->in_pipe = 0;
 }

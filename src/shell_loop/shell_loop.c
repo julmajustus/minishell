@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:34:38 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/13 00:15:33 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:17:03 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	shell_loop(t_shell *shell)
 	while (1)
 	{
 		shell->cmd_stack = NULL;
+		shell->returning_subcmd = 0;
 		shell->execute_next = 1;
 		shell->is_builtin = 0;
 		shell->is_chained_cmd = 0;

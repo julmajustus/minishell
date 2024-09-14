@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/13 00:54:11 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:02:57 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ typedef struct s_shell
 	t_cmd_stack *cmd_stack;
 	char		**tmp_chained_cmds;
 	char		**tmp_chained_tokens;
-	char		*tmp_chained_cmd;
-	char		*tmp_chained_token;
 	char		**arr_input;
 	char		**parsed_cmd;
 	char		*path;
@@ -79,6 +77,7 @@ typedef struct s_shell
 	int			chain_count;
 	int			in_pipe;
 	int			in_subcmd;
+	int			returning_subcmd;
 	int			is_chained_cmd;
 	int			preserving_chained_cmds;
 	int			execute_next;
@@ -110,8 +109,9 @@ void	handle_chained_cmds(t_shell *shell);
 void	handle_subcommand(t_shell *shell, int *i);
 void	push_to_stack(t_cmd_stack **stack, char *cmd, char *token, int push_to_bottom);
 void	push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd, char *token);
-void	pop_from_stack(t_cmd_stack **stack, char **cmd, char **token);
+void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd, char **token);
 int		stack_len(t_cmd_stack **stack);
+void	check_execute_next(t_shell *shell, int i);
 void	clean_chained_cmds(t_shell *shell);
 
 void	handle_single_cmd(t_shell *shell);
