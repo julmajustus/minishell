@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 15:33:29 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/15 22:34:34 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void	prerun_builtin(t_shell *shell)
 	int	saved_stderr;
 	int	dev_null_fd;
 	
-	if (!ft_strcmp(shell->parsed_cmd[0], "echo"))
-		return ;
 	if (check_if_builtin(shell))
 	{
+		if (!ft_strcmp(shell->parsed_cmd[0], "echo"))
+			return ;
 		shell->is_builtin = 1;
 		saved_stdout = dup(STDOUT_FILENO);
 		saved_stderr = dup(STDERR_FILENO);
