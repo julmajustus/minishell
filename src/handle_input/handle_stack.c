@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:19:25 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/14 16:59:57 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/15 03:27:21 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd, char *token)
+void push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd)
 {
     t_cmd_stack *new_node;
     t_cmd_stack *temp;
@@ -21,10 +21,6 @@ void push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd, char *token)
     if (!new_node)
         return;
     new_node->cmd = ft_strdup(cmd);
-	if (token)
-		new_node->token = ft_strdup(token);
-	else
-		new_node->token = NULL;
 	new_node->next = NULL;
 	if (*stack == NULL)
 	{
@@ -39,27 +35,23 @@ void push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd, char *token)
 	temp->next = new_node;
 }
 
-void push_to_stack(t_cmd_stack **stack, char *cmd, char *token, int push_to_bottom)
+void push_to_stack(t_cmd_stack **stack, char *cmd, int push_to_bottom)
 {
 	t_cmd_stack	*new_node;
 	if (push_to_bottom == 1)
-		push_to_bottom_of_stack(stack, cmd, token);
+		push_to_bottom_of_stack(stack, cmd);
 	else
 	{
 		new_node = malloc(sizeof(t_cmd_stack));
 		if (!new_node)
 			return ;
 		new_node->cmd = ft_strdup(cmd);
-		if (token)
-			new_node->token = ft_strdup(token);
-		else
-			new_node->token = NULL;
 		new_node->next = *stack;
 		*stack = new_node;
 	}
 }
 
-void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd, char **token)
+void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd)
 {
 	t_cmd_stack	*node;
 
@@ -68,7 +60,6 @@ void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd, char **toke
 	if (node == NULL)
 		return;
 	*cmd = node->cmd;
-	*token = node->token;
 	*stack = node->next;
 	free(node);
 }
@@ -102,8 +93,6 @@ void	free_cmd_stack(t_cmd_stack **stack)
         next_node = current_node->next;
         if (current_node->cmd)
             free(current_node->cmd);
-        if (current_node->token)
-            free(current_node->token);
         free(current_node);
         current_node = next_node;
     }

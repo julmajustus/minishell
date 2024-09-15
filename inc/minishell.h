@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/14 17:02:57 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/15 03:26:49 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_redir
 typedef struct s_cmd_stack
 {
     char				*cmd;
-    char				*token;
     struct s_cmd_stack	*next;
 }	t_cmd_stack;
 
@@ -66,10 +65,8 @@ typedef struct s_shell
 	char		**envp;
 	char		*input;
 	char		**chained_cmds;
-	char		**chained_tokens;
 	t_cmd_stack *cmd_stack;
 	char		**tmp_chained_cmds;
-	char		**tmp_chained_tokens;
 	char		**arr_input;
 	char		**parsed_cmd;
 	char		*path;
@@ -107,9 +104,9 @@ int		check_if_chained_cmds(t_shell *shell);
 void	parse_chained_cmds(t_shell *shell);
 void	handle_chained_cmds(t_shell *shell);
 void	handle_subcommand(t_shell *shell, int *i);
-void	push_to_stack(t_cmd_stack **stack, char *cmd, char *token, int push_to_bottom);
-void	push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd, char *token);
-void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd, char **token);
+void	push_to_stack(t_cmd_stack **stack, char *cmd, int push_to_bottom);
+void	push_to_bottom_of_stack(t_cmd_stack **stack, char *cmd);
+void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd);
 int		stack_len(t_cmd_stack **stack);
 void	check_execute_next(t_shell *shell, int i);
 void	clean_chained_cmds(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/14 00:28:28 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/15 03:27:46 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	clean_child_chained_cmds(t_shell *shell)
 			free_cmd_stack(&shell->cmd_stack);
 		}
 		free_arr_and_null(&shell->chained_cmds);
-		free_arr_and_null(&shell->chained_tokens);
 	}
 }
 
