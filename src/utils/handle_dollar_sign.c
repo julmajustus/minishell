@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:16:15 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/09 12:24:39 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:37:49 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	exit_status(t_shell shell, char **input_var, int *match_found)
 	char	*temp_str;
 
 	i = 0;
-	ret_val = ft_itoa(shell.retval);
+	ret_val = ft_itoa(shell.builtin_exit_code);
 	temp_str = (char *)malloc(sizeof(char) * ft_strlen(*input_var));
 	while ((*input_var)[++i])
 		temp_str[i - 1] = (*input_var)[i];
@@ -92,7 +92,7 @@ void	handle_dollar_sign(t_shell shell, char ***args)
 	n = -1;
 	while ((*args)[++n])
 	{
-		if (ft_strchr((*args)[n], '$'))
+		if (ft_strchr((*args)[n], '$') && ft_strcmp((*args)[n], "$"))
 		{
 			match_found = 0;
 			arr = ft_split((*args)[n], '$');

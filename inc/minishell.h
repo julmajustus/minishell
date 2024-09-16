@@ -6,7 +6,8 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/16 16:27:44 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:59:46 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:26:45 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +117,8 @@ void	handle_pipes(t_shell *shell);
 
 void	execute_command(t_shell *shell, int in_fd, int out_fd);
 int		check_if_builtin(t_shell *shell);
-void	handle_builtin(t_shell *shell);
-char	**exec_builtin(t_shell *shell);
+void	handle_builtin(t_shell *shell, int parent, int child);
+char	**exec_builtin(t_shell *shell, int parent, int child);
 
 int		check_if_wildcards(t_shell *shell);
 void	handle_wildcards(t_shell *shell);
@@ -135,10 +136,10 @@ char	*append_char(char *str, char c);
 void	ft_exit(t_shell *shell);
 char	**ft_env(char **envp);
 char	**ft_unset(char **envp, char *str);
-char	**ft_export(char **envp, char *str);
+char	**ft_export(char **envp, char *str, int *exit_code);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);
-char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed);
+char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed, char **cmd_arr);
 
 void	handle_dollar_sign(t_shell shell, char ***args);
 void	hande_tilde(char ***args, t_shell shell, int *exit_code);

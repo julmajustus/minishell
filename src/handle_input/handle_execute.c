@@ -6,12 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 00:17:02 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/17 01:00:44 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:32:04 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static void	prerun_builtin(t_shell *shell)
 {
 	int	saved_stdout;
@@ -26,11 +27,6 @@ static void	prerun_builtin(t_shell *shell)
 		saved_stdout = dup(STDOUT_FILENO);
 		saved_stderr = dup(STDERR_FILENO);
 		dev_null_fd = open("/dev/null", O_WRONLY);
-		if (dev_null_fd == -1)
-		{
-			perror("open /dev/null");
-			exit(EXIT_FAILURE);
-		}
 		dup2(dev_null_fd, STDOUT_FILENO);
 		dup2(dev_null_fd, STDERR_FILENO);
 		close(dev_null_fd);
@@ -41,7 +37,7 @@ static void	prerun_builtin(t_shell *shell)
 		close(saved_stderr);
 	}
 }
-
+*/
 static void	handle_fds(int in_fd, int out_fd)
 {
     if (in_fd != STDIN_FILENO)
@@ -56,24 +52,32 @@ static void	handle_fds(int in_fd, int out_fd)
     }
 }
 
-static	int	exec_child(t_shell *shell)
+static void	exec_child(t_shell *shell)
 {
-	int		retval;
-
 	init_child_signals();
 	if (check_if_builtin(shell))
 	{
-		handle_builtin(shell);
+		handle_builtin(shell, 0, 1);
 		free_shell_allocations(shell);
+		if (!shell->builtin_exit_code)
+			exit (EXIT_SUCCESS);
+		else
+			exit (shell->builtin_exit_code);
+	}
+	else
+	{
+		validate_cmd(shell);
+		shell->path = validate_path(shell);
+		if (check_if_builtin(shell) == 0)
+		{
+			if (execve(shell->path, shell->parsed_cmd, shell->envp) == -1)
+			{
+				free_shell_allocations(shell);
+				exit (EXIT_FAILURE);
+			}
+		}
 		exit (EXIT_SUCCESS);
 	}
-	validate_cmd(shell);
-	shell->path = validate_path(shell);
-	retval = execve(shell->path, shell->parsed_cmd, shell->envp);
-	free_shell_allocations(shell);
-	if (retval == -1)
-		exit (EXIT_FAILURE);
-	return (retval);
 }
 
 int check_status(pid_t pid)
@@ -96,7 +100,8 @@ int check_status(pid_t pid)
 
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
-	prerun_builtin(shell);
+//	prerun_builtin(shell);
+	handle_builtin(shell, 1, 0);
 	signal(SIGINT, SIG_IGN);
 	if (check_if_wildcards(shell))
 		handle_wildcards(shell);
@@ -107,7 +112,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 	{
 		if (shell->exit_code == 1)
 			exit (EXIT_FAILURE);
-		validate_redirections(shell);
+//		validate_redirections(shell);
 		handle_redirections(shell->redir);
 		handle_fds(in_fd, out_fd);
 		exec_child(shell);
