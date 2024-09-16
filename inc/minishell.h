@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 14:40:07 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:33:50 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ void	execute_command(t_shell *shell, int in_fd, int out_fd);
 int		check_if_builtin(t_shell *shell);
 void	handle_builtin(t_shell *shell);
 char	**exec_builtin(t_shell *shell);
+
+int		check_if_wildcards(t_shell *shell);
+void	handle_wildcards(t_shell *shell);
 
 void	validate_redirections(t_shell *shell);
 void	parse_redirections(t_shell *shell);

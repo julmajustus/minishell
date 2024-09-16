@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 22:34:34 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:48:33 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,15 @@ static	int check_status(pid_t pid)
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
 	prerun_builtin(shell);
+	int i = -1;
+	while(shell->parsed_cmd[++i])
+		printf("Pre check for parsed_cmd:[%d] cmd: %s\n\n", i, shell->parsed_cmd[i]);
 	signal(SIGINT, SIG_IGN);
+	if (check_if_wildcards(shell))
+		handle_wildcards(shell);
+	i = -1;
+	while(shell->parsed_cmd[++i])
+		printf("Post check for parsed_cmd:[%d] cmd: %s\n\n", i, shell->parsed_cmd[i]);
 	shell->pid = fork();
 	if (shell->pid == -1)
 		err("fork");
