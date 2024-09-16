@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/12 10:37:51 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:32:04 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ static void	prerun_builtin(t_shell *shell)
 	int	saved_stdout;
 	int	saved_stderr;
 	int	dev_null_fd;
-
+	
 	if (check_if_builtin(shell))
 	{
+		if (!ft_strcmp(shell->parsed_cmd[0], "echo"))
+			return ;
+		shell->is_builtin = 1;
 		saved_stdout = dup(STDOUT_FILENO);
 		saved_stderr = dup(STDERR_FILENO);
 		dev_null_fd = open("/dev/null", O_WRONLY);
@@ -72,6 +75,7 @@ static void	exec_child(t_shell *shell)
 				exit (EXIT_FAILURE);
 			}
 		}
+		exit (EXIT_SUCCESS);
 	}
 }
 
