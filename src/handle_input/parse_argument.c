@@ -6,15 +6,15 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/12 10:13:50 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:42 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_outside_state(t_parse_state *state, char **cmd)
+static void	handle_outside_state(t_parse_state *state, char c)
 {
-	if (**cmd == ' ')
+	if (c == ' ')
 	{
 		if (state->arg)
 		{
@@ -23,64 +23,63 @@ static void	handle_outside_state(t_parse_state *state, char **cmd)
 			state->arg = NULL;
 		}
 	}
-	else if (**cmd == '\\')
+	else if (c == '\\')
 		state->state = ESCAPE_SEQUENCE;
-	else if (**cmd == '\'')
+	else if (c == '\'')
 		state->state = INSIDE_SINGLE_QUOTE;
-	else if (**cmd == '\"')
+	else if (c == '\"')
 		state->state = INSIDE_DOUBLE_QUOTE;
 	else
-		state->arg = append_char(state->arg, **cmd);
+		state->arg = append_char(state->arg, c);
 }
 
-static void	handle_inside_single_quote_state(t_parse_state *state, char **cmd)
+static void	handle_in_single_quote(t_parse_state *state, char c)
 {
-	if (**cmd == '\'')
+	if (c == '\'')
 		state->state = OUTSIDE;
 	else
-		state->arg = append_char(state->arg, **cmd);
+		state->arg = append_char(state->arg, c);
 }
 
-static void	handle_inside_double_quote_state(t_parse_state *state, char **cmd)
+static void	handle_in_double_quote(t_parse_state *state, char *cmd, int *i)
 {
-	if (**cmd == '\"')
+	if (cmd[*i] == '\"')
 		state->state = OUTSIDE;
-	else if (**cmd == '\\' && (*(*cmd + 1) == '\"' || *(*cmd + 1) == '\\'))
+	else if (cmd[*i] == '\\' && (cmd[*i + 1] == '\"' || cmd[*i + 1] == '\\'))
 	{
-		(*cmd)++;
-		state->arg = append_char(state->arg, **cmd);
+		(*i)++;
+		state->arg = append_char(state->arg, cmd[*i]);
 	}
 	else
-		state->arg = append_char(state->arg, **cmd);
+		state->arg = append_char(state->arg, cmd[*i]);
 }
 
-static void	parse_argument_loop(t_parse_state *state, char **cmd)
+static void	parse_argument_loop(t_parse_state *state, char *cmd)
 {
-	while (**cmd)
+	int	i;
+
+	i = 0;
+	while (cmd[i])
 	{
 		if (state->state == ESCAPE_SEQUENCE)
 		{
-			state->arg = append_char(state->arg, **cmd);
+			state->arg = append_char(state->arg, cmd[i]);
 			state->state = OUTSIDE;
 		}
 		else if (state->state == OUTSIDE)
-			handle_outside_state(state, cmd);
+			handle_outside_state(state, cmd[i]);
 		else if (state->state == INSIDE_SINGLE_QUOTE)
-			handle_inside_single_quote_state(state, cmd);
+			handle_in_single_quote(state, cmd[i]);
 		else if (state->state == INSIDE_DOUBLE_QUOTE)
-			handle_inside_double_quote_state(state, cmd);
-		(*cmd)++;
+			handle_in_double_quote(state, cmd, &i);
+		i++;
 	}
 }
 
 char	**parse_arguments(t_shell *shell, char *input)
 {
 	t_parse_state	state;
-	int				dollar_in_single_quote;
 
-	dollar_in_single_quote = 0;
-	if (ft_strchr(input, '$') && ft_strchr(input, '\''))
-		dollar_in_single_quote = 1;
 	state.args = malloc(ARG_ARR_SIZE * sizeof(char *));
 	if (!state.args)
 		return (NULL);
@@ -89,15 +88,16 @@ char	**parse_arguments(t_shell *shell, char *input)
 	state.argc = 0;
 	state.arg_size = ARG_ARR_SIZE;
 	state.state = OUTSIDE;
-	parse_argument_loop(&state, &input);
+	parse_argument_loop(&state, input);
 	if (state.arg)
 		state.args = add_arg(state.args, state.arg, \
 				&state.argc, &state.arg_size);
 	state.args[state.argc] = NULL;
-	if (dollar_in_single_quote == 0)
+	if (ft_strchr(input, '$') && !ft_strchr(input, '\''))
 		handle_dollar_sign(*shell, &state.args);
 	hande_tilde(&state.args, *shell, &shell->exit_code);
-	if ((ft_strchr(input, '>') || ft_strchr(input, '<')) && !ft_strchr(input, '\'') && !ft_strchr(input, '\"'))
+	if ((ft_strchr(input, '>') || ft_strchr(input, '<'))
+		&& !ft_strchr(input, '\'') && !ft_strchr(input, '\"'))
 		validate_redirections(shell);
 	return (state.args);
 }
