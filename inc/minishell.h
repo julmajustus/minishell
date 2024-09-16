@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/16 13:33:50 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:27:44 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	init_shell_variables(t_shell *shell);
 void	shell_loop(t_shell *shell);
 void	prompt(t_shell *shell);
 void	handle_input(t_shell *shell);
+int		check_status(pid_t pid);
 
 
 int		check_if_chained_cmds(t_shell *shell);
