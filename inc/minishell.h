@@ -6,8 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 13:50:27 by jmakkone         ###   ########.fr       */
-/*   Updated: 2024/09/16 14:26:45 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:00:14 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +118,7 @@ void	execute_command(t_shell *shell, int in_fd, int out_fd);
 int		check_if_builtin(t_shell *shell);
 void	handle_builtin(t_shell *shell, int parent, int child);
 char	**exec_builtin(t_shell *shell, int parent, int child);
+void	check_forbidden_builtin_in_pipe(char **cmd_arr, int *exit_code);
 
 int		check_if_wildcards(t_shell *shell);
 int		match_pattern(const char *pattern, const char *str);

@@ -4,8 +4,8 @@ obj
 *.un~
 my_tests
 vg.supp
-minishell_tester
 minishell
+minishell_tester
 
 # Prerequisites
 *.d

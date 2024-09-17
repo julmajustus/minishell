@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/16 14:29:51 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:02:58 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,20 @@ void	handle_builtin(t_shell *shell, int parent, int child)
 	shell->envp = exec_builtin(shell, parent, child);
 }
 
+void	check_forbidden_builtin_in_pipe(char **cmd_arr, int *exit_code)
+{
+	int i;
+
+	i = -1;
+	while (cmd_arr[++i])
+	{
+		if (!ft_strcmp(cmd_arr[0], "exit"))
+			*exit_code = 1;
+		else if (!ft_strcmp(cmd_arr[0], "export"))
+			*exit_code = 1;
+		else if (!ft_strcmp(cmd_arr[0], "unset"))
+			*exit_code = 1;
+		else if (!ft_strcmp(cmd_arr[0], "cd"))
+			*exit_code = 1;
+	}
+}
