@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 11:53:48 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:57:52 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 int	check_if_pipes(t_shell *shell)
 {
 	int    i;
-	int pipe_count;
 	int single_quote;
 	int double_quote;
 
-	pipe_count = 0;
 	single_quote = 0;
 	double_quote = 0;
 	i = -1;
