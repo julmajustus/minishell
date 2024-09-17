@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/12 23:26:53 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/17 09:27:27 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_if_pipes(t_shell *shell)
 
 	shell->pipe_count = 0;
 	i = -1;
-	while (shell->input[++i])
+	while (shell->input[++i] && !ft_strchr(shell->input, '\'') && !ft_strchr(shell->input, '\"'))
 	{
 		if (shell->input[i] == '|')
 			shell->pipe_count++;
