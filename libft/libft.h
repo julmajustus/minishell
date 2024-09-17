@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:57:58 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/08/30 23:38:55 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/16 22:20:52 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void		*ft_memcpy(void *dst, const void *src, size_t n);
 void		ft_bzero(void *s, size_t n);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 void		*ft_calloc(size_t nmemb, size_t size);
+void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 int			ft_isprint(int c);
 int			ft_isdigit(int c);
 int			ft_isascii(int c);

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 09:27:27 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/17 09:35:31 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,32 @@ void	parse_pipes(t_shell *shell)
 	shell->arr_input = new_cmd;
 }
 
+static void manage_fds(t_shell *shell, int *in_fd)
+{
+	if (*in_fd != STDIN_FILENO)
+		close(*in_fd);
+	if (shell->fd[1] != STDOUT_FILENO)
+		close(shell->fd[1]);
+	*in_fd = shell->fd[0];
+}
+
+static void exit_pipes(t_shell *shell, int i, int *in_fd, pid_t *pids)
+{
+	if (*in_fd != STDIN_FILENO)
+        	close(*in_fd);
+	shell->retval = check_status(pids[i - 1]);
+	free(pids);
+	free_arr(shell->arr_input);
+}
+
 void	handle_pipes(t_shell *shell)
 {
 	int	i;
-	int	in_fd = STDIN_FILENO;
+	int	in_fd;
+	pid_t *pids;
 
+	in_fd = STDIN_FILENO;
+	pids = malloc(arr_len(shell->arr_input) * sizeof(pid_t));
 	i = -1;
 	while (++i < arr_len(shell->arr_input))
 	{
@@ -68,14 +89,9 @@ void	handle_pipes(t_shell *shell)
 		else
 			shell->fd[1] = STDOUT_FILENO;
 		execute_command(shell, in_fd, shell->fd[1]);
-		if (in_fd != STDIN_FILENO)
-			close(in_fd);
-		if (shell->fd[1] != STDOUT_FILENO)
-			close(shell->fd[1]);
-		in_fd = shell->fd[0];
+		pids[i] = shell->pid;
+		manage_fds(shell, &in_fd);
 		free_arr(shell->parsed_cmd);
 	}
-	if (in_fd != STDIN_FILENO)
-        	close(in_fd);
-	free_arr(shell->arr_input);
+	exit_pipes(shell, i, &in_fd, pids);
 }

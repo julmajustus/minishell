@@ -6,6 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
+/*   Updated: 2024/09/17 01:00:44 by jmakkone         ###   ########.fr       */
 /*   Updated: 2024/09/16 14:32:04 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -79,7 +80,7 @@ static void	exec_child(t_shell *shell)
 	}
 }
 
-static	int check_status(pid_t pid)
+int check_status(pid_t pid)
 {
     int status;
 
@@ -102,6 +103,8 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 //	prerun_builtin(shell);
 	handle_builtin(shell, 1, 0);
 	signal(SIGINT, SIG_IGN);
+	if (check_if_wildcards(shell))
+		handle_wildcards(shell);
 	shell->pid = fork();
 	if (shell->pid == -1)
 		err("fork");
@@ -123,7 +126,6 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 			close(out_fd);
 		if (in_fd != STDIN_FILENO)
 			close(in_fd);
-		shell->retval = check_status(shell->pid);
 		signal(SIGINT, handle_ctrl_c);
 	}
 }
