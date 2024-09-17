@@ -6,27 +6,34 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:45:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 00:13:59 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:50:39 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <dirent.h>
 
-int	check_if_wildcards(t_shell *shell)
+static int	match_wildcard(const char *pattern, const char *str)
 {
-	int	i;
-	
-	i  = -1;
-	while(shell->parsed_cmd[++i])
+	const char *p;
+	const char *s;
+
+	p = pattern;
+	s = str;
+	while (*p == '*')
+		p++;
+	if (*p == '\0')
+		return (1);
+	while (*s)
 	{
-		if(ft_strchr(shell->parsed_cmd[i], '*'))
+		if (match_pattern(p, s))
 			return (1);
+		s++;
 	}
 	return (0);
 }
 
-static int	match_pattern(const char *pattern, const char *str)
+int	match_pattern(const char *pattern, const char *str)
 {
 	const char *p;
 	const char *s;
@@ -36,14 +43,7 @@ static int	match_pattern(const char *pattern, const char *str)
 	while (*p && *s)
 	{
 		if (*p == '*')
-		{
-			while (*p == '*')
-				p++;
-			if (*p == '\0')
-				return (1);
-			while (*s && !match_pattern(p, s++))
-				return (*s != '\0');
-		}
+			return match_wildcard(p, s);
 		else if (*p != *s)
 			return (0);
 		p++;
@@ -68,7 +68,7 @@ static void append_cmd_array(char *cmd, char ***new_cmd, int *new_cmd_size)
 	*new_cmd_size += 1;
 }
 
-static int read_directory(t_shell *shell, char ***new_cmd, int *i, int *new_cmd_size)
+static int append_matches(t_shell *shell, char ***new_cmd, int *i, int *new_cmd_size)
 {
 	struct dirent	*entry;
 	DIR				*dir;
@@ -107,7 +107,7 @@ void	handle_wildcards(t_shell *shell)
 	i = -1;
 	while (shell->parsed_cmd[++i])
 	{
-		if (read_directory(shell, &new_cmd, &i, &new_cmd_size))
+		if (append_matches(shell, &new_cmd, &i, &new_cmd_size))
 			;
 		else
 			append_cmd_array(shell->parsed_cmd[i], &new_cmd, &new_cmd_size);

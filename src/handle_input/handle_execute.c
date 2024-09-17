@@ -6,8 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 01:00:44 by jmakkone         ###   ########.fr       */
-/*   Updated: 2024/09/16 14:32:04 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:51:58 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +111,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 	{
 		if (shell->exit_code == 1)
 			exit (EXIT_FAILURE);
-//		validate_redirections(shell);
+		validate_redirections(shell);
 		handle_redirections(shell->redir);
 		handle_fds(in_fd, out_fd);
 		exec_child(shell);
