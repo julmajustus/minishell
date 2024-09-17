@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 09:35:31 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/17 11:53:48 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,28 @@
 
 int	check_if_pipes(t_shell *shell)
 {
-	int	i;
+	int    i;
+	int pipe_count;
+	int single_quote;
+	int double_quote;
 
-	shell->pipe_count = 0;
+	pipe_count = 0;
+	single_quote = 0;
+	double_quote = 0;
 	i = -1;
-	while (shell->input[++i] && !ft_strchr(shell->input, '\'') && !ft_strchr(shell->input, '\"'))
+	while (shell->input[++i])
 	{
 		if (shell->input[i] == '|')
-			shell->pipe_count++;
+			if (single_quote == 0 && double_quote == 0)
+				shell->pipe_count++;
+		if (shell->input[i] == '\'' && double_quote == 0 && single_quote ==  0)
+			single_quote = 1;
+		else if (shell->input[i] == '\"' && single_quote == 0 && double_quote == 0)
+			double_quote = 1;
+		else if (shell->input[i] == '\'' && single_quote == 1)
+			single_quote = 0;
+		else if (shell->input[i] == '\"' && double_quote == 1)
+			double_quote = 0;
 	}
 	return (shell->pipe_count);
 }
@@ -81,6 +95,7 @@ void	handle_pipes(t_shell *shell)
 	while (++i < arr_len(shell->arr_input))
 	{
 		shell->parsed_cmd = parse_arguments(shell, shell->arr_input[i]);
+		check_forbidden_builtin_in_pipe(shell->parsed_cmd, &shell->exit_code);
 		if (i < arr_len(shell->arr_input) - 1)
 		{
 			if (pipe(shell->fd) == -1)
