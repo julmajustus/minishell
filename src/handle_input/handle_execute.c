@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 12:02:55 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:27:22 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@ static void	prerun_builtin(t_shell *shell)
 	}
 }
 */
-static void	handle_fds(int in_fd, int out_fd)
+
+static void    handle_fds(t_shell *shell, int in_fd, int out_fd)
 {
+    if (!shell->last_cmd_in_pipe && shell->in_pipe)
+        close(shell->fd[0]);
     if (in_fd != STDIN_FILENO)
     {
         dup2(in_fd, STDIN_FILENO);
@@ -99,32 +102,34 @@ int check_status(pid_t pid)
 
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
-//	prerun_builtin(shell);
-	handle_builtin(shell, 1, 0);
-	signal(SIGINT, SIG_IGN);
-	if (check_if_wildcards(shell))
-		handle_wildcards(shell);
-	shell->pid = fork();
-	if (shell->pid == -1)
-		err("fork");
-	if (shell->pid == 0)
-	{
-		if (shell->exit_code == 1)
-			exit (EXIT_FAILURE);
-//		validate_redirections(shell);
-		handle_redirections(shell->redir);
-		handle_fds(in_fd, out_fd);
-		exec_child(shell);
-		if (shell->builtin_exit_code == 0)
-			exit (EXIT_SUCCESS);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		if (out_fd != STDOUT_FILENO)
-			close(out_fd);
-		if (in_fd != STDIN_FILENO)
-			close(in_fd);
-		signal(SIGINT, handle_ctrl_c);
-	}
+//    prerun_builtin(shell);
+    handle_builtin(shell, 1, 0);
+    signal(SIGINT, SIG_IGN);
+    if (check_if_wildcards(shell))
+        handle_wildcards(shell);
+    shell->pid = fork();
+    if (shell->pid == -1)
+        err("fork");
+    if (shell->pid == 0)
+    {
+        if (shell->exit_code == 1)
+            exit (EXIT_FAILURE);
+//        validate_redirections(shell);
+        handle_fds(shell, in_fd, out_fd);
+		handle_redirections(shell->redir, &shell->exit_code);
+		if (shell->exit_code)
+			exit (shell->exit_code);
+        exec_child(shell);
+        if (shell->builtin_exit_code == 0)
+            exit (EXIT_SUCCESS);
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        if (!shell->last_cmd_in_pipe && out_fd != STDOUT_FILENO)
+            close(out_fd);
+        if (!shell->last_cmd_in_pipe && in_fd != STDIN_FILENO)
+            close(in_fd);
+        signal(SIGINT, handle_ctrl_c);
+    }
 }

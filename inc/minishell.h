@@ -6,8 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 12:00:53 by mpellegr         ###   ########.fr       */
-/*   Updated: 2024/09/16 14:26:45 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:43:45 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +86,7 @@ typedef struct s_shell
 	int			builtin_exit_code;
 	char		*tilde;
 	int			builtin_already_executed;
+	int			last_cmd_in_pipe;
 }	t_shell;
 
 char	**copy_env(char **envp);
@@ -98,7 +98,6 @@ void	shell_loop(t_shell *shell);
 void	prompt(t_shell *shell);
 void	handle_input(t_shell *shell);
 int		check_status(pid_t pid);
-
 
 int		check_if_chained_cmds(t_shell *shell);
 void	parse_chained_cmds(t_shell *shell);
@@ -125,8 +124,9 @@ int		check_if_wildcards(t_shell *shell);
 void	handle_wildcards(t_shell *shell);
 
 void	validate_redirections(t_shell *shell);
-void	parse_redirections(t_shell *shell);
-void	handle_redirections(t_redir *redir);
+void	parse_redirections(t_shell *shell, int to_do[30]);
+void	handle_redirections(t_redir *redir, int *exit_code);
+void	init_redir(t_shell *shell);
 
 void	validate_cmd(t_shell *shell);
 char	*validate_path(t_shell *shell);
