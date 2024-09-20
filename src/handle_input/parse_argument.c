@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/16 14:21:42 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:39:45 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,5 @@ char	**parse_arguments(t_shell *shell, char *input)
 	if (ft_strchr(input, '$') && !ft_strchr(input, '\''))
 		handle_dollar_sign(*shell, &state.args);
 	hande_tilde(&state.args, *shell, &shell->exit_code);
-	if ((ft_strchr(input, '>') || ft_strchr(input, '<'))
-		&& !ft_strchr(input, '\'') && !ft_strchr(input, '\"'))
-		validate_redirections(shell);
 	return (state.args);
 }

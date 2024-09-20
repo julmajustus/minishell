@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:36:25 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/07 22:16:23 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:44:33 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ static void strip_leading(char *cmd, int cmd_len, char **new_parsed_cmd, int *j)
     new_parsed_cmd[(*j)++] = command_part;
 }
 
-static int parse_tokens(char *cmd, char **new_parsed_cmd, int *j)
+static int parse_tokens(char *cmd, char **new_parsed_cmd, int *j, int to_do[30], int *counter)
 {
     int i;
     int cmd_len;
+    int k;
 
     i = 0;
     cmd_len = 0;
@@ -31,16 +32,24 @@ static int parse_tokens(char *cmd, char **new_parsed_cmd, int *j)
     {
         if (cmd[i] == '<' || cmd[i] == '>')
         {
-            cmd_len = i;
-            i++;
-            if ((cmd[i - 1] == '<' && cmd[i] == '<') \
-				|| (cmd[i - 1] == '>' && cmd[i] == '>'))
-                i++;
-            while (cmd[i] == ' ')
-                i++;
-            if (cmd_len > 0)
-                strip_leading(cmd, cmd_len, new_parsed_cmd, j);
-            return i;
+            (*counter)++;
+            k = -1;
+            while (to_do[++k])
+            {
+                if (to_do[k] == *counter)
+                {
+                    cmd_len = i;
+                    i++;
+                    if ((cmd[i - 1] == '<' && cmd[i] == '<') \
+				        || (cmd[i - 1] == '>' && cmd[i] == '>'))
+                        i++;
+                    while (cmd[i] == ' ')
+                        i++;
+                    if (cmd_len > 0)
+                        strip_leading(cmd, cmd_len, new_parsed_cmd, j);
+                    return i;
+                }
+            }
         }
         i++;
     }
@@ -55,12 +64,13 @@ static void skip_valid(char *cmd, int token_len, char **new_parsed_cmd, int *j)
     }
 }
 
-void parse_redirections(t_shell *shell)
+void parse_redirections(t_shell *shell, int to_do[30])
 {
     char **new_parsed_cmd;
     int i;
 	int	j;
 	int	token_len;
+    int counter;
 	
 	i = 0;
 	j = 0;
@@ -69,11 +79,13 @@ void parse_redirections(t_shell *shell)
     if (!new_parsed_cmd)
         err("malloc failed");
     init_arr(new_parsed_cmd, (arr_len(shell->parsed_cmd) + 1));
+    counter = 0;
     while (shell->parsed_cmd[i])
     {
-        token_len = parse_tokens(shell->parsed_cmd[i], new_parsed_cmd, &j);
+        token_len = parse_tokens(shell->parsed_cmd[i], new_parsed_cmd, &j, to_do, &counter);
         skip_valid(shell->parsed_cmd[i], token_len, new_parsed_cmd, &j);
-        if (token_len > 0 && shell->parsed_cmd[i + 1])
+        if (token_len > 0 && shell->parsed_cmd[i + 1] && (!ft_strcmp(shell->parsed_cmd[i], ">")
+            || !ft_strcmp(shell->parsed_cmd[i], "<")))
             i++;
         i++;
     }
