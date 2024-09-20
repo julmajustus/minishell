@@ -6,8 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 12:00:53 by mpellegr         ###   ########.fr       */
-/*   Updated: 2024/09/16 14:26:45 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:22:16 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +73,7 @@ typedef struct s_shell
 	int			pipe_count;
 	int			chain_count;
 	int			in_pipe;
+	int			last_cmd_in_pipe;
 	int			is_chained_cmd;
 	int			preserving_chained_cmds;
 	int			execute_next;
@@ -122,6 +122,7 @@ char	**exec_builtin(t_shell *shell, int parent, int child);
 void	check_forbidden_builtin_in_pipe(char **cmd_arr, int *exit_code);
 
 int		check_if_wildcards(t_shell *shell);
+int		match_pattern(const char *pattern, const char *str);
 void	handle_wildcards(t_shell *shell);
 
 void	validate_redirections(t_shell *shell);
