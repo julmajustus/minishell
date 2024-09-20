@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 00:02:53 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/07 23:52:21 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:41:12 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	here_doc(char *limiter, int *fd)
 	*fd = pipe_fd[0];
 }
 
-void	handle_redirections(t_redir *redir)
+void	handle_redirections(t_redir *redir, int *exit_code)
 {
 	int fd;
 
@@ -45,7 +45,10 @@ void	handle_redirections(t_redir *redir)
 	{
 		fd = open(redir->input_file, O_RDONLY);
 		if (fd == -1)
+		{
 			err("open input file");
+			*(exit_code) = 1;
+		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}

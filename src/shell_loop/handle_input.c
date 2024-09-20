@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/20 14:32:03 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/20 22:12:06 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void handle_single_cmd(t_shell *shell)
 {
 	shell->parsed_cmd = parse_arguments(shell, shell->input);
+	validate_redirections(shell);
 	execute_command(shell, STDIN_FILENO, STDOUT_FILENO);
 	shell->retval = check_status(shell->pid);
 	free_arr(shell->parsed_cmd);

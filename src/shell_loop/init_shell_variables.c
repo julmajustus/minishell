@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/16 14:32:32 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:59:02 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	init_redir(t_shell *shell)
+void	init_redir(t_shell *shell)
 {
 	shell->redir->input_file = NULL;
 	shell->redir->output_file = NULL;
@@ -59,6 +59,7 @@ void	init_shell_variables(t_shell *shell)
 	shell->status = -1;
 	shell->retval = -1;
 	shell->builtin_exit_code = 0;
+	shell->last_cmd_in_pipe = 0;
 	init_tilde(shell);
 	init_redir(shell);
 }
