@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 00:02:53 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/20 16:41:12 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:58:34 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,46 @@ static void	here_doc(char *limiter, int *fd)
 	*fd = pipe_fd[0];
 }
 
+static int	validate_inputfile_permission(t_redir *redir, int *exit_code)
+{
+	if (redir->input_file)
+	{
+		if (access(redir->input_file, F_OK) != 0)
+		{
+			err_nofile(redir->input_file);
+			*(exit_code) = 1;
+			return (1);
+		}
+		if (access(redir->input_file, R_OK) != 0)
+		{
+			err_no_permission(redir->input_file);
+			*(exit_code) = 1;
+			return (1);
+		}
+	}
+	return (0);
+}
+
+static int	validate_outputfile_permission(t_redir *redir, int *exit_code)
+{
+	if (redir->output_file)
+	{
+		
+		if (access(redir->output_file, F_OK) == 0 && access(redir->output_file, W_OK) != 0)
+		{
+			err_no_permission(redir->output_file);
+			*(exit_code) = 1;
+			return (1);
+		}
+	}
+	return (0);
+}
+
 void	handle_redirections(t_redir *redir, int *exit_code)
 {
 	int fd;
-
+	if (validate_inputfile_permission(redir, exit_code))
+		return ;
 	if (redir->input_file && !redir->here_doc)
 	{
 		fd = open(redir->input_file, O_RDONLY);
@@ -65,7 +101,9 @@ void	handle_redirections(t_redir *redir, int *exit_code)
 		else
 			fd = open(redir->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-		if (fd == -1)
+		if (validate_outputfile_permission(redir, exit_code))
+			return ;
+		else if (fd == -1)
 			err("open output file");
 		dup2(fd, STDOUT_FILENO);
 		close(fd);

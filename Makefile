@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/16 10:13:10 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/23 01:30:50 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -24,6 +24,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/handle_chained_cmds.c \
 				  $(SRC_DIR)/handle_input/handle_subcommand.c \
 				  $(SRC_DIR)/handle_input/handle_stack.c \
+				  $(SRC_DIR)/handle_input/check_if_pipes.c \
 				  $(SRC_DIR)/handle_input/handle_pipes.c \
 				  $(SRC_DIR)/handle_input/parse_argument.c \
 				  $(SRC_DIR)/handle_input/add_argument.c \
@@ -32,6 +33,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/validate_redirections.c \
 				  $(SRC_DIR)/handle_input/parse_redirections.c \
 				  $(SRC_DIR)/handle_input/handle_redirections.c \
+				  $(SRC_DIR)/handle_input/check_if_wildcards.c \
 				  $(SRC_DIR)/handle_input/handle_wildcards.c \
 				  $(SRC_DIR)/handle_input/validate_cmd.c \
 				  $(SRC_DIR)/handle_input/validate_path.c \

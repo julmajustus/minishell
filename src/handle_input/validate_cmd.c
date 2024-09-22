@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:15:36 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/07 22:28:23 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:01:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_cmd(char *cmd)
+static	int	check_cmd(char *cmd)
 {
 	int	fd;
 

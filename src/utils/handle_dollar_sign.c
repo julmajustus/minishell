@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:16:15 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/16 16:46:39 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/23 02:39:15 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void	exit_status(t_shell shell, char **input_var, int *match_found)
 	char	*temp_str;
 
 	i = 0;
-	ret_val = ft_itoa(shell.builtin_exit_code);
+	//ret_val = ft_itoa(shell.builtin_exit_code);
+	ret_val = ft_itoa(shell.retval); //need to some how handle both builtin and external cmd returnvalues
 	temp_str = (char *)malloc(sizeof(char) * ft_strlen(*input_var));
 	while ((*input_var)[++i])
 		temp_str[i - 1] = (*input_var)[i];
