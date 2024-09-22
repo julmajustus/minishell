@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/20 22:12:06 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 02:32:09 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	handle_input(t_shell *shell)
 {
 	if (shell->input == NULL || is_empty_str(shell->input))
 		return;
+	check_if_wildcards(shell);
 	if (check_if_chained_cmds(shell))
 	{
 		parse_chained_cmds(shell);

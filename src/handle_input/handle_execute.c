@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/22 16:45:09 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 01:02:24 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 //    prerun_builtin(shell);
     handle_builtin(shell, 1, 0);
     signal(SIGINT, SIG_IGN);
-    if (check_if_wildcards(shell))
-        handle_wildcards(shell);
     shell->pid = fork();
     if (shell->pid == -1)
         err("fork");

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:45:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/17 13:50:39 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 02:31:42 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	match_pattern(const char *pattern, const char *str)
 	s = str;
 	while (*p && *s)
 	{
+		while (*p == '<' || *p == '>')
+			p++;
 		if (*p == '*')
 			return match_wildcard(p, s);
 		else if (*p != *s)
@@ -81,7 +83,9 @@ static int append_matches(t_shell *shell, char ***new_cmd, int *i, int *new_cmd_
 		err("opendir");
 		return (-1);
 	}
-	while (ft_strchr(shell->parsed_cmd[*i], '*'))
+	while (ft_strchr(shell->parsed_cmd[*i], '*') && \
+			(!ft_strchr(shell->parsed_cmd[*i], '\'') || \
+			!ft_strchr(shell->parsed_cmd[*i], '\"')))
 	{
 		entry = readdir(dir);
 		if (!entry)

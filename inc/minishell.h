@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/20 22:13:39 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 02:17:19 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	handle_builtin(t_shell *shell, int parent, int child);
 char	**exec_builtin(t_shell *shell, int parent, int child);
 void	check_forbidden_builtin_in_pipe(char **cmd_arr, int *exit_code);
 
-int		check_if_wildcards(t_shell *shell);
+void  	check_if_wildcards(t_shell *shell);
 int		match_pattern(const char *pattern, const char *str);
 void	handle_wildcards(t_shell *shell);
 
