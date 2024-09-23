@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:36:25 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 14:07:05 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:19:47 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void strip_leading(char *cmd, int cmd_len, char **new_parsed_cmd, int *j)
     new_parsed_cmd[(*j)++] = command_part;
 }
 
-static int parse_tokens(char *cmd, char **new_parsed_cmd, \
-						int *j, int to_do[30], int *counter)
+static int parse_tokens(t_shell *shell, char *cmd, char \
+								**new_parsed_cmd, int *j)
 {
     int i;
     int cmd_len;
@@ -33,11 +33,11 @@ static int parse_tokens(char *cmd, char **new_parsed_cmd, \
     {
         if (cmd[i] == '<' || cmd[i] == '>')
         {
-            (*counter)++;
+            shell->redir->token_count += 1;
             k = -1;
-            while (to_do[++k])
+            while (shell->redir->valid_tokens[++k])
             {
-                if (to_do[k] == *counter)
+                if (shell->redir->valid_tokens[k] == shell->redir->token_count)
                 {
                     cmd_len = i;
                     i++;
@@ -85,13 +85,12 @@ static int skip_tokens(t_shell *shell, int *i, int token_len)
 
 }
 
-void parse_redirections(t_shell *shell, int to_do[30])
+void parse_redirections(t_shell *shell)
 {
     char **new_parsed_cmd;
     int i;
 	int	j;
 	int	token_len;
-    int counter;
 	
 	i = 0;
 	j = 0;
@@ -100,11 +99,11 @@ void parse_redirections(t_shell *shell, int to_do[30])
     if (!new_parsed_cmd)
         err("malloc failed");
     init_arr(new_parsed_cmd, (arr_len(shell->parsed_cmd) + 1));
-    counter = 0;
+    shell->redir->token_count = 0;
     while (shell->parsed_cmd[i])
     {
-        token_len = parse_tokens(shell->parsed_cmd[i], \
-					new_parsed_cmd, &j, to_do, &counter);
+        token_len = parse_tokens(shell, shell->parsed_cmd[i], \
+					new_parsed_cmd, &j);
         skip_valid_cmd(shell->parsed_cmd[i], token_len, new_parsed_cmd, &j);
 		if (skip_tokens(shell, &i, token_len))
 			i++;
@@ -113,5 +112,6 @@ void parse_redirections(t_shell *shell, int to_do[30])
     }
     new_parsed_cmd[j] = NULL;
     free_arr(shell->parsed_cmd);
+	free(shell->redir->valid_tokens);
     shell->parsed_cmd = new_parsed_cmd;
 }

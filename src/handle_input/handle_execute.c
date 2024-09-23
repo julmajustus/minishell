@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 23:46:52 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 02:07:21 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,19 +103,9 @@ int check_status(pid_t pid)
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
 //    prerun_builtin(shell);
-//	printf("Check cmd: %s\n", shell->parsed_cmd[0]);
-//	int i = -1;
-//	if (shell->redir->output_file)
-//	{
-//		while (shell->redir->output_file[++i])
-//			printf("Check output_file[%d]: %s\n",i, shell->redir->output_file[i]);
-//	}
-//	if (shell->redir->input_file)
-//	{
-//		i = -1;
-//		while (shell->redir->input_file[++i])
-//			printf("Check input_file[%d]: %s\n",i, shell->redir->input_file[i]);
-//	}
+	int i = -1;
+	while (shell->parsed_cmd[++i])
+		printf("Check cmd: %s\n", shell->parsed_cmd[i]);
     handle_builtin(shell, 1, 0);
     signal(SIGINT, SIG_IGN);
     shell->pid = fork();

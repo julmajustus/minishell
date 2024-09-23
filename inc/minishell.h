@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 00:07:36 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:55:54 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct s_redir
 	int		here_doc_count;
 	int		append_mode;
 	int		here_doc;
+	int		*valid_tokens;
+	int		token_count;
+	int		token_counter;
 }	t_redir;
 
 typedef struct s_cmd_stack
@@ -129,7 +132,7 @@ void	handle_wildcards(t_shell *shell);
 
 void	init_redir(t_shell *shell);
 void	validate_redirections(t_shell *shell);
-void	parse_redirections(t_shell *shell, int to_do[30]);
+void	parse_redirections(t_shell *shell);
 void	handle_redirections(t_shell *shell, t_redir *redir, int *exit_code);
 void	validate_input_redir(t_shell *shell, char **parsed_cmd, \
 						  						char *cmd, int *j);
@@ -173,6 +176,7 @@ void	free_arr(char **arr);
 void	free_arr_and_null(char ***arr);
 void	free_cmd_stack(t_cmd_stack **stack);
 void	free_shell_allocations(t_shell *shell);
+int		update_quote_state(char c, int *single_quote, int *double_quote);
 
 void	init_signals();
 void    init_child_signals();
