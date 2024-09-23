@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/20 15:59:02 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/23 22:58:41 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	init_redir(t_shell *shell)
 	shell->redir->output_file = NULL;
 	shell->redir->here_doc_eof = NULL;
 	shell->redir->append_mode = 0;
+	shell->redir->input_file_count = 0;
+	shell->redir->output_file_count = 0;
+	shell->redir->here_doc_count = 0;
 	shell->redir->here_doc = 0;
 }
 

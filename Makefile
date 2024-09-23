@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/23 01:30:50 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/24 00:07:53 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -33,6 +33,8 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/validate_redirections.c \
 				  $(SRC_DIR)/handle_input/parse_redirections.c \
 				  $(SRC_DIR)/handle_input/handle_redirections.c \
+				  $(SRC_DIR)/handle_input/validate_input_redir.c \
+				  $(SRC_DIR)/handle_input/validate_output_redir.c \
 				  $(SRC_DIR)/handle_input/check_if_wildcards.c \
 				  $(SRC_DIR)/handle_input/handle_wildcards.c \
 				  $(SRC_DIR)/handle_input/validate_cmd.c \
@@ -40,6 +42,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/error_handler.c \
 				  $(SRC_DIR)/handle_input/exit_handler.c \
 				  $(SRC_DIR)/utils/arr_len.c \
+				  $(SRC_DIR)/utils/append_arr.c \
 				  $(SRC_DIR)/utils/init_arr.c \
 				  $(SRC_DIR)/utils/free_arr.c \
 				  $(SRC_DIR)/utils/free_shell_allocations.c \

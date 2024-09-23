@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 14:39:58 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 23:46:52 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,19 @@ int check_status(pid_t pid)
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
 //    prerun_builtin(shell);
-	printf("Check cmd: %s\nCheck infile: %s\nCheck outfile: %s\nCheck heredoc_eof: %s\nCheck is heredoc: %d\n", shell->parsed_cmd[0], shell->redir->input_file, shell->redir->output_file, shell->redir->here_doc_eof, shell->redir->here_doc);
+//	printf("Check cmd: %s\n", shell->parsed_cmd[0]);
+//	int i = -1;
+//	if (shell->redir->output_file)
+//	{
+//		while (shell->redir->output_file[++i])
+//			printf("Check output_file[%d]: %s\n",i, shell->redir->output_file[i]);
+//	}
+//	if (shell->redir->input_file)
+//	{
+//		i = -1;
+//		while (shell->redir->input_file[++i])
+//			printf("Check input_file[%d]: %s\n",i, shell->redir->input_file[i]);
+//	}
     handle_builtin(shell, 1, 0);
     signal(SIGINT, SIG_IGN);
     shell->pid = fork();
@@ -116,7 +128,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 //        validate_redirections(shell);
         handle_fds(shell, in_fd, out_fd);
 		handle_redirections(shell, shell->redir, &shell->exit_code);
-		printf("Check exit_code: %d\n", shell->exit_code);
+	//	printf("Check exit_code: %d\n", shell->exit_code);
 		if (shell->exit_code != -1)
 			exit (shell->exit_code);
         exec_child(shell);

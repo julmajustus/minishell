@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 00:02:53 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 14:48:15 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 23:47:24 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,37 @@ static void	here_doc(char *limiter, int *fd)
 
 static int	validate_inputfile_permission(t_redir *redir, int *exit_code)
 {
+	int	i;
+
 	if (redir->input_file && !redir->here_doc)
 	{
-		if (access(redir->input_file, F_OK) != 0)
+		i = -1;
+		while (redir->input_file[++i])
 		{
-			err_nofile(redir->input_file);
-			*(exit_code) = 1;
-			return (1);
-		}
-		if (access(redir->input_file, R_OK) != 0)
-		{
-			err_no_permission(redir->input_file);
-			*(exit_code) = 1;
-			return (1);
+			if (access(redir->input_file[i], F_OK) != 0)
+			{
+				err_nofile(redir->input_file[i]);
+				*(exit_code) = 1;
+				return (1);
+			}
+			if (access(redir->input_file[i], R_OK) != 0)
+			{
+				err_no_permission(redir->input_file[i]);
+				*(exit_code) = 1;
+				return (1);
+			}
 		}
 	}
 	return (0);
 }
 
-static int	validate_outputfile_permission(t_redir *redir, int *exit_code)
+static int	validate_outputfile_permission(char *output_file, int *exit_code)
 {
-	if (redir->output_file)
+	if (output_file)
 	{
-		
-		if (access(redir->output_file, F_OK) == 0 && access(redir->output_file, W_OK) != 0)
+		if (access(output_file, F_OK) == 0 && access(output_file, W_OK) != 0)
 		{
-			err_no_permission(redir->output_file);
+			err_no_permission(output_file);
 			*(exit_code) = 1;
 			return (1);
 		}
@@ -74,39 +79,54 @@ static int	validate_outputfile_permission(t_redir *redir, int *exit_code)
 
 void	handle_redirections(t_shell *shell, t_redir *redir, int *exit_code)
 {
+	int i;
 	int fd;
+
 	if (validate_inputfile_permission(redir, exit_code))
 		return ;
 	if (redir->input_file && !redir->here_doc)
 	{
-		fd = open(redir->input_file, O_RDONLY);
-		if (fd == -1)
+		i = -1;
+		while (redir->input_file[++i])
 		{
-			err("open input file");
-			*(exit_code) = 1;
+			fd = open(redir->input_file[i], O_RDONLY);
+			if (fd == -1)
+			{
+				err("open input file");
+				*(exit_code) = 1;
+			}
+			dup2(fd, STDIN_FILENO);
+			close(fd);
 		}
-		dup2(fd, STDIN_FILENO);
-		close(fd);
 	}
 	if (redir->here_doc)
 	{
-		here_doc(redir->here_doc_eof, &fd);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
+		i = -1;
+		while (redir->here_doc_eof[++i])
+		{
+			here_doc(redir->here_doc_eof[i], &fd);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
 	}
 	if (redir->output_file)
 	{
-		if (redir->append_mode)
-			fd = open(redir->output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			fd = open(redir->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		i = -1;
+		while (redir->output_file[++i])
+		{
+			if (redir->append_mode)
+				fd = open(redir->output_file[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			else
+				fd = open(redir->output_file[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-		if (validate_outputfile_permission(redir, exit_code))
-			return ;
-		else if (fd == -1)
-			err("open output file");
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
+			if (validate_outputfile_permission(redir->output_file[i], exit_code))
+				return ;
+			if (fd == -1)
+				err("open output file");
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+
+		}
 	}
 	if (redir->input_file || redir->output_file)
 	{
