@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 00:02:53 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 00:58:34 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:48:15 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	here_doc(char *limiter, int *fd)
 
 static int	validate_inputfile_permission(t_redir *redir, int *exit_code)
 {
-	if (redir->input_file)
+	if (redir->input_file && !redir->here_doc)
 	{
 		if (access(redir->input_file, F_OK) != 0)
 		{
@@ -72,7 +72,7 @@ static int	validate_outputfile_permission(t_redir *redir, int *exit_code)
 	return (0);
 }
 
-void	handle_redirections(t_redir *redir, int *exit_code)
+void	handle_redirections(t_shell *shell, t_redir *redir, int *exit_code)
 {
 	int fd;
 	if (validate_inputfile_permission(redir, exit_code))
@@ -107,5 +107,10 @@ void	handle_redirections(t_redir *redir, int *exit_code)
 			err("open output file");
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
+	}
+	if (redir->input_file || redir->output_file)
+	{
+		if (!shell->parsed_cmd || !*shell->parsed_cmd)
+			shell->exit_code = 0;
 	}
 }

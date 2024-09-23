@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:36:25 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/21 00:31:26 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:07:05 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int skip_tokens(t_shell *shell, int *i, int token_len)
 		*i += 1;
 		return (1);
 	}
-	else if (token_len > 0 && shell->parsed_cmd[*i + 1] && \
+	else if (token_len > 0 && shell->parsed_cmd[*i] && \
 			(!ft_strchr(shell->parsed_cmd[*i], '>') || \
 			!ft_strchr(shell->parsed_cmd[*i], '<')))
 		return (1);

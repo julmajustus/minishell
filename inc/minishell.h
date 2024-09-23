@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 02:17:19 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:32:29 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	handle_wildcards(t_shell *shell);
 
 void	validate_redirections(t_shell *shell);
 void	parse_redirections(t_shell *shell, int to_do[30]);
-void	handle_redirections(t_redir *redir, int *exit_code);
+void	handle_redirections(t_shell *shell, t_redir *redir, int *exit_code);
 void	init_redir(t_shell *shell);
 
 void	validate_cmd(t_shell *shell);
