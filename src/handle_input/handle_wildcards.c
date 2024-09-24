@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:45:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 02:31:42 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 02:44:55 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,6 @@ int	match_pattern(const char *pattern, const char *str)
 	return (*p == '\0' && *s == '\0');
 }
 
-static void append_cmd_array(char *cmd, char ***new_cmd, int *new_cmd_size)
-{
-	*new_cmd = ft_realloc(*new_cmd, \
-					  sizeof(char *) * *new_cmd_size, \
-					  sizeof(char *) * (*new_cmd_size + 2));
-	if (!*new_cmd)
-	{
-		err("realloc failed!");
-		return ;
-	}
-	(*new_cmd)[*new_cmd_size] = ft_strdup(cmd);
-	*new_cmd_size += 1;
-}
-
 static int append_matches(t_shell *shell, char ***new_cmd, int *i, int *new_cmd_size)
 {
 	struct dirent	*entry;
@@ -92,7 +78,7 @@ static int append_matches(t_shell *shell, char ***new_cmd, int *i, int *new_cmd_
 			break ;
 		if (match_pattern(shell->parsed_cmd[*i], entry->d_name))
 		{
-			append_cmd_array(entry->d_name, new_cmd, new_cmd_size);
+			append_array(entry->d_name, new_cmd, new_cmd_size);
 			match_count++;
 		}
 	}
@@ -114,7 +100,7 @@ void	handle_wildcards(t_shell *shell)
 		if (append_matches(shell, &new_cmd, &i, &new_cmd_size))
 			;
 		else
-			append_cmd_array(shell->parsed_cmd[i], &new_cmd, &new_cmd_size);
+			append_array(shell->parsed_cmd[i], &new_cmd, &new_cmd_size);
 	}
 	new_cmd = ft_realloc(new_cmd, \
 					  sizeof(char *) * new_cmd_size, \

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 02:17:19 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:55:54 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,17 @@ typedef struct s_parse_state
 
 typedef struct s_redir
 {
-	char	*input_file;
-	char	*output_file;
-	char	*here_doc_eof;
+	char	**input_file;
+	char	**output_file;
+	char	**here_doc_eof;
+	int		input_file_count;
+	int		output_file_count;
+	int		here_doc_count;
 	int		append_mode;
 	int		here_doc;
+	int		*valid_tokens;
+	int		token_count;
+	int		token_counter;
 }	t_redir;
 
 typedef struct s_cmd_stack
@@ -124,10 +130,14 @@ void  	check_if_wildcards(t_shell *shell);
 int		match_pattern(const char *pattern, const char *str);
 void	handle_wildcards(t_shell *shell);
 
-void	validate_redirections(t_shell *shell);
-void	parse_redirections(t_shell *shell, int to_do[30]);
-void	handle_redirections(t_redir *redir, int *exit_code);
 void	init_redir(t_shell *shell);
+void	validate_redirections(t_shell *shell);
+void	parse_redirections(t_shell *shell);
+void	handle_redirections(t_shell *shell, t_redir *redir, int *exit_code);
+void	validate_input_redir(t_shell *shell, char **parsed_cmd, \
+						  						char *cmd, int *j);
+void	validate_output_redir(t_shell *shell, char **parsed_cmd, \
+												char *cmd, int *j);
 
 void	validate_cmd(t_shell *shell);
 char	*validate_path(t_shell *shell);
@@ -158,13 +168,15 @@ void	exit_no_permission(t_shell *shell);
 void	exit_no_file(t_shell *shell);
 void	exit_syntax_error(t_shell *shell, char *syntax);
 
-int	arr_len(char **arr);
+int		arr_len(char **arr);
+void 	append_array(char *content, char ***new_arr, int *new_arr_size);
 void	init_arr(char **arr, int arr_len);
 int	is_empty_str(char *str);
 void	free_arr(char **arr);
 void	free_arr_and_null(char ***arr);
 void	free_cmd_stack(t_cmd_stack **stack);
 void	free_shell_allocations(t_shell *shell);
+int		update_quote_state(char c, int *single_quote, int *double_quote);
 
 void	init_signals();
 void    init_child_signals();

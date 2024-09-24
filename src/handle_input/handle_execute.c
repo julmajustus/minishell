@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 01:02:24 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 03:42:13 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
             exit (EXIT_FAILURE);
 //        validate_redirections(shell);
         handle_fds(shell, in_fd, out_fd);
-		handle_redirections(shell->redir, &shell->exit_code);
-		if (shell->exit_code)
+		handle_redirections(shell, shell->redir, &shell->exit_code);
+		if (shell->exit_code != -1)
 			exit (shell->exit_code);
         exec_child(shell);
         if (shell->builtin_exit_code == 0)

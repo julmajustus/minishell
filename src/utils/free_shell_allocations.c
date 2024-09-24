@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 14:37:12 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 21:41:24 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static void clean_child_redir_allocations(t_shell *shell)
 {
 	if (shell->redir->input_file)
-		free(shell->redir->input_file);
+		free_arr_and_null(&shell->redir->input_file);
 	if (shell->redir->output_file)
-		free(shell->redir->output_file);
+		free_arr_and_null(&shell->redir->output_file);
 	if (shell->redir->here_doc_eof)
-		free(shell->redir->here_doc_eof);
+		free_arr_and_null(&shell->redir->here_doc_eof);
 }
 
 static void	clean_child_chained_cmds(t_shell *shell)
