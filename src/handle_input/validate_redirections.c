@@ -6,137 +6,91 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:44:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/19 14:04:06 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:54:59 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_if_redir(t_shell *shell, int (*to_do)[30], int (*to_skip)[30])
+static void	append_valid_token_arr(t_shell *shell, int *n)
 {
-	int    i;
+	shell->redir->valid_tokens = ft_realloc(shell->redir->valid_tokens, \
+							 sizeof(int) * shell->redir->token_count, \
+							 sizeof(int) * (shell->redir->token_count + 1));
+	if (!shell->redir->valid_tokens)
+		err("Realloc failed");
+	shell->redir->valid_tokens[shell->redir->token_count] = *n;
+	shell->redir->token_count++;
+}
+
+int check_if_redir(t_shell *shell)
+{
+	int i;
 	int single_quote;
 	int double_quote;
-	int	do_count;
-	int	skip_count;
-	int	n;
+	int n;
 
 	single_quote = 0;
 	double_quote = 0;
-	do_count = 0;
-	skip_count = 0;
 	n = 0;
 	i = -1;
 	while (shell->input[++i])
 	{
+		update_quote_state(shell->input[i], &single_quote, &double_quote);
 		if (shell->input[i] == '>' || shell->input[i] == '<')
 		{
 			n++;
 			if (single_quote == 0 && double_quote == 0)
-				(*to_do)[do_count++] = n;
-			else
-				(*to_skip)[skip_count++] = n;
+				append_valid_token_arr(shell, &n);
 		}
-		if (shell->input[i] == '\'' && double_quote == 0 && single_quote ==  0)
-			single_quote = 1;
-		else if (shell->input[i] == '\"' && single_quote == 0 && double_quote == 0)
-			double_quote = 1;
-		else if (shell->input[i] == '\'' && single_quote == 1)
-			single_quote = 0;
-		else if (shell->input[i] == '\"' && double_quote == 1)
-			double_quote = 0;
 	}
-	if (to_do[0])
-		return (1);
-	return (0);
+	return (shell->redir->token_count);
 }
 
-static void	validate_input_redir(t_shell *shell, char **parsed_cmd, char *cmd)
+static void	validate_redirection_token(t_shell *shell, int *i, char *token, int *token_idx)
 {
-	if (*(cmd + 1) == '<')
-	{
-		if (*(cmd + 2) == '<')
-			exit_syntax_error(shell, "<<");
-		shell->redir->here_doc = 1;
-		if (*(cmd + 2) != '\0')
-			shell->redir->here_doc_eof = ft_strdup(cmd + 2);
-		else if (*(parsed_cmd + 1))
-			shell->redir->here_doc_eof = ft_strdup(*(parsed_cmd + 1));
-	}
-	else
-	{
-		if (*(cmd + 1) != '\0')
-			shell->redir->input_file = ft_strdup(cmd + 1);
-		else if (*parsed_cmd + 1)
-			shell->redir->input_file = ft_strdup(*(parsed_cmd + 1));
-	}
-}
+	int	k;
 
-static void	validate_output_redir(t_shell *shell, char **parsed_cmd, char *cmd)
-{
-	if (*(cmd + 1) == '>')
+	k = -1;
+	while (++k < shell->redir->token_count)
 	{
-		if (*(cmd + 2) == '>')
-			exit_syntax_error(shell, ">>");
-		shell->redir->append_mode = 1;
-		if (*(cmd + 2) != '\0')
-			shell->redir->output_file = ft_strdup(cmd + 2);
-		else if (*(parsed_cmd + 1))
-			shell->redir->output_file = ft_strdup(*(parsed_cmd + 1));
-	}
-	else if (!shell->redir->append_mode)
-	{
-		shell->redir->append_mode = 0;
-		if (*(cmd + 1) != '\0')
-			shell->redir->output_file = ft_strdup(cmd + 1);
-		else if (*(parsed_cmd + 1))
-			shell->redir->output_file = ft_strdup(*(parsed_cmd + 1));
-	}
-}
-
-
-void validate_redirections(t_shell *shell)
-{	
-	char *cmd;
-	int i;
-	int j;
-	int	to_do[30];
-	int	to_skip[30];
-	int counter;
-	int	a;
-
-	counter = 0;
-	ft_bzero(to_do, sizeof(to_do));
-	if (check_if_redir(shell, &to_do, &to_skip))
-	{
-		i = 0;
-		while (shell->parsed_cmd[i])
+		if (shell->redir->token_counter == shell->redir->valid_tokens[k])
 		{
-			cmd = shell->parsed_cmd[i];
-			j = 0;
-			while (cmd[j])
-			{
-				if (cmd[j] == '<')
-				{
-					counter++;
-					a = -1;
-					while (to_do[++a])
-						if (counter == to_do[a])
-							validate_input_redir(shell, &shell->parsed_cmd[i], &cmd[j]);
-				}
-				else if (cmd[j] == '>')
-				{
-					counter++;
-					a = -1;
-					while (to_do[++a])
-						if (counter == to_do[a])
-							validate_output_redir(shell, &shell->parsed_cmd[i], &cmd[j]);
-				}
-				j++;
-			}
-			i++;
+			if (*token == '<')
+				validate_input_redir(shell, &shell->parsed_cmd[*i], token, token_idx);
+			else if (*token == '>')
+				validate_output_redir(shell, &shell->parsed_cmd[*i], token, token_idx);
 		}
+	}
+}
+
+static void	parse_input_str(t_shell *shell, int *i)
+{
+	char	*cmd;
+	int		j;
+
+	cmd = shell->parsed_cmd[*i];
+	j = -1;
+	while (cmd[++j])
+	{
+		if (cmd[j] == '<' || cmd[j] == '>')
+		{
+			shell->redir->token_counter += 1;
+			validate_redirection_token(shell, i, &cmd[j], &j);
+		}
+	}
+}
+
+void	validate_redirections(t_shell *shell)
+{	
+	int	i;
+
+	if (check_if_redir(shell))
+	{
+		i = -1;
+		while (shell->parsed_cmd[++i])
+			parse_input_str(shell, &i);
 		if (shell->redir->input_file || shell->redir->output_file)
-			parse_redirections(shell, to_do);
+			parse_redirections(shell);
 	}
 }
