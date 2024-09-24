@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:16:15 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/23 17:07:44 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:23:19 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	env_var(char **envp, char **input_var, int *match_found)
 		}
 	}
 	*input_var = ft_strjoin(temp_var, *input_var);
+	free(temp_var);
 }
 
 static void	exit_status(t_shell shell, char **input_var, int *match_found)
@@ -72,27 +73,36 @@ static void	exit_status(t_shell shell, char **input_var, int *match_found)
 	*match_found = 1;
 }
 
-static void	check_match(char **input_var, char **arr, int match_found, int space)
+static void	check_match(char **input_var, char **arr, int match_found, int space, int n)
 {
-	int	i;
+	int		i;
 
-/*	if (!match_found)
+	if (!match_found && !ft_strcmp((input_var[n]), arr[0]) && space)
 	{
-		free(*input_var);
-		*input_var = (char *)malloc(sizeof(char) * 1);
-		*(input_var)[0] = '\0';
-	}*/
+		i = -1;
+		int k = -1;
+		while (input_var[++i])
+		{
+			if (ft_strcmp(input_var[i], input_var[n]))
+				i++;
+			input_var[++k] = ft_strdup(input_var[i]);
+		}
+		input_var[++k] = NULL;
+		/*free(input_var[n]);
+		input_var[n] = (char *)malloc(sizeof(char) * 1);
+		input_var[n][0] = '\0';*/
+	}
 	if (match_found)
 	{
 		i = 0;
-		free(*input_var);
-		*input_var = NULL;
-		*input_var = ft_strdup(arr[i]);
+		free(input_var[n]);
+		input_var[n] = NULL;
+		input_var[n] = ft_strdup(arr[i]);
 		while (arr[++i])
 		{
 			if (space)
-				*input_var = ft_strjoin(*input_var, " ");
-			*input_var = ft_strjoin(*input_var, arr[i]);
+				input_var[n] = ft_strjoin(input_var[n], " ");
+			input_var[n] = ft_strjoin(input_var[n], arr[i]);
 		}
 	}
 }
@@ -125,10 +135,13 @@ void	handle_dollar_sign(t_shell shell, char ***args)
 					else if(ft_isalpha(arr[i][0]) || arr[i][0] == '_')
 						env_var(shell.envp, &arr[i], &match_found);
 				}
-				check_match(&arr_1[j], arr, match_found, 0);
-				free_arr(arr);
+				if (arr[0])
+				{
+					check_match(arr_1, arr, match_found, 0, j);
+					free_arr(arr);
+				}
 			}
-			check_match(&((*args)[n]), arr_1, match_found, 1);
+			check_match((*args), arr_1, match_found, 1, n);
 			free_arr(arr_1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:34:38 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 19:50:55 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 09:18:13 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	shell_loop(t_shell *shell)
 		shell->is_builtin = 0;
 		shell->is_chained_cmd = 0;
 		shell->preserving_chained_cmds = 0;
-		shell->exit_code = -1;
+		shell->exit_code = 0;
 		shell->pipe_count = 0;
 		shell->fd[0] = STDIN_FILENO;
 		shell->fd[1] = STDOUT_FILENO;
