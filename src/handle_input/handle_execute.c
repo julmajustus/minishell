@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 01:02:24 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 08:49:48 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static void	exec_child(t_shell *shell)
 	{
 		handle_builtin(shell, 0, 1);
 		free_shell_allocations(shell);
-		if (!shell->builtin_exit_code)
+		if (!shell->exit_code)
 			exit (EXIT_SUCCESS);
 		else
-			exit (shell->builtin_exit_code);
+			exit (shell->exit_code);
 	}
 	else
 	{
@@ -118,7 +118,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 		if (shell->exit_code)
 			exit (shell->exit_code);
         exec_child(shell);
-        if (shell->builtin_exit_code == 0)
+        if (shell->exit_code == 0)
             exit (EXIT_SUCCESS);
         exit(EXIT_FAILURE);
     }

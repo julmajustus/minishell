@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 14:37:12 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:22:55 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	free_shell_allocations(t_shell *shell)
 		free_arr(shell->arr_input);
 	if (shell->input)
 		free(shell->input);
+	if (shell->prompt)
+		free(shell->prompt);
 	clean_child_redir_allocations(shell);
 	clean_child_chained_cmds(shell);
 }
