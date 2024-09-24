@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 23:49:43 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 03:45:40 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void exit_pipes(t_shell *shell, int i, pid_t *pids)
     while (++j < i)
         shell->retval = check_status(pids[j]);
     free(pids);
-    free_arr(shell->arr_input);
+    free_arr_and_null(&shell->arr_input);
 }
 
 void    handle_pipes(t_shell *shell)

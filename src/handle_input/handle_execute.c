@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 02:07:21 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 03:42:13 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,6 @@ int check_status(pid_t pid)
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
 //    prerun_builtin(shell);
-	int i = -1;
-	while (shell->parsed_cmd[++i])
-		printf("Check cmd: %s\n", shell->parsed_cmd[i]);
     handle_builtin(shell, 1, 0);
     signal(SIGINT, SIG_IGN);
     shell->pid = fork();
@@ -118,7 +115,6 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 //        validate_redirections(shell);
         handle_fds(shell, in_fd, out_fd);
 		handle_redirections(shell, shell->redir, &shell->exit_code);
-	//	printf("Check exit_code: %d\n", shell->exit_code);
 		if (shell->exit_code != -1)
 			exit (shell->exit_code);
         exec_child(shell);
