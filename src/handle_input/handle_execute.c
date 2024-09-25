@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 18:31:56 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:40:40 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static void	exec_child(t_shell *shell)
 	{
 		handle_builtin(shell, 0, 1);
 		free_shell_allocations(shell);
-		if (!shell->builtin_exit_code)
+		if (!shell->exit_code)
 			exit (EXIT_SUCCESS);
 		else
-			exit (shell->builtin_exit_code);
+			exit (shell->exit_code);
 	}
 	else
 	{
@@ -83,8 +83,8 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
         err("fork");
     if (shell->pid == 0)
     {
-        if (shell->exit_code == 1)
-            exit (EXIT_FAILURE);
+		if (shell->exit_code != 0)
+			exit (shell->exit_code);
 		if (shell->in_pipe)
 			handle_here_doc(shell);
         handle_fds(shell, in_fd, out_fd);
@@ -92,7 +92,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
 		if (shell->exit_code != 0)
 			exit (shell->exit_code);
         exec_child(shell);
-        if (shell->builtin_exit_code == 0)
+        if (shell->exit_code == 0)
             exit (EXIT_SUCCESS);
         exit(EXIT_FAILURE);
     }
