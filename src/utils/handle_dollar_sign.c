@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:16:15 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/24 12:23:19 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:27:38 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,10 @@ static void	check_match(char **input_var, char **arr, int match_found, int space
 {
 	int		i;
 
-	if (!match_found && !ft_strcmp((input_var[n]), arr[0]) && space)
+	if (!match_found && !ft_strcmp((input_var[n]), arr[0]) && arr[0][0] == '$')
 	{
-		i = -1;
-		int k = -1;
-		while (input_var[++i])
-		{
-			if (ft_strcmp(input_var[i], input_var[n]))
-				i++;
-			input_var[++k] = ft_strdup(input_var[i]);
-		}
-		input_var[++k] = NULL;
-		/*free(input_var[n]);
-		input_var[n] = (char *)malloc(sizeof(char) * 1);
-		input_var[n][0] = '\0';*/
+		free(input_var[n]);
+		input_var[n] = ft_strdup("");
 	}
 	if (match_found)
 	{
@@ -106,6 +96,32 @@ static void	check_match(char **input_var, char **arr, int match_found, int space
 		}
 	}
 }
+
+void remove_empty_args(char ***args)
+{
+    int i;
+	int j;
+	int count;
+    char **new_args;
+
+	i = -1;
+	count = 0;
+    while ((*args)[++i])
+        if (ft_strlen((*args)[i]) > 0)
+            count++;
+    new_args = (char **)malloc(sizeof(char *) * (count + 1));
+    if (!new_args)
+        return;
+    i = -1;
+	j = -1;
+    while ((*args)[++i])
+        if (ft_strlen((*args)[i]) > 0)
+            new_args[++j] = ft_strdup((*args)[i]);
+    new_args[++j] = NULL;
+    free_arr(*args);
+    *args = new_args;
+}
+
 
 void	handle_dollar_sign(t_shell shell, char ***args)
 {
@@ -125,24 +141,23 @@ void	handle_dollar_sign(t_shell shell, char ***args)
 			j = -1;
 			while (arr_1[++j])
 			{
-				match_found = 0;
 				arr = ft_split(arr_1[j], '$');
 				i = -1;
 				while (arr[++i])
 				{
+					match_found = 0;
 					if (arr[i][0] == '?')
 						exit_status(shell, &arr[i], &match_found);
 					else if(ft_isalpha(arr[i][0]) || arr[i][0] == '_')
 						env_var(shell.envp, &arr[i], &match_found);
 				}
-				if (arr[0])
-				{
+				if (arr[0] && ft_strlen(arr[0]) > 0)
 					check_match(arr_1, arr, match_found, 0, j);
-					free_arr(arr);
-				}
+				free_arr(arr);
 			}
 			check_match((*args), arr_1, match_found, 1, n);
 			free_arr(arr_1);
 		}
 	}
+	remove_empty_args(args);
 }

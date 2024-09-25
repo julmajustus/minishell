@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:15:36 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 00:01:23 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:22:07 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ static	int	check_cmd(char *cmd)
 
 	if (is_empty_str(cmd))
 		return (1);
-	fd = open(cmd, O_DIRECTORY);
-	if (fd != -1)
+	if (ft_strchr(cmd, '/') != NULL)
 	{
-		close(fd);
-		return (2);
+		fd = open(cmd, O_DIRECTORY);
+		if (fd != -1)
+		{
+			close(fd);
+			return (2);
+		}
 	}
 	return (0);
 }
