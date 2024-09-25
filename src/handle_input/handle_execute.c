@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 00:04:01 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 01:53:24 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	exec_child(t_shell *shell)
 		exit (EXIT_SUCCESS);
 	}
 }
+
 static void handle_child_process(t_shell *shell, int in_fd, int out_fd)
 {
 	if (shell->exit_code != 0)
