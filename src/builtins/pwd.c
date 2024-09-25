@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 10:06:00 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/08/30 15:51:01 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:53:32 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*
@@ -50,6 +50,7 @@ void	ft_pwd(char **envp)
 	pwd = (char *)malloc(sizeof(char) * (pwd_len + 1));
 	getcwd(pwd, (pwd_len + 1));
 	printf("%s\n", pwd);
+	free(pwd);
 }
 /*
 int main(int ac, char **av, char **envp)

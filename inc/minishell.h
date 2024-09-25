@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 18:37:20 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 23:40:59 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_redir
 	int		*valid_tokens;
 	int		token_count;
 	int		token_counter;
+	int		output_file_first;
 }	t_redir;
 
 typedef struct s_cmd_stack
@@ -137,7 +138,7 @@ void	validate_redirections(t_shell *shell);
 void	parse_redirections(t_shell *shell);
 int 	check_if_redir_token(t_shell *shell, char *cmd, char \
 								**new_parsed_cmd, int *j);
-void	handle_redirections(t_shell *shell, int *exit_code);
+void	handle_redirections(t_shell *shell);
 void	handle_here_doc(t_shell *shell);
 void	validate_input_redir(t_shell *shell, char **parsed_cmd, \
 		char *cmd, int *j);
