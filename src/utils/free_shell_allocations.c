@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 21:41:24 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:15:42 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void clean_child_redir_allocations(t_shell *shell)
+static void	clean_child_redir_allocations(t_shell *shell)
 {
 	if (shell->redir->input_file)
 		free_arr_and_null(&shell->redir->input_file);

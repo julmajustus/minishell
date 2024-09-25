@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 00:02:16 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/06 00:02:27 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:32:58 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_arr(char **arr, int arr_len)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < arr_len)

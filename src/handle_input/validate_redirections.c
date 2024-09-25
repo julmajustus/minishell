@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:44:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 01:54:59 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:05:47 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void	validate_redirections(t_shell *shell)
 		i = -1;
 		while (shell->parsed_cmd[++i])
 			parse_input_str(shell, &i);
-		if (shell->redir->input_file || shell->redir->output_file)
+		if (shell->redir->input_file || shell->redir->output_file || \
+			shell->redir->here_doc_eof)
 			parse_redirections(shell);
 	}
 }

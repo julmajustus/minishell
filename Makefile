@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/24 01:56:21 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/25 18:26:06 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -32,6 +32,8 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/handle_execute.c \
 				  $(SRC_DIR)/handle_input/validate_redirections.c \
 				  $(SRC_DIR)/handle_input/parse_redirections.c \
+				  $(SRC_DIR)/handle_input/check_if_redir_token.c \
+				  $(SRC_DIR)/handle_input/handle_here_doc.c \
 				  $(SRC_DIR)/handle_input/handle_redirections.c \
 				  $(SRC_DIR)/handle_input/validate_input_redir.c \
 				  $(SRC_DIR)/handle_input/validate_output_redir.c \

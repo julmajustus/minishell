@@ -6,20 +6,20 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 01:55:54 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:13:10 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
-#include "../libft/libft.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/wait.h>
+# define MINISHELL_H
+# include "../libft/libft.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <string.h>
@@ -62,8 +62,8 @@ typedef struct s_redir
 
 typedef struct s_cmd_stack
 {
-    char				*cmd;
-    struct s_cmd_stack	*next;
+	char				*cmd;
+	struct s_cmd_stack	*next;
 }	t_cmd_stack;
 
 typedef struct s_shell
@@ -72,7 +72,7 @@ typedef struct s_shell
 	char		*input;
 	char		**chained_cmds;
 	char		**tmp_chained_cmds;
-	t_cmd_stack *cmd_stack;
+	t_cmd_stack	*cmd_stack;
 	char		**arr_input;
 	char		**parsed_cmd;
 	char		*path;
@@ -87,7 +87,7 @@ typedef struct s_shell
 	pid_t		pid;
 	int			status;
 	int			retval;
-	t_redir 	*redir;
+	t_redir		*redir;
 	int			exit_code;
 	int			builtin_exit_code;
 	char		*tilde;
@@ -126,18 +126,21 @@ void	handle_builtin(t_shell *shell, int parent, int child);
 char	**exec_builtin(t_shell *shell, int parent, int child);
 void	check_forbidden_builtin_in_pipe(char **cmd_arr, int *exit_code);
 
-void  	check_if_wildcards(t_shell *shell);
+void	check_if_wildcards(t_shell *shell);
 int		match_pattern(const char *pattern, const char *str);
 void	handle_wildcards(t_shell *shell);
 
 void	init_redir(t_shell *shell);
 void	validate_redirections(t_shell *shell);
 void	parse_redirections(t_shell *shell);
-void	handle_redirections(t_shell *shell, t_redir *redir, int *exit_code);
+int 	check_if_redir_token(t_shell *shell, char *cmd, char \
+								**new_parsed_cmd, int *j);
+void	handle_redirections(t_shell *shell, int *exit_code);
+void	handle_here_doc(t_shell *shell);
 void	validate_input_redir(t_shell *shell, char **parsed_cmd, \
-						  						char *cmd, int *j);
+		char *cmd, int *j);
 void	validate_output_redir(t_shell *shell, char **parsed_cmd, \
-												char *cmd, int *j);
+		char *cmd, int *j);
 
 void	validate_cmd(t_shell *shell);
 char	*validate_path(t_shell *shell);
@@ -151,7 +154,8 @@ char	**ft_unset(char **envp, char *str);
 char	**ft_export(char **envp, char *str, int *exit_code);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);
-char	**ft_cd(char **envp, char *path, int *exit_code, int *already_executed, char **cmd_arr);
+char	**ft_cd(char **envp, char *path, int *exit_code, \
+		int *already_executed, char **cmd_arr);
 
 void	handle_dollar_sign(t_shell shell, char ***args);
 void	hande_tilde(char ***args, t_shell shell, int *exit_code);
@@ -169,17 +173,17 @@ void	exit_no_file(t_shell *shell);
 void	exit_syntax_error(t_shell *shell, char *syntax);
 
 int		arr_len(char **arr);
-void 	append_array(char *content, char ***new_arr, int *new_arr_size);
+void	append_array(char *content, char ***new_arr, int *new_arr_size);
 void	init_arr(char **arr, int arr_len);
-int	is_empty_str(char *str);
+int		is_empty_str(char *str);
 void	free_arr(char **arr);
 void	free_arr_and_null(char ***arr);
 void	free_cmd_stack(t_cmd_stack **stack);
 void	free_shell_allocations(t_shell *shell);
 int		update_quote_state(char c, int *single_quote, int *double_quote);
 
-void	init_signals();
-void    init_child_signals();
-void    handle_ctrl_c(int sig);
+void	init_signals(void);
+void	init_child_signals(void);
+void	handle_ctrl_c(int sig);
 
 #endif
