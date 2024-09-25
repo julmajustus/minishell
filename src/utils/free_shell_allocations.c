@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 00:49:59 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 02:44:39 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	clean_child_redir_allocations(t_shell *shell)
+void	clean_redir_allocations(t_shell *shell)
 {
 	if (shell->redir->input_file)
 		free_arr_and_null(&shell->redir->input_file);
@@ -20,11 +20,14 @@ static void	clean_child_redir_allocations(t_shell *shell)
 		free_arr_and_null(&shell->redir->output_file);
 	if (shell->redir->here_doc_eof)
 		free_arr_and_null(&shell->redir->here_doc_eof);
+	if (shell->redir->valid_tokens)
+		free(shell->redir->valid_tokens);
+	shell->redir->valid_tokens = NULL;
 }
 
 static void	clean_child_chained_cmds(t_shell *shell)
 {
-	if (shell->is_builtin && shell->is_chained_cmd)
+	if (shell->is_chained_cmd)
 	{
 		if (shell->preserving_chained_cmds)
 			free_cmd_stack(&shell->cmd_stack);
@@ -46,6 +49,9 @@ void	free_shell_allocations(t_shell *shell)
 		free(shell->input);
 	if (shell->tilde)
 		free(shell->tilde);
-	clean_child_redir_allocations(shell);
+	if (shell->pids)
+		free(shell->pids);
+	shell->pids = NULL;
+	clean_redir_allocations(shell);
 	clean_child_chained_cmds(shell);
 }

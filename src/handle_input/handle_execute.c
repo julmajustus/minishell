@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 00:04:01 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 01:58:02 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	exec_child(t_shell *shell)
 		exit (EXIT_SUCCESS);
 	}
 }
+
 static void handle_child_process(t_shell *shell, int in_fd, int out_fd)
 {
 	if (shell->exit_code != 0)
@@ -103,7 +104,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
     else
     {
 		if (shell->in_pipe && shell->redir->here_doc)
-			waitpid(shell->pid, NULL, 0);
+			check_status(shell->pid);
         if (!shell->last_cmd_in_pipe && out_fd != STDOUT_FILENO)
             close(out_fd);
         if (!shell->last_cmd_in_pipe && in_fd != STDIN_FILENO)
