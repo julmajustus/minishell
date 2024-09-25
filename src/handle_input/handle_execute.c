@@ -6,11 +6,29 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 18:40:40 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:04:01 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int check_status(pid_t pid)
+{
+    int status;
+
+    waitpid(pid, &status, 0);
+    if (WIFSIGNALED(status))
+    {
+		if (WTERMSIG(status) == SIGQUIT)
+			write (2, "Quit (core dumped)\n", 19);
+		if (WTERMSIG(status) == SIGINT)
+			write (2, "\n", 1);
+		return 128 + WTERMSIG(status);
+    }
+    if (WIFEXITED(status))
+        return WEXITSTATUS(status);
+    return -1;
+}
 
 static void    handle_fds(t_shell *shell, int in_fd, int out_fd)
 {
@@ -55,23 +73,20 @@ static void	exec_child(t_shell *shell)
 		exit (EXIT_SUCCESS);
 	}
 }
-
-int check_status(pid_t pid)
+static void handle_child_process(t_shell *shell, int in_fd, int out_fd)
 {
-    int status;
-
-    waitpid(pid, &status, 0);
-    if (WIFSIGNALED(status))
-    {
-		if (WTERMSIG(status) == SIGQUIT)
-			write (2, "Quit (core dumped)\n", 19);
-		if (WTERMSIG(status) == SIGINT)
-			write (2, "\n", 1);
-		return 128 + WTERMSIG(status);
-    }
-    if (WIFEXITED(status))
-        return WEXITSTATUS(status);
-    return -1;
+	if (shell->exit_code != 0)
+		exit (shell->exit_code);
+	if (shell->in_pipe)
+		handle_here_doc(shell);
+	handle_fds(shell, in_fd, out_fd);
+	handle_redirections(shell);
+	if (shell->exit_code != 0)
+		exit (shell->exit_code);
+	exec_child(shell);
+	if (shell->exit_code == 0)
+		exit (EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }
 
 void execute_command(t_shell *shell, int in_fd, int out_fd)
@@ -83,18 +98,7 @@ void execute_command(t_shell *shell, int in_fd, int out_fd)
         err("fork");
     if (shell->pid == 0)
     {
-		if (shell->exit_code != 0)
-			exit (shell->exit_code);
-		if (shell->in_pipe)
-			handle_here_doc(shell);
-        handle_fds(shell, in_fd, out_fd);
-		handle_redirections(shell, &shell->exit_code);
-		if (shell->exit_code != 0)
-			exit (shell->exit_code);
-        exec_child(shell);
-        if (shell->exit_code == 0)
-            exit (EXIT_SUCCESS);
-        exit(EXIT_FAILURE);
+		handle_child_process(shell, in_fd, out_fd);
     }
     else
     {
