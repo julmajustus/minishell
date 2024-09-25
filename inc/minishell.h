@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 01:55:54 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 09:10:01 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_parse_state
 	size_t	argc;
 	size_t	arg_size;
 	t_state	state;
+	int		dollar_sign;
 }	t_parse_state;
 
 typedef struct s_redir
@@ -89,10 +90,11 @@ typedef struct s_shell
 	int			retval;
 	t_redir 	*redir;
 	int			exit_code;
-	int			builtin_exit_code;
+//	int			builtin_exit_code;
 	char		*tilde;
 	int			builtin_already_executed;
 	int			last_cmd_in_pipe;
+	char		*prompt;
 }	t_shell;
 
 char	**copy_env(char **envp);

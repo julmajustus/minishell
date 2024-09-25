@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:57:58 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/16 13:59:22 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/24 08:58:14 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,20 @@ static char	*create_prompt(t_shell shell)
 
 void	prompt(t_shell *shell)
 {
-	char	*prompt;
+// 	char	*prompt;
 
-	prompt = create_prompt(*shell);
-	shell->input = readline(prompt);
-	free(prompt);
+	shell->prompt = create_prompt(*shell);
+	shell->input = readline(shell->prompt);
+/*	if (isatty(fileno(stdin)))
+		shell->input = readline(shell->prompt);
+	else
+	{
+		char *line;
+		line = get_next_line(fileno(stdin));
+		shell->input = ft_strtrim(line, "\n");
+		free(line);
+	}*/
+//	free(shell->prompt);
 	if (shell->input != NULL && !is_empty_str(shell->input))
 	{
 		add_history(shell->input);
