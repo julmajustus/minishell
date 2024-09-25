@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 23:40:59 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 02:41:46 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_shell
 	int			is_builtin;
 	int			fd[2];
 	pid_t		pid;
+	pid_t		*pids;
 	int			status;
 	int			retval;
 	t_redir		*redir;
@@ -183,6 +184,7 @@ void	free_arr(char **arr);
 void	free_arr_and_null(char ***arr);
 void	free_cmd_stack(t_cmd_stack **stack);
 void	free_shell_allocations(t_shell *shell);
+void	clean_redir_allocations(t_shell *shell);
 int		update_quote_state(char c, int *single_quote, int *double_quote);
 
 void	init_signals(void);

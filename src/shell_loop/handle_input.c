@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 18:42:25 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 02:37:04 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,7 @@ static void	clean_allocations(t_shell *shell)
 	if (shell->input)
 		free(shell->input);
 	shell->input = NULL;
-	if (shell->redir->input_file)
-		free_arr_and_null(&shell->redir->input_file);
-	if (shell->redir->output_file)
-		free_arr_and_null(&shell->redir->output_file);
-	if (shell->redir->here_doc_eof)
-		free_arr_and_null(&shell->redir->here_doc_eof);
+	clean_redir_allocations(shell);
 }
 
 void	handle_input(t_shell *shell)
