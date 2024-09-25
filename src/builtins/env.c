@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:03:00 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/02 21:36:07 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:39:59 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**ft_env(char **envp)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (envp[++i])

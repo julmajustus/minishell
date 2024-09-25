@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 03:45:40 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:38:41 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static void handle_pipe_exec(t_shell *shell, int i, int *pids, int *in_fd)
     if (shell->last_cmd_in_pipe)
         shell->fd[1] = STDOUT_FILENO;
     execute_command(shell, *in_fd, shell->fd[1]);
-    pids[i] = shell->pid;
-    if (*in_fd != STDIN_FILENO)
-        close(*in_fd);
-    if (!shell->last_cmd_in_pipe)
-        *in_fd = shell->fd[0];
+	pids[i] = shell->pid;
+	if (*in_fd != STDIN_FILENO)
+		close(*in_fd);
+	if (!shell->last_cmd_in_pipe)
+		*in_fd = shell->fd[0];
     free_arr(shell->parsed_cmd);
 }
 
@@ -41,6 +41,7 @@ static void exit_pipes(t_shell *shell, int i, pid_t *pids)
         shell->retval = check_status(pids[j]);
     free(pids);
     free_arr_and_null(&shell->arr_input);
+	shell->in_pipe = 0;
 }
 
 void    handle_pipes(t_shell *shell)

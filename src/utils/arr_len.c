@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:55:42 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 22:05:38 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:35:13 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	arr_len(char **arr)
 {
-	int len;
+	int	len;
 
 	if (!arr || !*(arr))
 		return (0);
@@ -23,4 +23,3 @@ int	arr_len(char **arr)
 		len++;
 	return (len);
 }
-
