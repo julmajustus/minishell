@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:23:26 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 18:27:10 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:55:20 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static void	here_doc(char *limiter, int *fd)
 
 void	handle_here_doc(t_shell *shell)
 {
-	int i;
-	int fd;
+	int	i;
+	int	fd;
 
 	if (shell->redir->here_doc)
 	{

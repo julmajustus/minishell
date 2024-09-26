@@ -6,44 +6,44 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 09:16:12 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:21:10 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_status(pid_t pid)
+int	check_status(pid_t pid)
 {
-    int status;
+	int	status;
 
-    waitpid(pid, &status, 0);
-    if (WIFSIGNALED(status))
-    {
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+	{
 		if (WTERMSIG(status) == SIGQUIT)
 			write (2, "Quit (core dumped)\n", 19);
 		if (WTERMSIG(status) == SIGINT)
 			write (2, "\n", 1);
-		return 128 + WTERMSIG(status);
-    }
-    if (WIFEXITED(status))
-        return WEXITSTATUS(status);
-    return -1;
+		return (128 + WTERMSIG(status));
+	}
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (-1);
 }
 
-static void    handle_fds(t_shell *shell, int in_fd, int out_fd)
+static void	handle_fds(t_shell *shell, int in_fd, int out_fd)
 {
-    if (!shell->last_cmd_in_pipe && shell->in_pipe)
-        close(shell->fd[0]);
-    if (in_fd != STDIN_FILENO)
-    {
-        dup2(in_fd, STDIN_FILENO);
-        close(in_fd);
-    }
-    if (out_fd != STDOUT_FILENO)
-    {
-        dup2(out_fd, STDOUT_FILENO);
-        close(out_fd);
-    }
+	if (!shell->last_cmd_in_pipe && shell->in_pipe)
+		close(shell->fd[0]);
+	if (in_fd != STDIN_FILENO)
+	{
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
+	}
+	if (out_fd != STDOUT_FILENO)
+	{
+		dup2(out_fd, STDOUT_FILENO);
+		close(out_fd);
+	}
 }
 
 static void	exec_child(t_shell *shell)
@@ -74,7 +74,7 @@ static void	exec_child(t_shell *shell)
 	}
 }
 
-static void handle_child_process(t_shell *shell, int in_fd, int out_fd)
+static void	handle_child_process(t_shell *shell, int in_fd, int out_fd)
 {
 	if (shell->exit_code != 0)
 		exit (shell->exit_code);
@@ -90,26 +90,26 @@ static void handle_child_process(t_shell *shell, int in_fd, int out_fd)
 	exit(EXIT_FAILURE);
 }
 
-void execute_command(t_shell *shell, int in_fd, int out_fd)
+void	execute_command(t_shell *shell, int in_fd, int out_fd)
 {
-    if (check_if_builtin(shell))
-        handle_builtin(shell, 1, 0);
-    signal(SIGINT, SIG_IGN);
-    shell->pid = fork();
-    if (shell->pid == -1)
-        err("fork");
-    if (shell->pid == 0)
-    {
+	if (check_if_builtin(shell))
+		handle_builtin(shell, 1, 0);
+	signal(SIGINT, SIG_IGN);
+	shell->pid = fork();
+	if (shell->pid == -1)
+		err("fork");
+	if (shell->pid == 0)
+	{
 		handle_child_process(shell, in_fd, out_fd);
-    }
-    else
-    {
+	}
+	else
+	{
 		if (shell->in_pipe && shell->redir->here_doc)
 			check_status(shell->pid);
-        if (!shell->last_cmd_in_pipe && out_fd != STDOUT_FILENO)
-            close(out_fd);
-        if (!shell->last_cmd_in_pipe && in_fd != STDIN_FILENO)
-            close(in_fd);
-        signal(SIGINT, handle_ctrl_c);
-    }
+		if (!shell->last_cmd_in_pipe && out_fd != STDOUT_FILENO)
+			close(out_fd);
+		if (!shell->last_cmd_in_pipe && in_fd != STDIN_FILENO)
+			close(in_fd);
+		signal(SIGINT, handle_ctrl_c);
+	}
 }

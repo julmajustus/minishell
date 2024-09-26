@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/25 18:26:06 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/26 11:54:15 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -60,7 +60,8 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/builtins/export.c \
 				  $(SRC_DIR)/builtins/echo.c \
 				  $(SRC_DIR)/builtins/pwd.c \
-				  $(SRC_DIR)/builtins/cd.c \
+				  $(SRC_DIR)/builtins/cd/cd.c \
+				  $(SRC_DIR)/builtins/cd/cd_utils.c \
 				  $(SRC_DIR)/signals/signals.c \
 
 OBJ_DIR         = obj

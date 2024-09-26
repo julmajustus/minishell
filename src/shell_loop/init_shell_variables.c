@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 03:01:12 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 10:48:44 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,26 @@ void	init_redir(t_shell *shell)
 
 static void	init_tilde(t_shell *shell)
 {
-    int		n_of_slash;
-    int		i;
-    int		home_end;
-    char	*tmp;
+	int		n_of_slash;
+	int		i;
+	int		home_end;
+	char	*tmp;
 
-    i = -1;
-    n_of_slash = 0;
-    shell->tilde = getcwd(NULL, 0);
-    if (!shell->tilde)
-        return ;
-    while (shell->tilde[++i])
-    {
-        if (shell->tilde[i] == '/')
-            n_of_slash++;
-        if (n_of_slash == 2)
-            home_end = i + 1;
-    }
-    tmp = ft_substr(shell->tilde, 0, home_end);
-    free(shell->tilde);
-    shell->tilde = tmp;
+	i = -1;
+	n_of_slash = 0;
+	shell->tilde = getcwd(NULL, 0);
+	if (!shell->tilde)
+		return ;
+	while (shell->tilde[++i])
+	{
+		if (shell->tilde[i] == '/')
+			n_of_slash++;
+		if (n_of_slash == 2)
+			home_end = i + 1;
+	}
+	tmp = ft_substr(shell->tilde, 0, home_end);
+	free(shell->tilde);
+	shell->tilde = tmp;
 }
 
 void	init_shell_variables(t_shell *shell)
