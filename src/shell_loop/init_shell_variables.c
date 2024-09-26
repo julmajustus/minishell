@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 02:43:44 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 03:01:12 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_redir(t_shell *shell)
 	shell->redir->token_count = 0;
 	shell->redir->token_counter = 0;
 	shell->redir->output_file_first = 0;
+	shell->redir->syntax_err = -1;
 }
 
 static void	init_tilde(t_shell *shell)
