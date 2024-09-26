@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 02:41:46 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 03:00:26 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_redir
 	int		token_count;
 	int		token_counter;
 	int		output_file_first;
+	int		syntax_err;
 }	t_redir;
 
 typedef struct s_cmd_stack
