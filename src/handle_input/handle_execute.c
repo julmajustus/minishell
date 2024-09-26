@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 12:21:10 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:16:28 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ static void	exec_child(t_shell *shell)
 		if (!shell->exit_code)
 			exit (EXIT_SUCCESS);
 		else
+		{
+			free_shell_allocations(shell);
 			exit (shell->exit_code);
+		}
 	}
 	else
 	{
@@ -77,7 +80,10 @@ static void	exec_child(t_shell *shell)
 static void	handle_child_process(t_shell *shell, int in_fd, int out_fd)
 {
 	if (shell->exit_code != 0)
+	{
+		free_shell_allocations(shell);
 		exit (shell->exit_code);
+	}
 	if (shell->in_pipe)
 		handle_here_doc(shell);
 	handle_fds(shell, in_fd, out_fd);

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:57:45 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/26 11:54:32 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:55:27 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	**cd_to_old_pwd(char **envp, char *new_old_pwd, int *exit_code)
 	int		pwd_len;
 	int		start;
 	int		j;
+	char *temp;
 
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "OLDPWD", 6) != 0)
@@ -53,13 +54,14 @@ char	**cd_to_old_pwd(char **envp, char *new_old_pwd, int *exit_code)
 		return (err_oldpwd_not_set(envp, new_old_pwd, &exit_code));
 	pwd_len = ft_strlen(envp[i]);
 	start = 7;
-	new_pwd = (char *)malloc(sizeof(char) * (pwd_len - start + 1));
+	temp = (char *)malloc(sizeof(char) * (pwd_len - start + 1));
 	j = 0;
 	while (envp[i][start])
-		new_pwd[j++] = envp[i][start++];
-	new_pwd[j] = '\0';
-	chdir(new_pwd);
-	new_pwd = ft_strjoin("PWD=", new_pwd);
+		temp[j++] = envp[i][start++];
+	temp[j] = '\0';
+	chdir(temp);
+	new_pwd = ft_strjoin("PWD=", temp);
+	free(temp);
 	envp = replace_or_create_env_line(envp, new_old_pwd);
 	envp = replace_or_create_env_line(envp, new_pwd);
 	free(new_pwd);
@@ -73,19 +75,21 @@ char	**cd_to_previus(char **envp, char *new_old_pwd, char *path)
 	int		i;
 	int		len;
 	int		j;
+	char	*temp;
 
 	len = find_new_len(path, new_old_pwd);
 	j = 7;
 	len -= j;
 	if (!len)
 		len = 1;
-	new_pwd = (char *)malloc(sizeof(char) * (len + 1));
+	temp = (char *)malloc(sizeof(char) * (len + 1));
 	i = 0;
 	while (i < len)
-		new_pwd[i++] = new_old_pwd[j++];
-	new_pwd[i] = '\0';
-	chdir(new_pwd);
-	new_pwd = ft_strjoin("PWD=", new_pwd);
+		temp[i++] = new_old_pwd[j++];
+	temp[i] = '\0';
+	chdir(temp);
+	new_pwd = ft_strjoin("PWD=", temp);
+	free(temp);
 	envp = replace_or_create_env_line(envp, new_old_pwd);
 	envp = replace_or_create_env_line(envp, new_pwd);
 	free(new_old_pwd);
@@ -97,6 +101,7 @@ char	**cd_to_next(t_shell *shell, char *new_old_pwd, \
 		char *path, int *exit_code)
 {
 	char	*new_pwd;
+	char	*temp;
 
 	if (arr_len(shell->parsed_cmd) > 2)
 	{
@@ -113,7 +118,12 @@ char	**cd_to_next(t_shell *shell, char *new_old_pwd, \
 		return (shell->envp);
 	}
 	new_pwd = getcwd(NULL, 0);
-	new_pwd = ft_strjoin("PWD=", new_pwd);
+	if (new_pwd)
+	{
+		temp = ft_strjoin("PWD=", new_pwd);
+		free(new_pwd);
+		new_pwd = temp;
+	}
 	shell->envp = replace_or_create_env_line(shell->envp, new_pwd);
 	shell->envp = replace_or_create_env_line(shell->envp, new_old_pwd);
 	free(new_old_pwd);
@@ -124,15 +134,17 @@ char	**cd_to_next(t_shell *shell, char *new_old_pwd, \
 char	**ft_cd(t_shell *shell, char *path)
 {
 	char	*new_old_pwd;
+	char	*temp;
 
-	new_old_pwd = getcwd(NULL, 0);
-	if (!new_old_pwd)
+	temp = getcwd(NULL, 0);
+	if (!temp)
 	{
-		new_old_pwd = getenv("PWD");
-		if (!new_old_pwd)
-			new_old_pwd = ft_strdup("smethng went wrong");
+		temp = getenv("PWD");
+		if (!temp)
+			temp = ft_strdup("somethng went wrong");
 	}
-	new_old_pwd = ft_strjoin("OLDPWD=", new_old_pwd);
+	new_old_pwd = ft_strjoin("OLDPWD=", temp);
+	free(temp);
 	if (!path)
 		return (cd_no_path(shell->envp, new_old_pwd, \
 					&shell->exit_code, shell->tilde));

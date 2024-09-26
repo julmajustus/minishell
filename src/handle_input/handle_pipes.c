@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 12:07:13 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:13:37 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	handle_pipe_exec(t_shell *shell, int i, int *in_fd)
 		close(*in_fd);
 	if (!shell->last_cmd_in_pipe)
 		*in_fd = shell->fd[0];
-	free_arr(shell->parsed_cmd);
+//	free_arr(shell->parsed_cmd);
 }
 
 static void	exit_pipes(t_shell *shell, int i)
