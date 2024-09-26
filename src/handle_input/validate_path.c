@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:40:58 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 14:16:40 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:15:44 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,9 @@ char	*validate_path(t_shell *shell)
 	char	**env_paths;
 	char	*path;
 
-	if (access(*shell->parsed_cmd, F_OK) == 0 && access(*shell->parsed_cmd, X_OK) == 0
-		&& open(*shell->parsed_cmd, O_DIRECTORY) == -1)
+	if (access(*shell->parsed_cmd, F_OK) == 0 && \
+		access(*shell->parsed_cmd, X_OK) == 0 && \
+		open(*shell->parsed_cmd, O_DIRECTORY) == -1)
 		return (ft_strdup(*shell->parsed_cmd));
 	env_paths = find_path(shell->envp, shell);
 	i = 0;
@@ -154,4 +155,3 @@ char	*validate_path(t_shell *shell)
 	path_not_found(env_paths, shell->parsed_cmd, shell);
 	return (NULL);
 }
-

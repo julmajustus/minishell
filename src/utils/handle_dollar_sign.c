@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:16:15 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/25 11:27:38 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:25:14 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ static void	exit_status(t_shell shell, char **input_var, int *match_found)
 	char	*temp_str;
 
 	i = 0;
-	//ret_val = ft_itoa(shell.builtin_exit_code);
-	ret_val = ft_itoa(shell.retval); //need to some how handle both builtin and external cmd returnvalues
+	ret_val = ft_itoa(shell.retval);
 	temp_str = (char *)malloc(sizeof(char) * ft_strlen(*input_var));
 	while ((*input_var)[++i])
 		temp_str[i - 1] = (*input_var)[i];
@@ -97,31 +96,30 @@ static void	check_match(char **input_var, char **arr, int match_found, int space
 	}
 }
 
-void remove_empty_args(char ***args)
+void	remove_empty_args(char ***args)
 {
-    int i;
-	int j;
-	int count;
-    char **new_args;
+	int		i;
+	int		j;
+	int		count;
+	char	**new_args;
 
 	i = -1;
 	count = 0;
-    while ((*args)[++i])
-        if (ft_strlen((*args)[i]) > 0)
-            count++;
-    new_args = (char **)malloc(sizeof(char *) * (count + 1));
-    if (!new_args)
-        return;
-    i = -1;
+	while ((*args)[++i])
+		if (ft_strlen((*args)[i]) > 0)
+			count++;
+	new_args = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!new_args)
+		return ;
+	i = -1;
 	j = -1;
-    while ((*args)[++i])
-        if (ft_strlen((*args)[i]) > 0)
-            new_args[++j] = ft_strdup((*args)[i]);
-    new_args[++j] = NULL;
-    free_arr(*args);
-    *args = new_args;
+	while ((*args)[++i])
+		if (ft_strlen((*args)[i]) > 0)
+			new_args[++j] = ft_strdup((*args)[i]);
+	new_args[++j] = NULL;
+	free_arr(*args);
+	*args = new_args;
 }
-
 
 void	handle_dollar_sign(t_shell shell, char ***args)
 {
@@ -148,7 +146,7 @@ void	handle_dollar_sign(t_shell shell, char ***args)
 					match_found = 0;
 					if (arr[i][0] == '?')
 						exit_status(shell, &arr[i], &match_found);
-					else if(ft_isalpha(arr[i][0]) || arr[i][0] == '_')
+					else if (ft_isalpha(arr[i][0]) || arr[i][0] == '_')
 						env_var(shell.envp, &arr[i], &match_found);
 				}
 				if (arr[0] && ft_strlen(arr[0]) > 0)

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:57:58 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/26 00:38:45 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:42:50 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void	prompt(t_shell *shell)
 	else if (!shell->input)
 	{
 		ft_putendl_fd("exit", 1);
+        free_shell_allocations(shell);
 		exit(EXIT_SUCCESS);
 	}
 }

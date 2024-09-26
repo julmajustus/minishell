@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 23:38:55 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 14:47:29 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:56:18 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	handle_chained_cmds(t_shell *shell)
 	i = -1;
 	while (shell->chained_cmds[++i])
 	{
-
 		if (!ft_strcmp(shell->chained_cmds[i], "&&") || \
 			!ft_strcmp(shell->chained_cmds[i], "||"))
 		{
