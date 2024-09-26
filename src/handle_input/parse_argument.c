@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 16:55:00 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:09:20 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	handle_outside_state(t_parse_state *state, char *cmd, int i)
 {
-	if (cmd[i] == ' ')
+	if (cmd[i] == ' ' || cmd[i] == '\t')
 	{
 		if (state->arg)
 		{
@@ -98,7 +98,7 @@ char	**parse_arguments(t_shell *shell, char *input)
 		state.args = add_arg(state.args, state.arg, \
 				&state.argc, &state.arg_size);
 	state.args[state.argc] = NULL;
-	if (ft_strchr(input, '$') && state.dollar_sign == 0/*!ft_strchr(input, '\'')*/)
+	if (ft_strchr(input, '$') && state.dollar_sign == 0)
 		handle_dollar_sign(*shell, &state.args);
 	hande_tilde(&state.args, *shell, &shell->exit_code);
 	return (state.args);

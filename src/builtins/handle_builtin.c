@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 18:38:02 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 10:48:55 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_if_builtin(t_shell *shell)
 {
 	if (!shell->parsed_cmd || !shell->parsed_cmd[0])
-        	return (0);
+		return (0);
 	if (!ft_strcmp(shell->parsed_cmd[0], "exit"))
 		return (1);
 	else if (!ft_strcmp(shell->parsed_cmd[0], "env"))
@@ -37,13 +37,13 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 {
 	int	i;
 
-	i = -1;
-	while (shell->parsed_cmd[++i])
-	{
+	i = 0;
+//	while (shell->parsed_cmd[++i])
+//	{
 		if (!ft_strcmp(shell->parsed_cmd[i], "exit") && parent == 1)
 		{
 			ft_exit(shell);
-			break ;
+//			break ;
 		}
 		else if (!ft_strcmp(shell->parsed_cmd[i], "env") && child == 1)
 			return (ft_env(shell->envp));
@@ -54,17 +54,17 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 		else if (!ft_strcmp(shell->parsed_cmd[i], "echo") && child == 1)
 		{
 			ft_echo(shell->parsed_cmd);
-			break ;
+//			break ;
 		}
 		else if (!ft_strcmp(shell->parsed_cmd[i], "pwd") && child == 1)
 		{
 			ft_pwd(shell->envp);
-			break;
+//			break;
 		}
 		else if (!ft_strcmp(shell->parsed_cmd[i], "cd") && parent == 1)
-			return(ft_cd(shell->envp, shell->parsed_cmd[i + 1], \
-				&shell->exit_code, &shell->builtin_already_executed, shell->parsed_cmd));
-	}
+			return(ft_cd(shell, shell->parsed_cmd[i + 1])/*(shell->envp, shell->parsed_cmd[i + 1], \
+				&shell->exit_code, &shell->builtin_already_executed, shell->parsed_cmd)*/);
+//	}
 	return (shell->envp);
 }
 
@@ -82,7 +82,7 @@ void	handle_builtin(t_shell *shell, int parent, int child)
 
 void	check_forbidden_builtin_in_pipe(char **cmd_arr, int *exit_code)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (cmd_arr[++i])

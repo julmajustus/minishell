@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 14:45:39 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:16:18 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct s_shell
 	int			pipe_count;
 	int			chain_count;
 	int			in_pipe;
-	int			pipe_syntax_err;
 	int			is_chained_cmd;
 	int			preserving_chained_cmds;
 	int			execute_next;
@@ -160,8 +159,7 @@ char	**ft_unset(char **envp, char *str);
 char	**ft_export(char **envp, char *str, int *exit_code);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);
-char	**ft_cd(char **envp, char *path, int *exit_code, \
-		int *already_executed, char **cmd_arr);
+char	**ft_cd(t_shell *shell, char *path);
 
 void	handle_dollar_sign(t_shell shell, char ***args);
 void	hande_tilde(char ***args, t_shell shell, int *exit_code);
@@ -192,5 +190,8 @@ int		update_quote_state(char c, int *single_quote, int *double_quote);
 void	init_signals(void);
 void	init_child_signals(void);
 void	handle_ctrl_c(int sig);
+
+char	**err_oldpwd_not_set(char **envp, char *new_old_pwd, int **exit_code);
+int	find_new_len(char *path, char *new_old_pwd);
 
 #endif
