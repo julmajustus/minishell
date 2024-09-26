@@ -6,11 +6,12 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 02:43:56 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:31:26 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 
 static void parse_piped_cmd(t_shell *shell)
 {
@@ -44,6 +45,7 @@ static void exit_pipes(t_shell *shell, int i)
 	shell->pids = NULL;
     free_arr_and_null(&shell->arr_input);
 	shell->in_pipe = 0;
+	shell->pipe_syntax_err = -1;
 }
 
 void    handle_pipes(t_shell *shell)
@@ -51,6 +53,10 @@ void    handle_pipes(t_shell *shell)
     int		i;
     int		in_fd;
 
+	if (!shell->arr_input || !*shell->arr_input)
+	{
+		execute_command(shell, STDIN_FILENO, STDOUT_FILENO);
+	}
     in_fd = STDIN_FILENO;
     shell->pids = malloc(arr_len(shell->arr_input) * sizeof(pid_t));
     i = -1;
