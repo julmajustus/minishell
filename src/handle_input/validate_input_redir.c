@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 23:56:34 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 00:03:14 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 03:02:09 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	validate_input_redir(t_shell *shell, char **parsed_cmd, \
 						  						char *cmd, int *j)
 {
 	if (ft_strlen(cmd) > 2 && *(cmd + 2) == '<')
-		exit_syntax_error(shell, "<<");
+		shell->redir->syntax_err = 0;
 	if (*(cmd + 1) == '<')
 		handle_heredoc_redir(shell, parsed_cmd, cmd, j);
 	else

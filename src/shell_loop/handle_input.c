@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 10:18:27 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 02:37:04 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void handle_single_cmd(t_shell *shell)
 {
+	init_redir(shell);
 	shell->parsed_cmd = parse_arguments(shell, shell->input);
 	if (shell->parsed_cmd[0] == NULL || is_empty_str(shell->parsed_cmd[0]))
 		return;
@@ -28,13 +29,7 @@ static void	clean_allocations(t_shell *shell)
 	if (shell->input)
 		free(shell->input);
 	shell->input = NULL;
-	if (shell->redir->input_file)
-		free_arr_and_null(&shell->redir->input_file);
-	if (shell->redir->output_file)
-		free_arr_and_null(&shell->redir->output_file);
-	if (shell->redir->here_doc_eof)
-		free_arr_and_null(&shell->redir->here_doc_eof);
-	shell->in_pipe = 0;
+	clean_redir_allocations(shell);
 }
 
 void	handle_input(t_shell *shell)

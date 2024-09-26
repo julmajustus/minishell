@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:53:25 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/12 23:33:17 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:33:51 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_arr_and_null(char ***arr)
 void	free_arr(char **arr)
 {
 	size_t	i;
-	
+
 	if (arr == NULL)
 		return ;
 	i = 0;

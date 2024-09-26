@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 16:20:34 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:13:58 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 
 void	handle_builtin(t_shell *shell, int parent, int child)
 {
+	if (!shell->parsed_cmd || !*shell->parsed_cmd)
+		return ;
 	if ((shell->in_pipe || shell->builtin_already_executed) && \
 		!ft_strcmp(shell->parsed_cmd[0], "cd"))
 		return ;

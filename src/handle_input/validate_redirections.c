@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:44:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 01:54:59 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 23:35:55 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,11 @@ static void	validate_redirection_token(t_shell *shell, int *i, char *token, int 
 			if (*token == '<')
 				validate_input_redir(shell, &shell->parsed_cmd[*i], token, token_idx);
 			else if (*token == '>')
+			{
+				if (!shell->redir->input_file)
+					shell->redir->output_file_first = 1;
 				validate_output_redir(shell, &shell->parsed_cmd[*i], token, token_idx);
+			}
 		}
 	}
 }
@@ -90,7 +94,8 @@ void	validate_redirections(t_shell *shell)
 		i = -1;
 		while (shell->parsed_cmd[++i])
 			parse_input_str(shell, &i);
-		if (shell->redir->input_file || shell->redir->output_file)
+		if (shell->redir->input_file || shell->redir->output_file || \
+			shell->redir->here_doc_eof)
 			parse_redirections(shell);
 	}
 }

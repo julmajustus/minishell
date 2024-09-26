@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 00:28:12 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/08/30 00:28:26 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:29:50 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_empty_str(char *str)
 {
-	while(*str)
+	while (*str)
 	{
 		if (!ft_isspace(*str))
 			return (0);

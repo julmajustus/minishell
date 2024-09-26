@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:19:54 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/16 22:20:22 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:18:51 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 			ft_memcpy(new_ptr, ptr, new_size);
 	}
 	free(ptr);
-	return new_ptr;
+	return (new_ptr);
 }
-

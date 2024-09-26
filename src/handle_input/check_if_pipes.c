@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 01:27:41 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 15:53:22 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:14:37 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	parse_pipes(t_shell *shell)
 			i++;
 			j++;
 		}
-		new_cmd[j] = append_char(new_cmd[j], shell->input[i]);
+		else if (shell->input[i] != '|')
+			new_cmd[j] = append_char(new_cmd[j], shell->input[i]);
 	}
 	new_cmd[j + 1] = NULL;//mostlikely not needed
 	shell->arr_input = new_cmd;
