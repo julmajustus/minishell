@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 01:27:41 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 01:28:19 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:53:22 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ int	check_if_pipes(t_shell *shell)
 	i = -1;
 	while (shell->input[++i])
 	{
+		if (shell->input[0] == '|')
+		{
+			ft_putendl_fd("minishell: syntax error near unexpected token `|'", 2);
+			shell->exit_code = 2;
+			return (0);
+		}
 		if (shell->input[i] == '|')
 			if (single_quote == 0 && double_quote == 0)
 				shell->pipe_count++;

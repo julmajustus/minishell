@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 16:55:00 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:54:43 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	handle_outside_state(t_parse_state *state, char *cmd, int i)
 {
-	if (cmd[i] == ' ')
+	if (cmd[i] == ' ' || cmd[i] == '\t')
 	{
 		if (state->arg)
 		{

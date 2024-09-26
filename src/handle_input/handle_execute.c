@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 10:18:16 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:41:32 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int check_status(pid_t pid)
 void execute_command(t_shell *shell, int in_fd, int out_fd)
 {
 //    prerun_builtin(shell);
-    handle_builtin(shell, 1, 0);
+    if (check_if_builtin(shell))
+        handle_builtin(shell, 1, 0);
     signal(SIGINT, SIG_IGN);
     shell->pid = fork();
     if (shell->pid == -1)

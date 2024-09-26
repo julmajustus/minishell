@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 00:01:09 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 15:33:58 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:30:58 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ void	ft_echo(char **cmd)
 		printf("\n");
 		return ;
 	}
-	else if (!ft_strcmp(cmd[1], "-n"))
+	else if (!ft_strncmp(cmd[1], "-n", 2) && ((cmd[1][2]) == 'n' || !cmd[1][2]))
 	{
 		i = 1;
+		while (!ft_strncmp(cmd[++i], "-n", 2) && ((cmd[i][2]) == 'n' || !cmd[i][2]))
+			;
+		i--;
 		while (cmd[++i])
 		{
 			printf("%s", cmd[i]);

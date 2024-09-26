@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/23 09:50:52 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:20:34 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 {
 	int	i;
 
-	i = -1;
-	while (shell->parsed_cmd[++i])
-	{
+	i = 0;
+//	while (shell->parsed_cmd[++i])
+//	{
 		if (!ft_strcmp(shell->parsed_cmd[i], "exit") && parent == 1)
 		{
 			ft_exit(shell);
-			break ;
+//			break ;
 		}
 		else if (!ft_strcmp(shell->parsed_cmd[i], "env") && child == 1)
 			return (ft_env(shell->envp));
@@ -54,17 +54,17 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 		else if (!ft_strcmp(shell->parsed_cmd[i], "echo") && child == 1)
 		{
 			ft_echo(shell->parsed_cmd);
-			break ;
+//			break ;
 		}
 		else if (!ft_strcmp(shell->parsed_cmd[i], "pwd") && child == 1)
 		{
 			ft_pwd(shell->envp);
-			break;
+//			break;
 		}
 		else if (!ft_strcmp(shell->parsed_cmd[i], "cd") && parent == 1)
 			return(ft_cd(shell->envp, shell->parsed_cmd[i + 1], \
 				&shell->exit_code, &shell->builtin_already_executed, shell->parsed_cmd));
-	}
+//	}
 	return (shell->envp);
 }
 
