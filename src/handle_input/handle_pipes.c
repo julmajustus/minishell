@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 20:58:30 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 11:48:12 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:28:31 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static void	exit_pipes(t_shell *shell, int i)
 	if (shell->piped_cmds)
 		free_arr_and_null(&shell->piped_cmds);
 	shell->in_pipe = 0;
-	free(shell->prompt);
+	if (shell->prompt)
+		free_and_null((void *)&shell->prompt);
 }
 
 void	handle_pipes(t_shell *shell)
