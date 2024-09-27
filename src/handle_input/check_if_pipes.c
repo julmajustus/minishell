@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 01:27:41 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 20:14:56 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 02:19:38 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,46 +30,50 @@ int	check_if_pipes(t_shell *shell)
 	i = -1;
 	while (shell->input[++i])
 	{
+		update_quote_state(shell->input[i], &single_quote, &double_quote);
 		if (shell->input[0] == '|')
 			return (pipe_syntax_error(&shell->exit_code));
-		if (shell->input[i] == '|')
-			if (single_quote == 0 && double_quote == 0)
+		if (shell->input[i] == '|' && shell->input[i - 1] == '<' && \
+									!single_quote && !double_quote)
+			return (pipe_syntax_error(&shell->exit_code));
+		if (shell->input[i] == '|' && !single_quote && !double_quote)
 				shell->pipe_count++;
-		if (shell->input[i] == '\'' && double_quote == 0 && single_quote == 0)
-			single_quote = 1;
-		else if (shell->input[i] == '\"' && single_quote == 0 && \
-			double_quote == 0)
-			double_quote = 1;
-		else if (shell->input[i] == '\'' && single_quote == 1)
-			single_quote = 0;
-		else if (shell->input[i] == '\"' && double_quote == 1)
-			double_quote = 0;
 	}
 	return (shell->pipe_count);
 }
 
-void	parse_pipes(t_shell *shell)
+static void	parse_cmd(t_shell *shell, int i, int start)
 {
-	int		i;
-	int		j;
-	char	**new_cmd;
+	char *cmd;
 
-	new_cmd = (char **)malloc(sizeof(char *) * (2 + shell->pipe_count));
-	if (!new_cmd)
-		err("malloc faild");
-	init_arr(new_cmd, 2 + shell->pipe_count);
+	cmd = ft_substr(shell->input, start, i - start);
+	append_array(cmd, &shell->piped_cmds, &shell->pipe_count);
+	free_and_null((void *)&cmd);
+}
+
+void	parse_piped_cmds(t_shell *shell)
+{
+	int	i;
+	int	single_quote;
+	int	double_quote;
+	int	start;
+
 	i = -1;
-	j = 0;
+	single_quote = 0;
+	double_quote = 0;
+	start = 0;
+	shell->piped_cmds = NULL;
+	shell->pipe_count = 0;
 	while (shell->input[++i])
 	{
-		if (shell->input[i] == '|' && shell->input[i + 1])
+		update_quote_state(shell->input[i], &single_quote, &double_quote);
+		if (shell->input[i] == '|' && !single_quote && !double_quote)
 		{
-			i++;
-			j++;
+			if (i > start)
+				parse_cmd(shell, i, start);
+			start = i + 1;
 		}
-		if (shell->input[i] != '|')
-			new_cmd[j] = append_char(new_cmd[j], shell->input[i]);
 	}
-	new_cmd[j + 1] = NULL;
-	shell->arr_input = new_cmd;
+	if (i > start)
+		parse_cmd(shell, i, start);
 }

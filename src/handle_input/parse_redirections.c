@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:36:25 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 18:20:18 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:05:48 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ static int skip_tokens(t_shell *shell, int *i, int token_len)
 static void	finalize_parsed_array(t_shell *shell, char **new_parsed_cmd, int *j)
 {
     new_parsed_cmd[*j] = NULL;
-    free_arr(shell->parsed_cmd);
-	free(shell->redir->valid_tokens);
-	shell->redir->valid_tokens = NULL;
+    free_arr_and_null(&shell->parsed_cmd);
+	free_and_null((void *)&shell->redir->valid_tokens);
     shell->parsed_cmd = new_parsed_cmd;
 }
 

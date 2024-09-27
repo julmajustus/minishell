@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 00:05:57 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 15:14:45 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:36:57 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,4 @@ void validate_output_redir(t_shell *shell, char **parsed_cmd, char *cmd, int *j)
 		shell->redir->syntax_err = 1;
 		return ;
 	}
-	shell->redir->output_file = ft_realloc(shell->redir->output_file, \
-					  sizeof(char *) * shell->redir->output_file_count, \
-					  sizeof(char *) * (shell->redir->output_file_count + 1));
-	if (shell->redir->output_file)
-		shell->redir->output_file[shell->redir->output_file_count] = NULL;
 }

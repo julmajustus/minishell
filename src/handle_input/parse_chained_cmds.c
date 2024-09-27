@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:15:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 03:29:17 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:57:34 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,5 @@ void	parse_chained_cmds(t_shell *shell)
 									   shell->input[i]);	
 		i++;
 	}
-	free(shell->input);
-	shell->input = NULL;
+	free_and_null((void *)&shell->input);
 }

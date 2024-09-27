@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:13:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 09:58:02 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 23:13:49 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	handle_single_cmd(t_shell *shell)
 static void	clean_allocations(t_shell *shell)
 {
 	if (shell->input)
-		free(shell->input);
-	shell->input = NULL;
+		free_and_null((void *)&shell->input);
 	clean_redir_allocations(shell);
 }
 
@@ -45,7 +44,7 @@ void	handle_input(t_shell *shell)
 	else if (check_if_pipes(shell))
 	{
 		shell->in_pipe = 1;
-		parse_pipes(shell);
+		parse_piped_cmds(shell);
 		handle_pipes(shell);
 	}
 	else

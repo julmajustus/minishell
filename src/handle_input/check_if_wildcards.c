@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:49:34 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 03:55:47 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:37:36 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ static void	create_array(t_shell *shell, int *token_count)
     }
     if (i > start)
         append_array(&shell->input[start], &shell->parsed_cmd, token_count);
-    shell->parsed_cmd = ft_realloc(shell->parsed_cmd, sizeof(char *) * *token_count, sizeof(char *) * (*token_count + 1));
-    shell->parsed_cmd[*token_count] = NULL;
 }
 
 void	check_if_wildcards(t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:45:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 02:44:55 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:35:33 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,6 @@ void	handle_wildcards(t_shell *shell)
 		else
 			append_array(shell->parsed_cmd[i], &new_cmd, &new_cmd_size);
 	}
-	new_cmd = ft_realloc(new_cmd, \
-					  sizeof(char *) * new_cmd_size, \
-					  sizeof(char *) * (new_cmd_size + 1));
-	if (new_cmd)
-		new_cmd[new_cmd_size] = NULL;
-	free_arr(shell->parsed_cmd);
+	free_arr_and_null(&shell->parsed_cmd);
 	shell->parsed_cmd = new_cmd;
 }
