@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 03:28:02 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 10:10:18 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ char	**add_arg(char **args, char *arg, size_t *argc, size_t *arg_size);
 char	*append_char(char *str, char c);
 
 void	ft_exit(t_shell *shell);
-char	**ft_env(char **envp);
+char	**ft_env(char **envp, char **parsed_cmd, int *exit_code);
 char	**ft_unset(char **envp, char *str);
 char	**ft_export(char **envp, char *str, int *exit_code);
 void	ft_echo(char **cmd);

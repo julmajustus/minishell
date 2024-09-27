@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 00:01:09 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 10:08:17 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:47:51 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ static void	echo_without_nl(char **cmd)
 	int	i;
 
 	i = 1;
+	if (!cmd[i + 1])
+		return ;
 	while (!ft_strncmp(cmd[++i], "-n", 2) && ((cmd[i][2]) == 'n' || !cmd[i][2]))
-		;
+		if (!cmd[i + 1])
+			return ;
 	i--;
 	while (cmd[++i])
 	{

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 02:05:46 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 11:07:39 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ void	free_shell_allocations(t_shell *shell)
 		free_and_null((void *)&shell->tilde);
 	if (shell->pids)
 		free_and_null((void *)&shell->pids);
+	if (shell->prompt)
+		free_and_null((void *)&shell->prompt);
 	clean_redir_allocations(shell);
 	clean_child_chained_cmds(shell);
+	rl_clear_history();
 }

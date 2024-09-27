@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:57:45 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/26 14:55:27 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 10:00:30 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,6 @@ char	**cd_to_next(t_shell *shell, char *new_old_pwd, \
 	char	*new_pwd;
 	char	*temp;
 
-	if (arr_len(shell->parsed_cmd) > 2)
-	{
-		ft_putendl_fd("bash: cd: too many arguments", 2);
-		*exit_code = 1;
-	}
 	if (chdir(path) == -1)
 	{
 		write (2, "minishell: cd: ", 15);
@@ -136,6 +131,12 @@ char	**ft_cd(t_shell *shell, char *path)
 	char	*new_old_pwd;
 	char	*temp;
 
+	if (arr_len(shell->parsed_cmd) > 2)
+	{
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
+		shell->exit_code = 1;
+		return (shell->envp);
+	}
 	temp = getcwd(NULL, 0);
 	if (!temp)
 	{

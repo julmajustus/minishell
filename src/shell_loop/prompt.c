@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:57:58 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/26 14:42:50 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:24:25 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	prompt(t_shell *shell)
 
 	create_prompt(shell);
 	shell->input = readline(shell->prompt);
-	free(shell->prompt);
 /*	if (isatty(fileno(stdin)))
 		shell->input = readline(shell->prompt);
 	else
