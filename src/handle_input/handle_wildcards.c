@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:45:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 01:35:33 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:17:20 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,11 @@ int	match_pattern(const char *pattern, const char *str)
 			p++;
 		if (*p == '*')
 			return match_wildcard(p, s);
-		else if (*p != *s)
+		if (*p != *s)
 			return (0);
 		p++;
 		s++;
 	}
-	if (*p == '*' && *(p + 1) == '\0')
-		return (1);
 	return (*p == '\0' && *s == '\0');
 }
 

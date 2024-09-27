@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 10:06:00 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/26 10:17:41 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:39:11 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	ft_pwd(char **envp)
 			ft_putendl_fd("pwd not found", 2);
 	}
 	printf("%s\n", pwd);
+	free(pwd);
 }

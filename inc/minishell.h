@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 03:28:02 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:45:53 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,8 @@ void	handle_wildcards(t_shell *shell);
 void	init_redir(t_shell *shell);
 void	validate_redirections(t_shell *shell);
 void	parse_redirections(t_shell *shell);
-int 	check_if_redir_token(t_shell *shell, char *cmd, char \
-								**new_parsed_cmd, int *j);
+int		check_if_redir_token(t_shell *shell, char *cmd, char \
+		**new_parsed_cmd, int *j);
 void	handle_redirections(t_shell *shell);
 void	handle_here_doc(t_shell *shell);
 void	validate_input_redir(t_shell *shell, char **parsed_cmd, \
@@ -193,6 +193,6 @@ void	init_child_signals(void);
 void	handle_ctrl_c(int sig);
 
 char	**err_oldpwd_not_set(char **envp, char *new_old_pwd, int **exit_code);
-int	find_new_len(char *path, char *new_old_pwd);
+int		find_new_len(char *path, char *new_old_pwd);
 
 #endif
