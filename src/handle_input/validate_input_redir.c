@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 23:56:34 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 03:02:09 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:34:38 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,39 @@ static void	handle_heredoc_redir(t_shell *shell, char **parsed_cmd, \
 	else if (*(parsed_cmd + 1))
 		append_array(*(parsed_cmd + 1), &shell->redir->here_doc_eof, \
 			   &shell->redir->here_doc_count);
-	shell->redir->here_doc_eof = ft_realloc(shell->redir->here_doc_eof, \
-						 sizeof(char *) * shell->redir->here_doc_count, \
-						 sizeof(char *) * (shell->redir->here_doc_count + 1));
-	if (shell->redir->here_doc_eof)
-		shell->redir->here_doc_eof[shell->redir->here_doc_count] = NULL;
+	else
+	{
+		shell->redir->syntax_err = 0;
+		return ;
+	}
 }
 
 static void	handle_input_file_redir(t_shell *shell, char **parsed_cmd, char *cmd)
 {
 	cmd += 1;
-	if (*cmd != '\0')
+	if (*cmd != '\0' && !ft_isspace(*cmd))
 		append_array(cmd, &shell->redir->input_file, \
 			   &shell->redir->input_file_count);
-	else if (*parsed_cmd + 1)
+	else if (*(parsed_cmd + 1))
 		append_array(*(parsed_cmd + 1), &shell->redir->input_file, \
 			   &shell->redir->input_file_count);
-	shell->redir->input_file = ft_realloc(shell->redir->input_file, \
-				   sizeof(char *) * shell->redir->input_file_count, \
-				   sizeof(char *) * (shell->redir->input_file_count + 1));
-	if (shell->redir->input_file)
-		shell->redir->input_file[shell->redir->input_file_count] = NULL;
+	else
+	{
+		shell->redir->syntax_err = 0;
+		return ;
+	}
+}
+
+static void	check_syntax_errors(t_shell *shell, char *cmd)
+{
+	if (ft_strlen(cmd) > 2 && *(cmd + 2) == '<')
+		shell->redir->syntax_err = 0;
 }
 
 void	validate_input_redir(t_shell *shell, char **parsed_cmd, \
 						  						char *cmd, int *j)
 {
-	if (ft_strlen(cmd) > 2 && *(cmd + 2) == '<')
-		shell->redir->syntax_err = 0;
+	check_syntax_errors(shell, cmd);
 	if (*(cmd + 1) == '<')
 		handle_heredoc_redir(shell, parsed_cmd, cmd, j);
 	else

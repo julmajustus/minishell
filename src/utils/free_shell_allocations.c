@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 02:44:39 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 02:05:46 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	clean_redir_allocations(t_shell *shell)
 	if (shell->redir->here_doc_eof)
 		free_arr_and_null(&shell->redir->here_doc_eof);
 	if (shell->redir->valid_tokens)
-		free(shell->redir->valid_tokens);
-	shell->redir->valid_tokens = NULL;
+		free_and_null((void *)&shell->redir->valid_tokens);
 }
 
 static void	clean_child_chained_cmds(t_shell *shell)
@@ -38,20 +37,19 @@ static void	clean_child_chained_cmds(t_shell *shell)
 void	free_shell_allocations(t_shell *shell)
 {
 	if (shell->envp)
-		free_arr(shell->envp);
+		free_arr_and_null(&shell->envp);
 	if (shell->parsed_cmd)
-		free_arr(shell->parsed_cmd);
+		free_arr_and_null(&shell->parsed_cmd);
 	if (shell->path)
-		free(shell->path);
-	if (shell->in_pipe)
-		free_arr(shell->arr_input);
+		free_and_null((void *)&shell->path);
+	if (shell->piped_cmds)
+		free_arr_and_null(&shell->piped_cmds);
 	if (shell->input)
-		free(shell->input);
+		free_and_null((void *)&shell->input);
 	if (shell->tilde)
-		free(shell->tilde);
+		free_and_null((void *)&shell->tilde);
 	if (shell->pids)
-		free(shell->pids);
-	shell->pids = NULL;
+		free_and_null((void *)&shell->pids);
 	clean_redir_allocations(shell);
 	clean_child_chained_cmds(shell);
 }

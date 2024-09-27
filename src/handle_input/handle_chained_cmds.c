@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 23:38:55 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 11:56:18 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:39:28 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,14 @@
 void	clean_chained_cmds(t_shell *shell)
 {
 	if (shell->input)
-		free(shell->input);
-	shell->input = NULL;
+		free_and_null((void *)&shell->input);
 	free_arr_and_null(&shell->chained_cmds);
 }
 
 void	check_execute_next(t_shell *shell, int i)
 {
 	if (shell->input)
-		free(shell->input);
-	shell->input = NULL;
+		free_and_null((void *)&shell->input);
 	if (!ft_strcmp(shell->chained_cmds[i], "&&") && shell->retval != 0)
 		shell->execute_next = 0;
 	else if (!ft_strcmp(shell->chained_cmds[i], "||") && shell->retval == 0)

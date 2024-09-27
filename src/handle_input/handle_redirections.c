@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 00:02:53 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 03:04:38 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/27 02:57:38 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ static void	handle_input_files(t_shell *shell)
 
 static void	handle_output_files(t_shell *shell)
 {
-	int i;
-	int fd;
+	int	i;
+	int	fd;
+
 	if (shell->redir->syntax_err == 1)
 		exit_syntax_error(shell, ">>");
 	if (shell->redir->output_file)
@@ -94,14 +95,15 @@ static void	handle_output_files(t_shell *shell)
 				fd = open(shell->redir->output_file[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else
 				fd = open(shell->redir->output_file[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-
 			if (validate_outputfile_permission(shell->redir->output_file[i], &shell->exit_code))
 				return ;
 			if (fd == -1)
+			{
 				err("open output file");
+				shell->exit_code = 1;
+			}
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
-
 		}
 	}
 }

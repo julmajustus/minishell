@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 11:53:10 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:28:02 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <errno.h>
 # include <signal.h>
 
-# define ARG_ARR_SIZE 8
+# define ARG_ARR_SIZE 256
 
 typedef enum e_state
 {
@@ -76,7 +76,7 @@ typedef struct s_shell
 	char		**chained_cmds;
 	char		**tmp_chained_cmds;
 	t_cmd_stack	*cmd_stack;
-	char		**arr_input;
+	char		**piped_cmds;
 	char		**parsed_cmd;
 	char		*path;
 	int			pipe_count;
@@ -122,7 +122,7 @@ void	clean_chained_cmds(t_shell *shell);
 
 void	handle_single_cmd(t_shell *shell);
 int		check_if_pipes(t_shell *shell);
-void	parse_pipes(t_shell *shell);
+void	parse_piped_cmds(t_shell *shell);
 void	handle_pipes(t_shell *shell);
 
 void	execute_command(t_shell *shell, int in_fd, int out_fd);
@@ -181,6 +181,7 @@ void	append_array(char *content, char ***new_arr, int *new_arr_size);
 void	init_arr(char **arr, int arr_len);
 int		is_empty_str(char *str);
 void	free_arr(char **arr);
+void	free_and_null(void **ptr);
 void	free_arr_and_null(char ***arr);
 void	free_cmd_stack(t_cmd_stack **stack);
 void	free_shell_allocations(t_shell *shell);

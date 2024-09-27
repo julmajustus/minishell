@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:23:26 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 09:55:20 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 02:51:26 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	handle_here_doc(t_shell *shell)
 	int	i;
 	int	fd;
 
-	if (shell->redir->here_doc)
+	if (shell->redir->here_doc && shell->redir->here_doc_eof)
 	{
 		i = -1;
 		while (shell->redir->here_doc_eof[++i])

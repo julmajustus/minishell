@@ -1,16 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_arr.c                                         :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 21:53:25 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/24 13:33:51 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:29:36 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_and_null(void **ptr)
+{
+	if (ptr == NULL || *ptr == NULL)
+		return ;
+	free(*ptr);
+	*ptr = NULL;
+}
 
 void	free_arr_and_null(char ***arr)
 {

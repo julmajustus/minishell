@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:40:44 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/15 14:47:43 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:44:11 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	parse_subcmd(t_shell *shell)
 			break ;
 		sub_cmd = append_char(sub_cmd, shell->input[i]);	
 	}
-	free(shell->input);
+	free_and_null((void *)&shell->input);
 	shell->input = sub_cmd;
 }
 
@@ -69,8 +69,7 @@ static void return_from_subcommand(t_shell *shell, int *i, t_cmd_stack **cmd_sta
 	restore_cmds_from_stack(shell, cmd_stack);
 	*i = -1;
 	free_cmd_stack(cmd_stack);
-	free(shell->input);
-	shell->input = NULL;
+	free_and_null((void *)&shell->input);
 }
 
 void handle_subcommand(t_shell *shell, int *i)
@@ -83,7 +82,7 @@ void handle_subcommand(t_shell *shell, int *i)
 		preserve_remaining_cmds(shell, &shell->cmd_stack, i);
 	}
 	else
-	free_arr_and_null(&shell->chained_cmds);
+		free_arr_and_null(&shell->chained_cmds);
 	handle_input(shell);
 	if (!shell->cmd_stack)
 	{
