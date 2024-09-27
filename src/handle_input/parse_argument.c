@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:45:08 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 12:09:20 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:47:48 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	handle_outside_state(t_parse_state *state, char *cmd, int i)
 	}
 	else if (cmd[i] == '\\')
 		state->state = ESCAPE_SEQUENCE;
-	else if (cmd[i] == '\'')
+	else if (cmd[i] == '\'' && cmd[0] != '\'' && cmd[1])
 		state->state = INSIDE_SINGLE_QUOTE;
-	else if (cmd[i] == '\"')
+	else if (cmd[i] == '\"' && cmd[0] != '\"' && cmd[1])
 		state->state = INSIDE_DOUBLE_QUOTE;
 	else
 		state->arg = append_char(state->arg, cmd[i]);

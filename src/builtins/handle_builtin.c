@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 10:48:55 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 10:10:06 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 //			break ;
 		}
 		else if (!ft_strcmp(shell->parsed_cmd[i], "env") && child == 1)
-			return (ft_env(shell->envp));
+			return (ft_env(shell->envp, shell->parsed_cmd, &shell->exit_code));
 		else if (!ft_strcmp(shell->parsed_cmd[i], "export") && parent == 1)
 			return (ft_export(shell->envp, shell->parsed_cmd[i + 1], &shell->exit_code));
 		else if (!ft_strcmp(shell->parsed_cmd[i], "unset") && parent == 1)
