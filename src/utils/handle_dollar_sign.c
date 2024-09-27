@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:16:15 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/26 12:25:14 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/27 11:44:15 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	env_var(char **envp, char **input_var, int *match_found)
 	int		k;
 	int		len;
 	char	*temp_var;
+	char	*temp_input_var;
 
 	temp_var = (char *)malloc(sizeof(char) * (ft_strlen(*input_var) + 1));
 	j = -1;
@@ -26,7 +27,7 @@ static void	env_var(char **envp, char **input_var, int *match_found)
 		if (ft_isalnum((*input_var)[j]) || (*input_var)[j] == '_')
 			temp_var[++k] = (*input_var)[j];
 	temp_var[++k] = '\0';
-	*input_var = ft_strtrim(*input_var, temp_var);
+	temp_input_var = ft_strtrim(*input_var, temp_var);
 	j = -1;
 	while (envp[++j])
 	{
@@ -48,7 +49,9 @@ static void	env_var(char **envp, char **input_var, int *match_found)
 			temp_var[k] = '\0';
 		}
 	}
-	*input_var = ft_strjoin(temp_var, *input_var);
+	free(*input_var);
+	*input_var = ft_strjoin(temp_var, temp_input_var);
+	free(temp_input_var);
 	free(temp_var);
 }
 
@@ -75,6 +78,7 @@ static void	exit_status(t_shell shell, char **input_var, int *match_found)
 static void	check_match(char **input_var, char **arr, int match_found, int space, int n)
 {
 	int		i;
+	char	*temp;
 
 	if (!match_found && !ft_strcmp((input_var[n]), arr[0]) && arr[0][0] == '$')
 	{
@@ -90,8 +94,14 @@ static void	check_match(char **input_var, char **arr, int match_found, int space
 		while (arr[++i])
 		{
 			if (space)
-				input_var[n] = ft_strjoin(input_var[n], " ");
-			input_var[n] = ft_strjoin(input_var[n], arr[i]);
+			{
+				temp = ft_strjoin(input_var[n], " ");
+				free(input_var[n]);
+				input_var[n] = temp;
+			}
+			temp = ft_strjoin(input_var[n], arr[i]);
+			free(input_var[n]);
+			input_var[n] = temp;
 		}
 	}
 }
