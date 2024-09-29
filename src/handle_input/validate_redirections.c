@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:44:15 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/25 23:35:55 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:39:05 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 static void	append_valid_token_arr(t_shell *shell, int *n)
 {
 	shell->redir->valid_tokens = ft_realloc(shell->redir->valid_tokens, \
-							 sizeof(int) * shell->redir->token_count, \
-							 sizeof(int) * (shell->redir->token_count + 1));
+								sizeof(int) * shell->redir->token_count, \
+								sizeof(int) * (shell->redir->token_count + 1));
 	if (!shell->redir->valid_tokens)
 		err("Realloc failed");
 	shell->redir->valid_tokens[shell->redir->token_count] = *n;
 	shell->redir->token_count++;
 }
 
-int check_if_redir(t_shell *shell)
+int	check_if_redir(t_shell *shell)
 {
-	int i;
-	int single_quote;
-	int double_quote;
-	int n;
+	int	i;
+	int	single_quote;
+	int	double_quote;
+	int	n;
 
 	single_quote = 0;
 	double_quote = 0;
@@ -47,7 +47,8 @@ int check_if_redir(t_shell *shell)
 	return (shell->redir->token_count);
 }
 
-static void	validate_redirection_token(t_shell *shell, int *i, char *token, int *token_idx)
+static void	validate_redirection_token(t_shell *shell, int *i, \
+									char *token, int *token_idx)
 {
 	int	k;
 
@@ -57,12 +58,14 @@ static void	validate_redirection_token(t_shell *shell, int *i, char *token, int 
 		if (shell->redir->token_counter == shell->redir->valid_tokens[k])
 		{
 			if (*token == '<')
-				validate_input_redir(shell, &shell->parsed_cmd[*i], token, token_idx);
+				validate_input_redir(shell, &shell->parsed_cmd[*i], \
+													token, token_idx);
 			else if (*token == '>')
 			{
 				if (!shell->redir->input_file)
 					shell->redir->output_file_first = 1;
-				validate_output_redir(shell, &shell->parsed_cmd[*i], token, token_idx);
+				validate_output_redir(shell, &shell->parsed_cmd[*i], \
+													token, token_idx);
 			}
 		}
 	}
@@ -86,7 +89,7 @@ static void	parse_input_str(t_shell *shell, int *i)
 }
 
 void	validate_redirections(t_shell *shell)
-{	
+{
 	int	i;
 
 	if (check_if_redir(shell))
