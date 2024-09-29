@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 22:19:27 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 11:07:39 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:10:14 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	free_shell_allocations(t_shell *shell)
 {
 	if (shell->envp)
 		free_arr_and_null(&shell->envp);
+	if (shell->pending_exports)
+		free_arr_and_null(&shell->pending_exports);
 	if (shell->parsed_cmd)
 		free_arr_and_null(&shell->parsed_cmd);
 	if (shell->path)

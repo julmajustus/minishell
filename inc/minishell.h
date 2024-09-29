@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 23:22:37 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:07:05 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ typedef struct s_cmd_stack
 
 typedef struct s_shell
 {
-	char		**envp;
+char		**envp;
+	char		**pending_exports;
+	int			pending_exports_size;
 	char		*input;
 	char		**chained_cmds;
 	char		**tmp_chained_cmds;
@@ -103,6 +105,9 @@ typedef struct s_shell
 char	**copy_env(char **envp);
 char	**delete_env_line(char **copy, char *str);
 char	**replace_or_create_env_line(char **copy, char *str);
+void	sort_envp_alphabetically(char **envp);
+void	sort_pending_exports_alphabetically(char **pending_exports);
+void	print_sorted_exports(char **envp, char **pending_exports);
 
 void	init_shell_variables(t_shell *shell);
 void	shell_loop(t_shell *shell);
@@ -156,7 +161,7 @@ char	*append_char(char *str, char c);
 void	ft_exit(t_shell *shell);
 char	**ft_env(char **envp, char **parsed_cmd, int *exit_code);
 char	**ft_unset(char **envp, char *str);
-char	**ft_export(char **envp, char *str, int *exit_code);
+char	**ft_export(t_shell *shell, char *str);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);
 char	**ft_cd(t_shell *shell, char *path);

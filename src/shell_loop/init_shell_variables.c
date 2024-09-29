@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 23:12:31 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:13:06 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ static void	init_tilde(t_shell *shell)
 void	init_shell_variables(t_shell *shell)
 {
 	shell->envp = NULL;
+	shell->pending_exports = ft_realloc(NULL, 0, sizeof(char *));
+	shell->pending_exports[0] = NULL;
+	shell->pending_exports_size = 0;
 	shell->input = NULL;
 	shell->piped_cmds = NULL;
 	shell->parsed_cmd = NULL;
