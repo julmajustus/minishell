@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 01:27:41 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 02:19:38 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:35:51 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ int	check_if_pipes(t_shell *shell)
 									!single_quote && !double_quote)
 			return (pipe_syntax_error(&shell->exit_code));
 		if (shell->input[i] == '|' && !single_quote && !double_quote)
-				shell->pipe_count++;
+			shell->pipe_count++;
 	}
 	return (shell->pipe_count);
 }
 
 static void	parse_cmd(t_shell *shell, int i, int start)
 {
-	char *cmd;
+	char	*cmd;
 
 	cmd = ft_substr(shell->input, start, i - start);
 	append_array(cmd, &shell->piped_cmds, &shell->pipe_count);
