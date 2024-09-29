@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 00:02:53 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 02:57:38 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:27:12 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static int	validate_outputfile_permission(char *output_file, int *exit_code)
 
 static void	handle_input_files(t_shell *shell)
 {
-	int i;
-	int fd;
+	int	i;
+	int	fd;
 
 	if (shell->redir->syntax_err == 0)
 		exit_syntax_error(shell, "<<");
@@ -69,10 +69,7 @@ static void	handle_input_files(t_shell *shell)
 		{
 			fd = open(shell->redir->input_file[i], O_RDONLY);
 			if (fd == -1)
-			{
-				err("open input file");
 				shell->exit_code = 1;
-			}
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
@@ -92,16 +89,16 @@ static void	handle_output_files(t_shell *shell)
 		while (shell->redir->output_file[++i])
 		{
 			if (shell->redir->append_mode)
-				fd = open(shell->redir->output_file[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+				fd = open(shell->redir->output_file[i], \
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else
-				fd = open(shell->redir->output_file[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (validate_outputfile_permission(shell->redir->output_file[i], &shell->exit_code))
+				fd = open(shell->redir->output_file[i], \
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (validate_outputfile_permission(shell->redir->output_file[i], \
+															&shell->exit_code))
 				return ;
 			if (fd == -1)
-			{
-				err("open output file");
 				shell->exit_code = 1;
-			}
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
@@ -127,10 +124,10 @@ void	handle_redirections(t_shell *shell)
 		handle_output_files(shell);
 	}
 	if (shell->redir->input_file || shell->redir->output_file || \
-		shell->redir->here_doc_eof)
+									shell->redir->here_doc_eof)
 	{
 		if (!shell->parsed_cmd || !*shell->parsed_cmd)
-		{	
+		{
 			free_shell_allocations(shell);
 			exit(EXIT_SUCCESS);
 		}

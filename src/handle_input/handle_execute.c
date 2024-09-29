@@ -6,29 +6,11 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:37:46 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 11:18:52 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:01:38 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_status(pid_t pid)
-{
-	int	status;
-
-	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGQUIT)
-			write (2, "Quit (core dumped)\n", 19);
-		if (WTERMSIG(status) == SIGINT)
-			write (2, "\n", 1);
-		return (128 + WTERMSIG(status));
-	}
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (-1);
-}
 
 static void	handle_fds(t_shell *shell, int in_fd, int out_fd)
 {
@@ -46,23 +28,28 @@ static void	handle_fds(t_shell *shell, int in_fd, int out_fd)
 	}
 }
 
+static void	handle_exec_builtin(t_shell *shell)
+{
+	handle_builtin(shell, 0, 1);
+	free_shell_allocations(shell);
+	if (!shell->exit_code)
+	{
+		free_shell_allocations(shell);
+		exit (EXIT_SUCCESS);
+	}
+	else
+	{
+		free_shell_allocations(shell);
+		exit (shell->exit_code);
+	}
+}
+
 static void	exec_child(t_shell *shell)
 {
 	init_child_signals();
 	if (check_if_builtin(shell))
 	{
-		handle_builtin(shell, 0, 1);
-		free_shell_allocations(shell);
-		if (!shell->exit_code)
-		{
-			free_shell_allocations(shell);
-			exit (EXIT_SUCCESS);
-		}
-		else
-		{
-			free_shell_allocations(shell);
-			exit (shell->exit_code);
-		}
+		handle_exec_builtin(shell);
 	}
 	else
 	{

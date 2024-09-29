@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:45:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 01:35:33 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:53:43 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 static int	match_wildcard(const char *pattern, const char *str)
 {
-	const char *p;
-	const char *s;
+	const char	*p;
+	const char	*s;
 
 	p = pattern;
 	s = str;
@@ -35,8 +35,8 @@ static int	match_wildcard(const char *pattern, const char *str)
 
 int	match_pattern(const char *pattern, const char *str)
 {
-	const char *p;
-	const char *s;
+	const char	*p;
+	const char	*s;
 
 	p = pattern;
 	s = str;
@@ -45,18 +45,17 @@ int	match_pattern(const char *pattern, const char *str)
 		while (*p == '<' || *p == '>')
 			p++;
 		if (*p == '*')
-			return match_wildcard(p, s);
-		else if (*p != *s)
+			return (match_wildcard(p, s));
+		if (*p != *s)
 			return (0);
 		p++;
 		s++;
 	}
-	if (*p == '*' && *(p + 1) == '\0')
-		return (1);
 	return (*p == '\0' && *s == '\0');
 }
 
-static int append_matches(t_shell *shell, char ***new_cmd, int *i, int *new_cmd_size)
+static int	append_matches(t_shell *shell, char ***new_cmd, int *i, \
+						int *new_cmd_size)
 {
 	struct dirent	*entry;
 	DIR				*dir;
@@ -65,10 +64,7 @@ static int append_matches(t_shell *shell, char ***new_cmd, int *i, int *new_cmd_
 	match_count = 0;
 	dir = opendir(".");
 	if (dir == NULL)
-	{
-		err("opendir");
 		return (-1);
-	}
 	while (ft_strchr(shell->parsed_cmd[*i], '*') && \
 			(!ft_strchr(shell->parsed_cmd[*i], '\'') || \
 			!ft_strchr(shell->parsed_cmd[*i], '\"')))

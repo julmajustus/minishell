@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:15:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/27 01:57:34 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:20:34 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,24 @@ static void	parse_subcmd(t_shell *shell, int *i, int *j)
 			paren_count--;
 		if (!paren_count)
 			break ;
-		shell->chained_cmds[*j] = append_char(shell->chained_cmds[*j], shell->input[*i]);	
+		shell->chained_cmds[*j] = append_char(shell->chained_cmds[*j], \
+													shell->input[*i]);
 		*i += 1;
 	}
 }
 
 static void	parse_tokens(t_shell *shell, int *i, int *j)
 {
-	
-	if (shell->input[*i] == '&' && shell->input[*i + 1] == '&' && shell->input[*i + 2])
+	if (shell->input[*i] == '&' && shell->input[*i + 1] == '&' && \
+												shell->input[*i + 2])
 	{
 		*j += 1;
 		shell->chained_cmds[*j] = ft_strdup("&&");
 		*i += 2;
 		*j += 1;
 	}
-	if (shell->input[*i] == '|' && shell->input[*i + 1] == '|' && shell->input[*i + 2])
+	if (shell->input[*i] == '|' && shell->input[*i + 1] == '|' \
+								&& shell->input[*i + 2])
 	{
 		*j += 1;
 		shell->chained_cmds[*j] = ft_strdup("||");
@@ -57,7 +59,8 @@ void	parse_chained_cmds(t_shell *shell)
 	i = 0;
 	j = 0;
 	shell->is_chained_cmd = 1;
-	shell->chained_cmds = malloc(sizeof(char *) * ((shell->chain_count * 2) + 2));
+	shell->chained_cmds = malloc(sizeof(char *) * \
+						((shell->chain_count * 2) + 2));
 	if (!shell->chained_cmds)
 		err("malloc failed");
 	init_arr(shell->chained_cmds, (shell->chain_count * 2) + 2);
@@ -68,7 +71,7 @@ void	parse_chained_cmds(t_shell *shell)
 		if (shell->input[i] == '&' || shell->input[i] == '|')
 			parse_tokens(shell, &i, &j);
 		shell->chained_cmds[j] = append_char(shell->chained_cmds[j], \
-									   shell->input[i]);	
+													shell->input[i]);
 		i++;
 	}
 	free_and_null((void *)&shell->input);

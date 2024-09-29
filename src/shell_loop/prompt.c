@@ -6,47 +6,19 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:57:58 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/27 16:24:25 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:30:22 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//static char	*create_prompt(t_shell shell)
-//{
-//	char	*str;
-//	char	*pwd;
-//	int		i;
-//	int		n_of_slash;
-//
-//	str = ft_strdup(getenv("USER"));
-//	if (!str)
-//		str = ft_strdup("someone");
-//	pwd = getcwd(NULL, 0);
-//	i = -1;
-//	n_of_slash = 0;
-//	while (pwd[++i])
-//		if (pwd[i] == '/')
-//			n_of_slash++;
-//	if (n_of_slash >= 2)
-//	{
-//		pwd = ft_substr(pwd, ft_strlen(shell.tilde), ft_strlen(pwd)
-//				- ft_strlen(shell.tilde));
-//		pwd = ft_strjoin("~", pwd);
-//	}
-//	str = ft_strjoin(str, "@minishell:");
-//	str = ft_strjoin(str, pwd);
-//	str = ft_strjoin(str, "$ ");
-//	free(pwd);
-//	return (str);
-//}
-
 static char	*get_user(void)
 {
     char *user;
 
-	user = ft_strdup(getenv("USER"));
-    if (!user)
+	if (getenv("USER"))
+		user = ft_strdup(getenv("USER"));
+	else
         return (ft_strdup("someone"));
     return (user);
 }

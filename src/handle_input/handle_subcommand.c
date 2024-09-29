@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:40:44 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 20:44:11 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:15:27 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	parse_subcmd(t_shell *shell)
 {
-	int i;
-	int	paren_count;
-	char *sub_cmd;
+	int		i;
+	int		paren_count;
+	char	*sub_cmd;
 
 	sub_cmd = NULL;
 	i = 0;
@@ -31,7 +31,7 @@ static void	parse_subcmd(t_shell *shell)
 			paren_count--;
 		if (!paren_count)
 			break ;
-		sub_cmd = append_char(sub_cmd, shell->input[i]);	
+		sub_cmd = append_char(sub_cmd, shell->input[i]);
 	}
 	free_and_null((void *)&shell->input);
 	shell->input = sub_cmd;
@@ -54,7 +54,7 @@ static void	restore_cmds_from_stack(t_shell *shell, t_cmd_stack **stack)
 
 static void	preserve_remaining_cmds(t_shell *shell, t_cmd_stack **stack, int *i)
 {
-	int j;
+	int	j;
 
 	j = arr_len(shell->chained_cmds);
 	while (j-- > *i + 1)
@@ -62,7 +62,8 @@ static void	preserve_remaining_cmds(t_shell *shell, t_cmd_stack **stack, int *i)
 	free_arr_and_null(&shell->chained_cmds);
 }
 
-static void return_from_subcommand(t_shell *shell, int *i, t_cmd_stack **cmd_stack)
+static void	return_from_subcommand(t_shell *shell, int *i, \
+									t_cmd_stack **cmd_stack)
 {
 	free_arr_and_null(&shell->chained_cmds);
 	shell->preserving_chained_cmds--;
@@ -72,11 +73,10 @@ static void return_from_subcommand(t_shell *shell, int *i, t_cmd_stack **cmd_sta
 	free_and_null((void *)&shell->input);
 }
 
-void handle_subcommand(t_shell *shell, int *i)
+void	handle_subcommand(t_shell *shell, int *i)
 {
-
 	parse_subcmd(shell);
-	if (shell->chained_cmds[*i + 1]) 
+	if (shell->chained_cmds[*i + 1])
 	{
 		shell->preserving_chained_cmds++;
 		preserve_remaining_cmds(shell, &shell->cmd_stack, i);
