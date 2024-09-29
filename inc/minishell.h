@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 21:07:05 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:40:39 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_cmd_stack
 
 typedef struct s_shell
 {
-char		**envp;
+	char		**envp;
 	char		**pending_exports;
 	int			pending_exports_size;
 	char		*input;
@@ -95,7 +95,7 @@ char		**envp;
 	int			retval;
 	t_redir		*redir;
 	int			exit_code;
-//	int			builtin_exit_code;
+	//	int			builtin_exit_code;
 	char		*tilde;
 	int			builtin_already_executed;
 	int			last_cmd_in_pipe;
