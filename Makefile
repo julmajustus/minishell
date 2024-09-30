@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/30 09:29:24 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/30 17:26:06 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -57,6 +57,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/env/env_handler.c \
 				  $(SRC_DIR)/env/sort_and_print_exports.c \
 				  $(SRC_DIR)/builtins/handle_builtin.c \
+				  $(SRC_DIR)/builtins/check_forbidden_builtin_in_pipe.c \
 				  $(SRC_DIR)/builtins/exit.c \
 				  $(SRC_DIR)/builtins/env.c \
 				  $(SRC_DIR)/builtins/unset.c \
