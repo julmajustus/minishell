@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:16:15 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/27 11:44:15 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:07:27 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	env_var(char **envp, char **input_var, int *match_found)
 {
 	int		j;
 	int		k;
-	int		len;
 	char	*temp_var;
 	char	*temp_input_var;
 
@@ -28,27 +27,7 @@ static void	env_var(char **envp, char **input_var, int *match_found)
 			temp_var[++k] = (*input_var)[j];
 	temp_var[++k] = '\0';
 	temp_input_var = ft_strtrim(*input_var, temp_var);
-	j = -1;
-	while (envp[++j])
-	{
-		if (!ft_strncmp(envp[j], temp_var, ft_strlen(temp_var)))
-		{
-			k = 0;
-			*match_found = 1;
-			len = ft_strlen(temp_var);
-			free(temp_var);
-			temp_var = NULL;
-			temp_var = (char *)malloc(sizeof(char)
-					* (ft_strlen(envp[j]) - len));
-			while (envp[j][len + 1])
-			{
-				temp_var[k] = envp[j][len + 1];
-				k++;
-				len++;
-			}
-			temp_var[k] = '\0';
-		}
-	}
+	replace_env_var(envp, &temp_var, match_found);
 	free(*input_var);
 	*input_var = ft_strjoin(temp_var, temp_input_var);
 	free(temp_input_var);
@@ -75,69 +54,63 @@ static void	exit_status(t_shell shell, char **input_var, int *match_found)
 	*match_found = 1;
 }
 
-static void	check_match(char **input_var, char **arr, int match_found, int space, int n)
+static void	check_match(char **input_var, char **arr, \
+		int match_found, int space)
 {
 	int		i;
 	char	*temp;
 
-	if (!match_found && !ft_strcmp((input_var[n]), arr[0]) && arr[0][0] == '$')
+	if (!match_found && !ft_strcmp(*input_var, arr[0]) && arr[0][0] == '$')
 	{
-		free(input_var[n]);
-		input_var[n] = ft_strdup("");
+		free(*input_var);
+		*input_var = ft_strdup("");
 	}
 	if (match_found)
 	{
 		i = 0;
-		free(input_var[n]);
-		input_var[n] = NULL;
-		input_var[n] = ft_strdup(arr[i]);
+		free(*input_var);
+		*input_var = NULL;
+		*input_var = ft_strdup(arr[i]);
 		while (arr[++i])
 		{
 			if (space)
-			{
-				temp = ft_strjoin(input_var[n], " ");
-				free(input_var[n]);
-				input_var[n] = temp;
-			}
-			temp = ft_strjoin(input_var[n], arr[i]);
-			free(input_var[n]);
-			input_var[n] = temp;
+				add_space(input_var);
+			temp = ft_strjoin(*input_var, arr[i]);
+			free(*input_var);
+			*input_var = temp;
 		}
 	}
 }
 
-void	remove_empty_args(char ***args)
+void	check_if_exit_or_env_var(char **arr_1, t_shell shell, int *match_found)
 {
-	int		i;
 	int		j;
-	int		count;
-	char	**new_args;
+	int		i;
+	char	**arr;
 
-	i = -1;
-	count = 0;
-	while ((*args)[++i])
-		if (ft_strlen((*args)[i]) > 0)
-			count++;
-	new_args = (char **)malloc(sizeof(char *) * (count + 1));
-	if (!new_args)
-		return ;
-	i = -1;
 	j = -1;
-	while ((*args)[++i])
-		if (ft_strlen((*args)[i]) > 0)
-			new_args[++j] = ft_strdup((*args)[i]);
-	new_args[++j] = NULL;
-	free_arr(*args);
-	*args = new_args;
+	while (arr_1[++j])
+	{
+		arr = ft_split(arr_1[j], '$');
+		i = -1;
+		while (arr[++i])
+		{
+			*match_found = 0;
+			if (arr[i][0] == '?')
+				exit_status(shell, &arr[i], match_found);
+			else if (ft_isalpha(arr[i][0]) || arr[i][0] == '_')
+				env_var(shell.envp, &arr[i], match_found);
+		}
+		if (arr[0] && ft_strlen(arr[0]) > 0)
+			check_match(&arr_1[j], arr, *match_found, 0);
+		free_arr_and_null(&arr);
+	}
 }
 
 void	handle_dollar_sign(t_shell shell, char ***args)
 {
-	char	**arr;
 	int		n;
-	int		i;
 	int		match_found;
-	int		j;
 	char	**arr_1;
 
 	n = -1;
@@ -146,25 +119,9 @@ void	handle_dollar_sign(t_shell shell, char ***args)
 		if (ft_strchr((*args)[n], '$') && ft_strcmp((*args)[n], "$"))
 		{
 			arr_1 = ft_split((*args)[n], ' ');
-			j = -1;
-			while (arr_1[++j])
-			{
-				arr = ft_split(arr_1[j], '$');
-				i = -1;
-				while (arr[++i])
-				{
-					match_found = 0;
-					if (arr[i][0] == '?')
-						exit_status(shell, &arr[i], &match_found);
-					else if (ft_isalpha(arr[i][0]) || arr[i][0] == '_')
-						env_var(shell.envp, &arr[i], &match_found);
-				}
-				if (arr[0] && ft_strlen(arr[0]) > 0)
-					check_match(arr_1, arr, match_found, 0, j);
-				free_arr(arr);
-			}
-			check_match((*args), arr_1, match_found, 1, n);
-			free_arr(arr_1);
+			check_if_exit_or_env_var(arr_1, shell, &match_found);
+			check_match(&((*args)[n]), arr_1, match_found, 1);
+			free_arr_and_null(&arr_1);
 		}
 	}
 	remove_empty_args(args);
