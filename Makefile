@@ -6,13 +6,10 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2024/09/30 17:26:06 by jmakkone         ###   ########.fr        #
-=======
-#    Updated: 2024/09/30 13:12:30 by mpellegr         ###   ########.fr        #
->>>>>>> origin/main
+#    Updated: 2024/09/30 17:54:24 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 NAME            = minishell
 LIBFT_DIR       = ./libft
 SRC_DIR         = src
