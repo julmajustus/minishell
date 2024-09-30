@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 23:34:23 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 16:03:34 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:38:48 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	is_valid_variable_name(char *str, int *exit_code)
 	return (1);
 }
 
-static int calculate_variable_lenght(char *str)
+static int env_var_name_lenght(char *str)
 {
 	int		len;
 	
@@ -60,7 +60,7 @@ static int	var_exists_in_pending_exports(char **pending_exports, char *str)
 	char	*var;
 	
 	i = -1;
-	var = ft_substr(str, 0, calculate_variable_lenght(str));
+	var = ft_substr(str, 0, env_var_name_lenght(str));
 	while (pending_exports[++i])
 	{
 		if (!ft_strcmp(pending_exports[i], var))
@@ -98,7 +98,7 @@ void	remove_from_pending_exports(t_shell *shell, char *str)
 	new_pending_exports[0] = NULL;
 	shell->pending_exports_size = 0;
 	i = -1;
-	var = ft_substr(str, 0, calculate_variable_lenght(str));
+	var = ft_substr(str, 0, env_var_name_lenght(str));
 	while (shell->pending_exports[++i])
 	{
 		if (ft_strcmp(shell->pending_exports[i], var))
