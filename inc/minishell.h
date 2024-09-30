@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 09:22:20 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:14:12 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ typedef struct s_shell
 	int			retval;
 	t_redir		*redir;
 	int			exit_code;
-	//	int			builtin_exit_code;
 	char		*tilde;
 	int			builtin_already_executed;
 	int			last_cmd_in_pipe;
@@ -199,5 +198,10 @@ void	handle_ctrl_c(int sig);
 
 char	**err_oldpwd_not_set(char **envp, char *new_old_pwd, int **exit_code);
 int		find_new_len(char *path, char *new_old_pwd);
+char	**err_too_many_args(char **envp, int *exit_code);
+
+void	add_space(char **input_var);
+void	replace_env_var(char **envp, char **temp_var, int *match_found);
+void	remove_empty_args(char ***args);
 
 #endif

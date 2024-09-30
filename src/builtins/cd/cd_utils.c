@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:50:41 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/26 11:54:19 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:21:31 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,11 @@ int	find_new_len(char *path, char *new_old_pwd)
 			len--;
 	}
 	return (len);
+}
+
+char	**err_too_many_args(char **envp, int *exit_code)
+{
+	ft_putendl_fd("minishell: cd: too many arguments", 2);
+	*exit_code = 1;
+	return (envp);
 }
