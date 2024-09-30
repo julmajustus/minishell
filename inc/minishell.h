@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 21:40:39 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:22:20 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	parse_chained_cmds(t_shell *shell);
 void	handle_chained_cmds(t_shell *shell);
 void	handle_subcommand(t_shell *shell, int *i);
 void	push_to_stack(t_cmd_stack **stack, char *cmd);
-void	pop_from_stack(t_shell *shell, t_cmd_stack **stack, char **cmd);
+void	pop_from_stack(t_cmd_stack **stack, char **cmd);
 int		stack_len(t_cmd_stack **stack);
 void	check_execute_next(t_shell *shell, int i);
 void	clean_chained_cmds(t_shell *shell);
