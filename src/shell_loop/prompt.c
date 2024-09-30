@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:57:58 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/30 13:51:54 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:11:21 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,14 @@ void	prompt(t_shell *shell)
 
 	create_prompt(shell);
 	shell->input = readline(shell->prompt);
-	/*	if (isatty(fileno(stdin)))
+/*	if (isatty(fileno(stdin)))
 		shell->input = readline(shell->prompt);
 	else
 	{
 		char *line;
 		line = get_next_line(fileno(stdin));
+		if (shell->input)
+			free(shell->input);
 		shell->input = ft_strtrim(line, "\n");
 		free(line);
 	}*/
@@ -104,6 +106,6 @@ void	prompt(t_shell *shell)
 	{
 		ft_putendl_fd("exit", 1);
 		free_shell_allocations(shell);
-		exit(EXIT_SUCCESS);
+		exit(shell->retval);
 	}
 }
