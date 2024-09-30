@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 16:53:09 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:36:20 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,20 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 	int	i;
 
 	i = 0;
-//	while (shell->parsed_cmd[++i])
-//	{
-		if (!ft_strcmp(shell->parsed_cmd[i], "exit") && parent == 1)
-		{
-			ft_exit(shell);
-//			break ;
-		}
-		else if (!ft_strcmp(shell->parsed_cmd[i], "env") && child == 1)
-			return (ft_env(shell->envp, shell->parsed_cmd, &shell->exit_code));
-		else if (!ft_strcmp(shell->parsed_cmd[i], "export") && parent == 1)
-			return (ft_export(shell, shell->parsed_cmd[i + 1]));
-		else if (!ft_strcmp(shell->parsed_cmd[i], "unset") && parent == 1)
-			return (ft_unset(shell->envp, shell->parsed_cmd[i + 1]));
-		else if (!ft_strcmp(shell->parsed_cmd[i], "echo") && child == 1)
-		{
-			ft_echo(shell->parsed_cmd);
-//			break ;
-		}
-		else if (!ft_strcmp(shell->parsed_cmd[i], "pwd") && child == 1)
-		{
-			ft_pwd(shell->envp);
-//			break;
-		}
-		else if (!ft_strcmp(shell->parsed_cmd[i], "cd") && parent == 1)
-			return(ft_cd(shell, shell->parsed_cmd[i + 1])/*(shell->envp, shell->parsed_cmd[i + 1], \
-				&shell->exit_code, &shell->builtin_already_executed, shell->parsed_cmd)*/);
-//	}
+	if (!ft_strcmp(shell->parsed_cmd[i], "exit") && parent == 1)
+		ft_exit(shell);
+	else if (!ft_strcmp(shell->parsed_cmd[i], "env") && child == 1)
+		return (ft_env(shell->envp, shell->parsed_cmd, &shell->exit_code));
+	else if (!ft_strcmp(shell->parsed_cmd[i], "export") && parent == 1)
+		return (ft_export(shell, shell->parsed_cmd[i + 1]));
+	else if (!ft_strcmp(shell->parsed_cmd[i], "unset") && parent == 1)
+		return (ft_unset(shell->envp, shell->parsed_cmd[i + 1]));
+	else if (!ft_strcmp(shell->parsed_cmd[i], "echo") && child == 1)
+		ft_echo(shell->parsed_cmd);
+	else if (!ft_strcmp(shell->parsed_cmd[i], "pwd") && child == 1)
+		ft_pwd(shell->envp);
+	else if (!ft_strcmp(shell->parsed_cmd[i], "cd") && parent == 1)
+		return (ft_cd(shell, shell->parsed_cmd[i + 1]));
 	return (shell->envp);
 }
 
