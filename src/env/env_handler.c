@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:27:02 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/02 15:50:17 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:39:57 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**delete_env_line(char **envp, char *str)
 			new_envp[++j] = ft_strdup(envp[i]);
 			if (!new_envp[j])
 			{
-				free_arr(new_envp); //maybe some error handling if unset fails.
+				free_arr(new_envp);
 				return (envp);
 			}
 		}
