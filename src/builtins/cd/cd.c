@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:57:45 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/27 10:00:30 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:50:26 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,17 @@ char	**cd_to_old_pwd(char **envp, char *new_old_pwd, int *exit_code)
 {
 	char	*new_pwd;
 	int		i;
-	int		pwd_len;
 	int		start;
 	int		j;
-	char *temp;
+	char	*temp;
 
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "OLDPWD", 6) != 0)
 		i++;
 	if (!envp[i])
 		return (err_oldpwd_not_set(envp, new_old_pwd, &exit_code));
-	pwd_len = ft_strlen(envp[i]);
 	start = 7;
-	temp = (char *)malloc(sizeof(char) * (pwd_len - start + 1));
+	temp = (char *)malloc(sizeof(char) * (ft_strlen(envp[i]) - start + 1));
 	j = 0;
 	while (envp[i][start])
 		temp[j++] = envp[i][start++];
@@ -132,18 +130,10 @@ char	**ft_cd(t_shell *shell, char *path)
 	char	*temp;
 
 	if (arr_len(shell->parsed_cmd) > 2)
-	{
-		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		shell->exit_code = 1;
-		return (shell->envp);
-	}
+		return (err_too_many_args(shell->envp, &shell->exit_code));
 	temp = getcwd(NULL, 0);
 	if (!temp)
-	{
-		temp = getenv("PWD");
-		if (!temp)
-			temp = ft_strdup("somethng went wrong");
-	}
+		temp = ft_strdup("somethng went wrong");
 	new_old_pwd = ft_strjoin("OLDPWD=", temp);
 	free(temp);
 	if (!path)

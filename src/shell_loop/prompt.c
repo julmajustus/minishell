@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:57:58 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/30 11:00:14 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:53:18 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ static void	create_prompt(t_shell *shell)
 	str = get_user();
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-	{
-		free(str);
-		return ;
-	}
+		pwd = ft_strdup("somewhere");
 	n_of_slash = count_slashes(pwd);
 	if (n_of_slash >= 2)
 		pwd = get_pwd(shell->tilde, pwd);
@@ -89,12 +86,14 @@ void	prompt(t_shell *shell)
 
 	create_prompt(shell);
 	shell->input = readline(shell->prompt);
-	/*	if (isatty(fileno(stdin)))
+/*	if (isatty(fileno(stdin)))
 		shell->input = readline(shell->prompt);
 	else
 	{
 		char *line;
 		line = get_next_line(fileno(stdin));
+		if (shell->input)
+			free(shell->input);
 		shell->input = ft_strtrim(line, "\n");
 		free(line);
 	}*/
@@ -107,6 +106,6 @@ void	prompt(t_shell *shell)
 	{
 		ft_putendl_fd("exit", 1);
 		free_shell_allocations(shell);
-		exit(EXIT_SUCCESS);
+		exit(shell->retval);
 	}
 }

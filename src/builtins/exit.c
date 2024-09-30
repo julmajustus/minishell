@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 23:47:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 11:00:02 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:52:36 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_exit(t_shell *shell)
 		if (shell->parsed_cmd[1])
 			exit_code = (ft_atoi(shell->parsed_cmd[i - 1])) % 256;
 		else
-			exit_code = shell->exit_code;
+			exit_code = shell->retval;
 		free_shell_allocations(shell);
 		exit(exit_code);
 	}
