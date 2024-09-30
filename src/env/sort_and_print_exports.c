@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:04:57 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 21:42:05 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 11:04:06 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	print_sorted_exports(char **envp, char **pending_exports)
 		j = 0;
 		while (envp[i][j] != '=')
 			j++;
-		printf("declare -x %.*s\"%s\"\n", j, envp[i], envp[i] + j + 1);
+		printf("declare -x %.*s=\"%s\"\n", j, envp[i], envp[i] + j + 1);
 	}
 	i = -1;
 	while (pending_exports[++i])

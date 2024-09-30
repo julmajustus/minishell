@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 09:36:20 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:03:17 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**exec_builtin(t_shell *shell, int parent, int child)
 	else if (!ft_strcmp(shell->parsed_cmd[i], "export") && parent == 1)
 		return (ft_export(shell, shell->parsed_cmd[i + 1]));
 	else if (!ft_strcmp(shell->parsed_cmd[i], "unset") && parent == 1)
-		return (ft_unset(shell->envp, shell->parsed_cmd[i + 1]));
+		return (ft_unset(shell, shell->parsed_cmd[i + 1]));
 	else if (!ft_strcmp(shell->parsed_cmd[i], "echo") && child == 1)
 		ft_echo(shell->parsed_cmd);
 	else if (!ft_strcmp(shell->parsed_cmd[i], "pwd") && child == 1)
