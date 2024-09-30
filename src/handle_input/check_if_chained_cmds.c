@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:42 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 22:59:27 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:47:33 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	check_if_chained_cmds(t_shell *shell)
 	int	i;
 
 	i = -1;
+	shell->chain_count = 0; 
 	while (shell->input[++i] && !ft_strchr(shell->input, '\'') \
 							&& !ft_strchr(shell->input, '\"'))
 	{
