@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 17:13:06 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:20:44 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,8 @@ void	init_shell_variables(t_shell *shell)
 	shell->pids = NULL;
 	shell->status = -1;
 	shell->retval = 0;
-//	shell->builtin_exit_code = 0;
 	shell->exit_code = 0;
 	shell->last_cmd_in_pipe = 0;
-//	shell->prompt = NULL;
 	init_tilde(shell);
 	init_redir(shell);
 }

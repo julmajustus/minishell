@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:57:45 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/30 09:21:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:50:26 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,7 @@ char	**ft_cd(t_shell *shell, char *path)
 		return (err_too_many_args(shell->envp, &shell->exit_code));
 	temp = getcwd(NULL, 0);
 	if (!temp)
-	{
-		temp = getenv("PWD");
-		if (!temp)
-			temp = ft_strdup("somethng went wrong");
-	}
+		temp = ft_strdup("somethng went wrong");
 	new_old_pwd = ft_strjoin("OLDPWD=", temp);
 	free(temp);
 	if (!path)

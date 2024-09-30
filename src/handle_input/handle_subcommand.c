@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:40:44 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 22:15:27 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:30:05 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	restore_cmds_from_stack(t_shell *shell, t_cmd_stack **stack)
 	init_arr(shell->tmp_chained_cmds, stack_len(stack) + 1);
 	while (*stack)
 	{
-		pop_from_stack(shell, stack, &shell->tmp_chained_cmds[i]);
+		pop_from_stack(stack, &shell->tmp_chained_cmds[i]);
 		i++;
 	}
 	shell->chained_cmds = shell->tmp_chained_cmds;

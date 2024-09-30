@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_loop.c                                       :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 22:34:38 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 09:48:58 by jmakkone         ###   ########.fr       */
+/*   Created: 2024/09/30 09:28:24 by jmakkone          #+#    #+#             */
+/*   Updated: 2024/09/30 09:28:38 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	shell_loop(t_shell *shell)
+void	err(const char *msg)
 {
-	while (1)
-	{
-		shell->cmd_stack = NULL;
-		shell->execute_next = 1;
-		shell->is_builtin = 0;
-		shell->is_chained_cmd = 0;
-		shell->preserving_chained_cmds = 0;
-		shell->exit_code = 0;
-		shell->pipe_count = 0;
-		shell->fd[0] = STDIN_FILENO;
-		shell->fd[1] = STDOUT_FILENO;
-		shell->last_cmd_in_pipe = 0;
-		shell->builtin_already_executed = 0;
-		prompt(shell);
-		handle_input(shell);
-	}
+	write(2, msg, ft_strlen(msg));
+	write(2, ": ", 2);
+	write(2, strerror(errno), ft_strlen(strerror(errno)));
+	write(2, "\n", 1);
 }
