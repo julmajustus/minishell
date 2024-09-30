@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:27:02 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 09:39:57 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:51:11 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,29 +94,24 @@ static char	**modify_existing(char **envp, char *str, size_t arg_len)
 
 static char	**add_new_line(char **envp, char *str, size_t arg_len)
 {
-	int		i;
-	char	**new_envp;
 	char	*new_str;
+	int		envp_len;
 
-	new_envp = (char **)malloc(sizeof(char *) * (arr_len(envp) + 2));
-	i = -1;
-	while (envp[++i])
-		new_envp[i] = ft_strdup(envp[i]);
+	envp_len = arr_len(envp);
 	if (str[arg_len] == '+')
 	{
 		new_str = (char *)malloc(ft_strlen(str));
+		if (!new_str)
+			return (envp);
 		ft_strlcpy(new_str, str, arg_len + 1);
 		ft_strlcpy(new_str + arg_len, str + arg_len + 1, \
 					ft_strlen(str) - arg_len);
-		str = new_str;
+		append_array(new_str, &envp, &envp_len);
+		free(new_str);
 	}
-	new_envp[i] = ft_strdup(str);
-	new_envp[i + 1] = NULL;
-	i = -1;
-	while (envp[++i])
-		free(envp[i]);
-	free(envp);
-	return (new_envp);
+	else
+		append_array(str, &envp, &envp_len);
+	return (envp);
 }
 
 char	**replace_or_create_env_line(char **envp, char *str)

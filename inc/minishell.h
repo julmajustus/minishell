@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 13:14:12 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:12:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,11 @@ typedef struct s_shell
 char	**copy_env(char **envp);
 char	**delete_env_line(char **copy, char *str);
 char	**replace_or_create_env_line(char **copy, char *str);
-void	sort_envp_alphabetically(char **envp);
-void	sort_pending_exports_alphabetically(char **pending_exports);
 void	print_sorted_exports(char **envp, char **pending_exports);
+int		var_exists_in_pending_exports(char **pending_exports, char *str);
+char	**add_to_pending_exports(char **pending_exports, \
+							char *str, int *pending_exports_size);
+void	remove_from_pending_exports(t_shell *shell, char *str);
 
 void	init_shell_variables(t_shell *shell);
 void	shell_loop(t_shell *shell);
@@ -159,7 +161,7 @@ char	*append_char(char *str, char c);
 
 void	ft_exit(t_shell *shell);
 char	**ft_env(char **envp, char **parsed_cmd, int *exit_code);
-char	**ft_unset(char **envp, char *str);
+char	**ft_unset(t_shell *shell, char *str);
 char	**ft_export(t_shell *shell, char *str);
 void	ft_echo(char **cmd);
 void	ft_pwd(char **envp);

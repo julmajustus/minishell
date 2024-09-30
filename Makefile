@@ -6,9 +6,10 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/30 13:12:30 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/09/30 18:13:04 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 NAME            = minishell
 LIBFT_DIR       = ./libft
 SRC_DIR         = src
@@ -56,8 +57,10 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/utils/update_quote_state.c \
 				  $(SRC_DIR)/utils/handle_dollar_sign_utils.c \
 				  $(SRC_DIR)/env/env_handler.c \
+				  $(SRC_DIR)/env/handle_pending_exports.c \
 				  $(SRC_DIR)/env/sort_and_print_exports.c \
 				  $(SRC_DIR)/builtins/handle_builtin.c \
+				  $(SRC_DIR)/builtins/check_forbidden_builtin_in_pipe.c \
 				  $(SRC_DIR)/builtins/exit.c \
 				  $(SRC_DIR)/builtins/env.c \
 				  $(SRC_DIR)/builtins/unset.c \

@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 09:36:20 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:15:37 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,52 @@ int	check_if_builtin(t_shell *shell)
 	return (0);
 }
 
-char	**exec_builtin(t_shell *shell, int parent, int child)
+static char	**handle_unset(t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	if (!ft_strcmp(shell->parsed_cmd[i], "exit") && parent == 1)
+	if (!shell->parsed_cmd[i + 1])
+		shell->envp = ft_unset(shell, NULL);
+	else
+	{
+		while (shell->parsed_cmd[++i])
+			shell->envp = ft_unset(shell, shell->parsed_cmd[i]);
+	}
+	return (shell->envp);
+}
+
+static char	**handle_export(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	if (!shell->parsed_cmd[i + 1])
+		shell->envp = ft_export(shell, NULL);
+	else
+	{
+		while (shell->parsed_cmd[++i])
+			shell->envp = ft_export(shell, shell->parsed_cmd[i]);
+	}
+	return (shell->envp);
+}
+
+char	**exec_builtin(t_shell *shell, int parent, int child)
+{
+	if (!ft_strcmp(shell->parsed_cmd[0], "exit") && parent == 1)
 		ft_exit(shell);
-	else if (!ft_strcmp(shell->parsed_cmd[i], "env") && child == 1)
+	else if (!ft_strcmp(shell->parsed_cmd[0], "env") && child == 1)
 		return (ft_env(shell->envp, shell->parsed_cmd, &shell->exit_code));
-	else if (!ft_strcmp(shell->parsed_cmd[i], "export") && parent == 1)
-		return (ft_export(shell, shell->parsed_cmd[i + 1]));
-	else if (!ft_strcmp(shell->parsed_cmd[i], "unset") && parent == 1)
-		return (ft_unset(shell->envp, shell->parsed_cmd[i + 1]));
-	else if (!ft_strcmp(shell->parsed_cmd[i], "echo") && child == 1)
+	else if (!ft_strcmp(shell->parsed_cmd[0], "export") && parent == 1)
+		return (handle_export(shell));
+	else if (!ft_strcmp(shell->parsed_cmd[0], "unset") && parent == 1)
+		return (handle_unset(shell));
+	else if (!ft_strcmp(shell->parsed_cmd[0], "echo") && child == 1)
 		ft_echo(shell->parsed_cmd);
-	else if (!ft_strcmp(shell->parsed_cmd[i], "pwd") && child == 1)
+	else if (!ft_strcmp(shell->parsed_cmd[0], "pwd") && child == 1)
 		ft_pwd(shell->envp);
-	else if (!ft_strcmp(shell->parsed_cmd[i], "cd") && parent == 1)
-		return (ft_cd(shell, shell->parsed_cmd[i + 1]));
+	else if (!ft_strcmp(shell->parsed_cmd[0], "cd") && parent == 1)
+		return (ft_cd(shell, shell->parsed_cmd[1]));
 	return (shell->envp);
 }
 
@@ -65,22 +92,4 @@ void	handle_builtin(t_shell *shell, int parent, int child)
 	if (shell->in_pipe && !ft_strcmp(shell->parsed_cmd[0], "exit"))
 		return ;
 	shell->envp = exec_builtin(shell, parent, child);
-}
-
-void	check_forbidden_builtin_in_pipe(char **cmd_arr, int *exit_code)
-{
-	int	i;
-
-	i = -1;
-	while (cmd_arr[++i])
-	{
-		if (!ft_strcmp(cmd_arr[0], "exit"))
-			*exit_code = 1;
-		else if (!ft_strcmp(cmd_arr[0], "export"))
-			*exit_code = 1;
-		else if (!ft_strcmp(cmd_arr[0], "unset"))
-			*exit_code = 1;
-		else if (!ft_strcmp(cmd_arr[0], "cd"))
-			*exit_code = 1;
-	}
 }

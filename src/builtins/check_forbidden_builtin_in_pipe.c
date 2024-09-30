@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   check_forbidden_builtin_in_pipe.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 22:45:45 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 14:05:39 by jmakkone         ###   ########.fr       */
+/*   Created: 2024/09/30 17:24:50 by jmakkone          #+#    #+#             */
+/*   Updated: 2024/09/30 17:25:06 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_unset(t_shell *shell, char *str)
+void	check_forbidden_builtin_in_pipe(char **cmd_arr, int *exit_code)
 {
 	int	i;
 
-	if (!str || !*str || ft_strchr(str, '='))
-		return (shell->envp);
 	i = -1;
-	remove_from_pending_exports(shell, str);
-	while (shell->envp[++i])
+	while (cmd_arr[++i])
 	{
-		if (ft_strncmp(shell->envp[i], str, ft_strlen(str)) == 0 && \
-			shell->envp[i][ft_strlen(str)] == '=')
-			return (delete_env_line(shell->envp, str));
+		if (!ft_strcmp(cmd_arr[0], "exit"))
+			*exit_code = 1;
+		else if (!ft_strcmp(cmd_arr[0], "export"))
+			*exit_code = 1;
+		else if (!ft_strcmp(cmd_arr[0], "unset"))
+			*exit_code = 1;
+		else if (!ft_strcmp(cmd_arr[0], "cd"))
+			*exit_code = 1;
 	}
-	return (shell->envp);
 }
