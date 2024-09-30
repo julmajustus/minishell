@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 14:06:26 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:03:48 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ typedef struct s_shell
 char	**copy_env(char **envp);
 char	**delete_env_line(char **copy, char *str);
 char	**replace_or_create_env_line(char **copy, char *str);
-void	sort_envp_alphabetically(char **envp);
-void	sort_pending_exports_alphabetically(char **pending_exports);
 void	print_sorted_exports(char **envp, char **pending_exports);
 void	remove_from_pending_exports(t_shell *shell, char *str);
 

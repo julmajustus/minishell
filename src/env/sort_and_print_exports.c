@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:04:57 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 11:04:06 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:03:31 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sort_envp_alphabetically(char **envp)
+static void	sort_envp_alphabetically(char **envp)
 {
 	int		i;
 	int		j;
@@ -34,7 +34,7 @@ void	sort_envp_alphabetically(char **envp)
 	}
 }
 
-void	sort_pending_exports_alphabetically(char **pending_exports)
+static void	sort_pending_exports_alphabetically(char **pending_exports)
 {
 	int		i;
 	int		j;
@@ -58,18 +58,23 @@ void	sort_pending_exports_alphabetically(char **pending_exports)
 
 void	print_sorted_exports(char **envp, char **pending_exports)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	**tmp;
 
+	tmp = copy_env(envp);
+	sort_envp_alphabetically(tmp);
+	sort_pending_exports_alphabetically(pending_exports);
 	i = -1;
-	while (envp[++i])
+	while (tmp[++i])
 	{
 		j = 0;
-		while (envp[i][j] != '=')
+		while (tmp[i][j] != '=')
 			j++;
-		printf("declare -x %.*s=\"%s\"\n", j, envp[i], envp[i] + j + 1);
+		printf("declare -x %.*s=\"%s\"\n", j, tmp[i], tmp[i] + j + 1);
 	}
 	i = -1;
 	while (pending_exports[++i])
 		printf("declare -x %s\n", pending_exports[i]);
+	free_arr_and_null(&tmp);
 }

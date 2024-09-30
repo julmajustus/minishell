@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 23:34:23 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 14:46:07 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:03:34 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,15 +112,10 @@ void	remove_from_pending_exports(t_shell *shell, char *str)
 
 char	**ft_export(t_shell *shell, char *str)
 {
-	char	**tmp;
 
 	if (!str || !*str)
 	{
-		tmp = copy_env(shell->envp);
-		sort_envp_alphabetically(tmp);
-		sort_pending_exports_alphabetically(shell->pending_exports);
-		print_sorted_exports(tmp, shell->pending_exports);
-		free_arr_and_null(&tmp);
+		print_sorted_exports(shell->envp, shell->pending_exports);
 		return (shell->envp);
 	}
 	if (is_valid_variable_name(str, &shell->exit_code))
