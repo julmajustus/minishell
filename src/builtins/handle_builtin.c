@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 22:12:20 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 17:47:17 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:15:37 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_if_builtin(t_shell *shell)
 static char	**handle_unset(t_shell *shell)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!shell->parsed_cmd[i + 1])
 		shell->envp = ft_unset(shell, NULL);
@@ -51,7 +51,7 @@ static char	**handle_unset(t_shell *shell)
 static char	**handle_export(t_shell *shell)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!shell->parsed_cmd[i + 1])
 		shell->envp = ft_export(shell, NULL);

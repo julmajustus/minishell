@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 17:52:10 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:12:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,9 @@ char	**copy_env(char **envp);
 char	**delete_env_line(char **copy, char *str);
 char	**replace_or_create_env_line(char **copy, char *str);
 void	print_sorted_exports(char **envp, char **pending_exports);
+int		var_exists_in_pending_exports(char **pending_exports, char *str);
+char	**add_to_pending_exports(char **pending_exports, \
+							char *str, int *pending_exports_size);
 void	remove_from_pending_exports(t_shell *shell, char *str);
 
 void	init_shell_variables(t_shell *shell);
