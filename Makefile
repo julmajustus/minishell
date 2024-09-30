@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/29 21:58:02 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/09/30 09:29:24 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME            = minishell
@@ -41,6 +41,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/handle_input/handle_wildcards.c \
 				  $(SRC_DIR)/handle_input/validate_cmd.c \
 				  $(SRC_DIR)/handle_input/validate_path.c \
+				  $(SRC_DIR)/handle_input/error.c \
 				  $(SRC_DIR)/handle_input/error_handler.c \
 				  $(SRC_DIR)/handle_input/exit_handler.c \
 				  $(SRC_DIR)/handle_input/check_status.c \
