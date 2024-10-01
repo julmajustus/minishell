@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/10/01 10:59:24 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:43:25 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	init_shell_variables(t_shell *shell)
 	shell->fd[1] = 1;
 	shell->pid = -1;
 	shell->pids = NULL;
-	shell->status = -1;
 	shell->retval = 0;
 	shell->exit_code = 0;
 	shell->last_cmd_in_pipe = 0;

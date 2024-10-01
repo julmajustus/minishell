@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/10/01 11:23:06 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:43:12 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,13 @@ typedef struct s_shell
 	int			is_chained_cmd;
 	int			preserving_chained_cmds;
 	int			execute_next;
-	int			is_builtin;
 	int			fd[2];
 	pid_t		pid;
 	pid_t		*pids;
-	int			status;
 	int			retval;
 	t_redir		*redir;
 	int			exit_code;
 	char		*tilde;
-	int			builtin_already_executed;
 	int			last_cmd_in_pipe;
 	char		*prompt;
 }	t_shell;
