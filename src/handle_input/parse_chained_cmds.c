@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:15:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 22:20:34 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:23:55 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	parse_subcmd(t_shell *shell, int *i, int *j)
 			break ;
 		shell->chained_cmds[*j] = append_char(shell->chained_cmds[*j], \
 													shell->input[*i]);
-		*i += 1;
+		if (shell->input[*i + 1])
+			*i += 1;
 	}
 }
 
