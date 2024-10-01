@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 00:02:53 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 22:27:12 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:23:25 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	handle_input_files(t_shell *shell)
 	int	fd;
 
 	if (shell->redir->syntax_err == 0)
-		exit_syntax_error(shell, "<<");
+		exit_syntax_error(shell, "<");
 	if (shell->redir->input_file && !shell->redir->here_doc)
 	{
 		i = -1;
@@ -82,7 +82,7 @@ static void	handle_output_files(t_shell *shell)
 	int	fd;
 
 	if (shell->redir->syntax_err == 1)
-		exit_syntax_error(shell, ">>");
+		exit_syntax_error(shell, ">");
 	if (shell->redir->output_file)
 	{
 		i = -1;

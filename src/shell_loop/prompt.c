@@ -6,59 +6,11 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:57:58 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/30 17:53:18 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:23:20 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*get_user(void)
-{
-	char	*user;
-
-	if (getenv("USER"))
-		user = ft_strdup(getenv("USER"));
-	else
-		return (ft_strdup("someone"));
-	return (user);
-}
-
-static int	count_slashes(char *pwd)
-{
-	int	n_of_slash;
-	int	i;
-
-	n_of_slash = 0;
-	i = -1;
-	while (pwd[++i])
-		if (pwd[i] == '/')
-			n_of_slash++;
-	return (n_of_slash);
-}
-
-static char	*get_pwd(char *tilde, char *pwd)
-{
-	char	*result;
-
-	result = ft_substr(pwd, ft_strlen(tilde), \
-			ft_strlen(pwd) - ft_strlen(tilde));
-	free(pwd);
-	pwd = ft_strjoin("~", result);
-	free(result);
-	return (pwd);
-}
-
-static char	*build_prompt(char *user, char *pwd)
-{
-	char	*prompt;
-	char	*temp;
-
-	prompt = ft_strjoin(user, "@minishell:");
-	temp = ft_strjoin(prompt, pwd);
-	free(prompt);
-	free(pwd);
-	return (temp);
-}
 
 static void	create_prompt(t_shell *shell)
 {
@@ -82,22 +34,8 @@ static void	create_prompt(t_shell *shell)
 
 void	prompt(t_shell *shell)
 {
-	// 	char	*prompt;
-
 	create_prompt(shell);
 	shell->input = readline(shell->prompt);
-/*	if (isatty(fileno(stdin)))
-		shell->input = readline(shell->prompt);
-	else
-	{
-		char *line;
-		line = get_next_line(fileno(stdin));
-		if (shell->input)
-			free(shell->input);
-		shell->input = ft_strtrim(line, "\n");
-		free(line);
-	}*/
-	//	free(shell->prompt);
 	if (shell->input != NULL && !is_empty_str(shell->input))
 	{
 		add_history(shell->input);

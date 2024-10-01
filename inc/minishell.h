@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 05:05:49 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 18:12:23 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:23:06 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,5 +205,10 @@ char	**err_too_many_args(char **envp, int *exit_code);
 void	add_space(char **input_var);
 void	replace_env_var(char **envp, char **temp_var, int *match_found);
 void	remove_empty_args(char ***args);
+
+char	*get_user(void);
+int		count_slashes(char *pwd);
+char	*get_pwd(char *tilde, char *pwd);
+char	*build_prompt(char *user, char *pwd);
 
 #endif
