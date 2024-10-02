@@ -5,6 +5,7 @@ obj
 my_tests
 vg.supp
 minishell
+ms-tester
 minishell_tester
 42_minishell_tester
 
