@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 21:37:03 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 09:20:44 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:43:25 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ static void	init_tilde(t_shell *shell)
 	n_of_slash = 0;
 	shell->tilde = getcwd(NULL, 0);
 	if (!shell->tilde)
+	{
+		shell->tilde = ft_strdup(getenv("HOME"));
 		return ;
+	}
 	while (shell->tilde[++i])
 	{
 		if (shell->tilde[i] == '/')
@@ -73,7 +76,6 @@ void	init_shell_variables(t_shell *shell)
 	shell->fd[1] = 1;
 	shell->pid = -1;
 	shell->pids = NULL;
-	shell->status = -1;
 	shell->retval = 0;
 	shell->exit_code = 0;
 	shell->last_cmd_in_pipe = 0;

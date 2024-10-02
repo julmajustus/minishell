@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 10:06:00 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/27 03:39:11 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:43:08 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void	ft_pwd(char **envp)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		pwd = getenv("PWD");
-		if (!pwd)
-			ft_putendl_fd("pwd not found", 2);
+		ft_putendl_fd("pwd not found", 2);
+		pwd = ft_strdup("somewhere");
 	}
 	printf("%s\n", pwd);
 	free(pwd);

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:16:15 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/09/30 13:07:27 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:41:25 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	handle_dollar_sign(t_shell shell, char ***args)
 	char	**arr_1;
 
 	n = -1;
+	match_found = 0;
 	while ((*args)[++n])
 	{
 		if (ft_strchr((*args)[n], '$') && ft_strcmp((*args)[n], "$"))

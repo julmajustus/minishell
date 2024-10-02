@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/09/30 18:13:04 by jmakkone         ###   ########.fr        #
+#    Updated: 2024/10/01 11:46:03 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC             = $(SRC_DIR)/main.c \
 				  $(SRC_DIR)/shell_loop/shell_loop.c \
 				  $(SRC_DIR)/shell_loop/prompt.c \
 				  $(SRC_DIR)/shell_loop/handle_input.c \
+				  $(SRC_DIR)/shell_loop/prompt_utils.c \
 				  $(SRC_DIR)/handle_input/check_if_chained_cmds.c \
 				  $(SRC_DIR)/handle_input/parse_chained_cmds.c \
 				  $(SRC_DIR)/handle_input/handle_chained_cmds.c \
@@ -76,9 +77,9 @@ OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
-CC              = clang
+CC              = cc
 CFLAGS          = -Wall -Wextra -Werror \
-				  -I$(INC_DIR) -g -ggdb3
+				  -I$(INC_DIR)
 LDFLAGS			= -lreadline
 
 
