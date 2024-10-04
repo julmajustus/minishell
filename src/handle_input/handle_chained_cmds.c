@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 23:38:55 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/26 20:39:28 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:09:46 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	handle_chained_cmds(t_shell *shell)
 			continue ;
 		}
 		shell->input = ft_strdup(shell->chained_cmds[i]);
-		if (ft_strchr(shell->input, '('))
+		if (ft_strchr(shell->input, '(') && shell->execute_next)
 		{
 			handle_subcommand(shell, &i);
 			if (!shell->chained_cmds)
