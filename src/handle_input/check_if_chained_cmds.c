@@ -6,15 +6,15 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:42 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/30 17:53:03 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:28:16 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_if_syntax_error(t_shell *shell, int *i, char token)
+static int	check_if_syntax_error(t_shell *shell, int i, char token)
 {
-	if (!shell->input[*i + 2] || shell->input[*i + 2] == token)
+	if (!shell->input[i + 2] || shell->input[i + 2] == token)
 	{
 		if (token == '&')
 			err_syntax("&&");
@@ -26,27 +26,49 @@ static int	check_if_syntax_error(t_shell *shell, int *i, char token)
 	return (0);
 }
 
+static int	check_and(t_shell *shell, int i, int single_quote, \
+												int double_quote)
+{
+	if (shell->input[i] == '&' && shell->input[i + 1] == '&' \
+		&& !single_quote && !double_quote)
+	{
+		if (check_if_syntax_error(shell, i, '&'))
+			return (-1);
+		shell->chain_count++;
+	}
+	return (0);
+}
+
+static int	check_or(t_shell *shell, int i, int single_quote, \
+												int double_quote)
+{
+	if (shell->input[i] == '|' && shell->input[i + 1] == '|' \
+		&& !single_quote && !double_quote)
+	{
+		if (check_if_syntax_error(shell, i, '|'))
+			return (-1);
+		shell->chain_count++;
+	}
+	return (0);
+}
+
 int	check_if_chained_cmds(t_shell *shell)
 {
 	int	i;
+	int	single_quote;
+	int	double_quote;
 
+	single_quote = 0;
+	double_quote = 0;
 	i = -1;
 	shell->chain_count = 0;
-	while (shell->input[++i] && !ft_strchr(shell->input, '\'') \
-							&& !ft_strchr(shell->input, '\"'))
+	while (shell->input[++i])
 	{
-		if (shell->input[i] == '&' && shell->input[i + 1] == '&')
-		{
-			if (check_if_syntax_error(shell, &i, '&'))
-				return (0);
-			shell->chain_count++;
-		}
-		if (shell->input[i] == '|' && shell->input[i + 1] == '|')
-		{
-			if (check_if_syntax_error(shell, &i, '|'))
-				return (0);
-			shell->chain_count++;
-		}
+		update_quote_state(shell->input[i], &single_quote, &double_quote);
+		if (check_and(shell, i, single_quote, double_quote) == -1)
+			return (0);
+		if (check_or(shell, i, single_quote, double_quote) == -1)
+			return (0);
 	}
 	return (shell->chain_count);
 }
