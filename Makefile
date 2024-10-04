@@ -6,7 +6,7 @@
 #    By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/02 16:11:30 by jmakkone          #+#    #+#              #
-#    Updated: 2024/10/01 11:46:03 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/10/04 11:18:32 by jmakkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ LIBFT           = $(LIBFT_DIR)/libft.a
 RM              = rm -f
 CC              = cc
 CFLAGS          = -Wall -Wextra -Werror \
-				  -I$(INC_DIR)
+				  -I$(INC_DIR) -g -ggdb3
 LDFLAGS			= -lreadline
 
 
