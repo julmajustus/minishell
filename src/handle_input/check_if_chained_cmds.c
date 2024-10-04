@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:42 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/10/04 12:28:16 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:56:03 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_if_syntax_error(t_shell *shell, int i, char token)
+int	check_if_chain_syntax_error(t_shell *shell, int i, char token)
 {
 	if (!shell->input[i + 2] || shell->input[i + 2] == token)
 	{
@@ -20,6 +20,21 @@ static int	check_if_syntax_error(t_shell *shell, int i, char token)
 			err_syntax("&&");
 		if (token == '|')
 			err_syntax("||");
+		shell->exit_code = 1;
+		return (1);
+	}
+	i += 2;
+	while (ft_isspace(shell->input[i]))
+		i++;
+	if (shell->input[i] == '&' && shell->input[i + 1] == '&')
+	{
+		err_syntax("&&");
+		shell->exit_code = 1;
+		return (1);
+	}
+	if (shell->input[i] == '|' && shell->input[i + 1] == '|')
+	{
+		err_syntax("||");
 		shell->exit_code = 1;
 		return (1);
 	}
@@ -32,7 +47,7 @@ static int	check_and(t_shell *shell, int i, int single_quote, \
 	if (shell->input[i] == '&' && shell->input[i + 1] == '&' \
 		&& !single_quote && !double_quote)
 	{
-		if (check_if_syntax_error(shell, i, '&'))
+		if (check_if_chain_syntax_error(shell, i, '&'))
 			return (-1);
 		shell->chain_count++;
 	}
@@ -45,7 +60,7 @@ static int	check_or(t_shell *shell, int i, int single_quote, \
 	if (shell->input[i] == '|' && shell->input[i + 1] == '|' \
 		&& !single_quote && !double_quote)
 	{
-		if (check_if_syntax_error(shell, i, '|'))
+		if (check_if_chain_syntax_error(shell, i, '|'))
 			return (-1);
 		shell->chain_count++;
 	}
