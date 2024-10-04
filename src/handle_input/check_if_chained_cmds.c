@@ -6,13 +6,13 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:42 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/10/04 12:56:03 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:00:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_if_chain_syntax_error(t_shell *shell, int i, char token)
+static int	check_if_chain_syntax_error(t_shell *shell, int i, char token)
 {
 	if (!shell->input[i + 2] || shell->input[i + 2] == token)
 	{
