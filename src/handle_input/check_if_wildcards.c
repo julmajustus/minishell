@@ -6,11 +6,22 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:49:34 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/09/29 22:34:10 by jmakkone         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:44:23 by jmakkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	split_array(t_shell *shell, int i, int *start, int *token_count)
+{
+	if (i > *start)
+	{
+		shell->input[i] = '\0';
+		append_array(&shell->input[*start], &shell->parsed_cmd, \
+			  token_count);
+	}
+	*start = i + 1;
+}
 
 static void	create_array(t_shell *shell, int *token_count)
 {
@@ -27,13 +38,10 @@ static void	create_array(t_shell *shell, int *token_count)
 	{
 		update_quote_state(shell->input[i], &single_quote, &double_quote);
 		if (ft_isspace(shell->input[i]) && !single_quote && !double_quote)
+			split_array(shell, i, &start, token_count);
+		else if (shell->input[i] == '*' && shell->input[i + 1] == '>' && !single_quote && !double_quote)
 		{
-			if (i > start)
-			{
-				shell->input[i] = '\0';
-				append_array(&shell->input[start], &shell->parsed_cmd, \
-															token_count);
-			}
+			append_array("*", &shell->parsed_cmd, token_count);
 			start = i + 1;
 		}
 	}
