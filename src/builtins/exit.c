@@ -6,7 +6,7 @@
 /*   By: jmakkone <jmakkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 23:47:07 by jmakkone          #+#    #+#             */
-/*   Updated: 2024/10/02 14:47:40 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:16:20 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ void	ft_exit(t_shell *shell)
 	{
 		j = -1;
 		while (shell->parsed_cmd[1] && shell->parsed_cmd[1][++j])
-		{
-			if (!ft_isdigit(shell->parsed_cmd[1][j]))
+			if (!ft_isdigit(shell->parsed_cmd[1][j]) && \
+			shell->parsed_cmd[1][0] != '-' && shell->parsed_cmd[1][0] != '+')
 				exit_numeric_arg_required(shell);
-		}
 		ft_putendl_fd("exit", 1);
 		if (shell->parsed_cmd[1])
 			exit_code = (ft_atoi(shell->parsed_cmd[i - 1])) % 256;
